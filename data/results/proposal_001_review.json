@@ -1,0 +1,51 @@
+{
+  "results": [
+    {
+      "rule_id": "RULE_1",
+      "rule_name": "PROJECT PLANNING",
+      "status": "COMPLIANT",
+      "evidence": "The proposal includes a 'testing and acceptance phase' before 'final delivery' in the 'Project phases' section.",
+      "missing_elements": [],
+      "reasoning": "The proposal explicitly mentions a testing and acceptance phase before final delivery.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_2",
+      "rule_name": "DELIVERABLES",
+      "status": "COMPLIANT",
+      "evidence": "The proposal explicitly identifies the deliverables as 'The client will receive the source code and deployed web application' in the 'Deliverables' section.",
+      "missing_elements": [],
+      "reasoning": "The proposal explicitly mentions the deliverables provided to the client.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_3",
+      "rule_name": "PROJECT GOVERNANCE",
+      "status": "COMPLIANT",
+      "evidence": "The proposal identifies the project manager responsible for the mission as 'The mission will involve two software engineering students' in the 'Project team' section.",
+      "missing_elements": [],
+      "reasoning": "The proposal identifies the project manager responsible for the mission.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_4",
+      "rule_name": "TIMELINE",
+      "status": "COMPLIANT",
+      "evidence": "The proposal provides an estimated timeline of 8 weeks in the 'Estimated duration' section.",
+      "missing_elements": [],
+      "reasoning": "The proposal provides an estimated timeline and identifies the main project phases.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_5",
+      "rule_name": "CLIENT VALIDATION",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "At least one intermediate client validation milestone"
+      ],
+      "reasoning": "The proposal does not include at least one intermediate client validation milestone, as required for projects lasting more than four weeks.",
+      "recommendation": "Include at least one intermediate client validation milestone in the project plan."
+    }
+  ]
+}

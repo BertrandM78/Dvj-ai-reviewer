@@ -83,7 +83,34 @@ def generate_review(prompt_text):
 review = generate_review(prompt)
 review_data = json.loads(review)
 print("\n" + "=" * 40)
-print(type(review_data))
 print("Review of the proposal:")
 print("=" * 40)
-print(review)
+#print(review)
+violations = [
+    result
+    for result in review_data["results"]
+    if result["status"] == "NON_COMPLIANT"
+]
+
+print(f"\n{len(violations)} violations detected\n")
+
+for violation in violations:
+    print(f"{violation['rule_id']} — {violation['rule_name']}")
+    print(f"Reason: {violation['reasoning']}")
+    print(f"Recommendation: {violation['recommendation']}")
+    print()
+
+OUTPUT_PATH = Path("data/results/proposal_001_review.json")
+
+OUTPUT_PATH.parent.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+with OUTPUT_PATH.open("w", encoding="utf-8") as f:
+    json.dump(
+        review_data,
+        f,
+        indent=2,
+        ensure_ascii=False
+    )
