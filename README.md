@@ -25,3 +25,19 @@ chunks pertinents
 LLM
     ↓
 réponse + sources
+
+
+## Current MVP
+
+The current prototype:
+
+1. stores proposal quality rules in an Amazon Bedrock Knowledge Base,
+2. retrieves relevant rules using Bedrock managed retrieval,
+3. injects retrieved rules into the LLM context,
+4. reviews a fictitious proposal against those rules,
+5. identifies compliant and non-compliant requirements.
+
+Current evaluation:
+- 5 fictitious quality rules
+- 1 synthetic proposal
+- 3 predefined violations
