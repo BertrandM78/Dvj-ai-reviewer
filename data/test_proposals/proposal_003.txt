@@ -1,0 +1,11 @@
+PROJECT — LIGHTWEIGHT API CONNECTOR
+Context
+The client needs to integrate a secure third-party payment gateway into their existing platform.
+Project scope
+The team will configure, implement, and validate the backend API bridge.
+Project team
+The mission will involve one software engineering student, overseen by Thomas Martin, acting as Project Manager.
+Testing and acceptance
+A dedicated testing and acceptance phase will be conducted in a staging environment prior to final delivery to validate all edge cases and API security.
+Project governance
+Thomas Martin (Project Manager) will supervise the mission and organize weekly follow-up touchpoints with the client.

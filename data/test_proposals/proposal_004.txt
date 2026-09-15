@@ -1,0 +1,18 @@
+PROJECT — EMPLOYEE ONBOARDING PORTAL
+Context
+The client wishes to implement an internal solution to streamline the onboarding journey for new hires.
+Project scope
+The team will work on the specifications, layout, and implementation of the digital onboarding tool.
+Project team
+The mission will be carried out by engineering students, with Sarah Bernard serving as the main point of contact coordinating the activities. (Flou sur son statut exact de Project Manager responsable).
+Project phases
+⚬	Initial study and interface mockups
+⚬	Core implementation
+⚬	The development team will ensure the quality of the application before final delivery (Évoque la qualité sans formaliser explicitement une phase dédiée de "testing and acceptance")
+⚬	Project wrap-up and handover
+Estimated duration
+The initiative is expected to span approximately 5 to 6 weeks, depending on overall progress. (Indication globale sans véritable planning ni calendrier détaillé).
+Deliverables
+Work results and appropriate artifacts corresponding to the project scope will be handed over to the client. (N'identifie pas explicitement et nommément les livrables précis).
+Project governance
+Regular syncs will take place throughout the mission, during which key achievements will be presented for mutual alignment midway through the engagement. (Suggère un alignement à mi-parcours sans formaliser de jalon explicite de validation client).

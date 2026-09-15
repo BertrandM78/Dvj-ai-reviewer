@@ -1,0 +1,30 @@
+{
+  "proposal_001": {
+    "RULE_1": "NON_COMPLIANT",
+    "RULE_2": "COMPLIANT",
+    "RULE_3": "NON_COMPLIANT",
+    "RULE_4": "COMPLIANT",
+    "RULE_5": "NON_COMPLIANT"
+  },
+  "proposal_002": {
+    "RULE_1": "COMPLIANT",
+    "RULE_2": "COMPLIANT",
+    "RULE_3": "COMPLIANT",
+    "RULE_4": "COMPLIANT",
+    "RULE_5": "COMPLIANT"
+  },
+  "proposal_003": {
+    "RULE_1": "COMPLIANT",
+    "RULE_2": "NON_COMPLIANT",
+    "RULE_3": "COMPLIANT",
+    "RULE_4": "NON_COMPLIANT",
+    "RULE_5": "COMPLIANT"
+  },
+  "proposal_004": {
+    "RULE_1": "NON_COMPLIANT",
+    "RULE_2": "NON_COMPLIANT",
+    "RULE_3": "NON_COMPLIANT",
+    "RULE_4": "COMPLIANT",
+    "RULE_5": "NON_COMPLIANT"
+  }
+}
