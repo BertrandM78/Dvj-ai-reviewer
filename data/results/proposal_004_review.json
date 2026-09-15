@@ -1,0 +1,59 @@
+{
+  "results": [
+    {
+      "rule_id": "RULE_1",
+      "rule_name": "PROJECT PLANNING",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Explicit mention of a testing and acceptance phase"
+      ],
+      "reasoning": "The proposal does not explicitly mention a testing and acceptance phase before final delivery.",
+      "recommendation": "Include a dedicated testing and acceptance phase before final delivery"
+    },
+    {
+      "rule_id": "RULE_2",
+      "rule_name": "DELIVERABLES",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Explicit identification of deliverables"
+      ],
+      "reasoning": "The proposal does not explicitly identify the deliverables provided to the client.",
+      "recommendation": "Explicitly identify the deliverables provided to the client"
+    },
+    {
+      "rule_id": "RULE_3",
+      "rule_name": "PROJECT GOVERNANCE",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Explicit identification of the project manager responsible for the mission"
+      ],
+      "reasoning": "The proposal does not explicitly identify the project manager responsible for the mission.",
+      "recommendation": "Explicitly identify the project manager responsible for the mission"
+    },
+    {
+      "rule_id": "RULE_4",
+      "rule_name": "TIMELINE",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Estimated timeline and main project phases"
+      ],
+      "reasoning": "The proposal does not provide an estimated timeline and identify the main project phases.",
+      "recommendation": "Provide an estimated timeline and identify the main project phases"
+    },
+    {
+      "rule_id": "RULE_5",
+      "rule_name": "CLIENT VALIDATION",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Intermediate client validation milestone"
+      ],
+      "reasoning": "The proposal does not include at least one intermediate client validation milestone, as the project is expected to span approximately 5 to 6 weeks.",
+      "recommendation": "Include at least one intermediate client validation milestone"
+    }
+  ]
+}

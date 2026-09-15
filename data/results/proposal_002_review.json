@@ -1,0 +1,49 @@
+{
+  "results": [
+    {
+      "rule_id": "RULE_1",
+      "rule_name": "PROJECT PLANNING",
+      "status": "COMPLIANT",
+      "evidence": "The proposal includes a testing and acceptance phase (6. Testing and acceptance (UAT)) before final delivery (7. Final delivery).",
+      "missing_elements": [],
+      "reasoning": "The proposal explicitly includes a testing and acceptance phase before final delivery.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_2",
+      "rule_name": "DELIVERABLES",
+      "status": "COMPLIANT",
+      "evidence": "The proposal explicitly identifies the deliverables: ⚬ Complete source code repository, ⚬ Deployed dashboard web application, ⚬ User manual and technical documentation, ⚬ Acceptance test report.",
+      "missing_elements": [],
+      "reasoning": "The proposal explicitly lists the deliverables provided to the client.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_3",
+      "rule_name": "PROJECT GOVERNANCE",
+      "status": "COMPLIANT",
+      "evidence": "The proposal identifies the project manager responsible for the mission: Alexandre Dupont (Project Manager).",
+      "missing_elements": [],
+      "reasoning": "The proposal explicitly identifies the project manager responsible for the mission.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_4",
+      "rule_name": "TIMELINE",
+      "status": "COMPLIANT",
+      "evidence": "The proposal provides an estimated timeline: 6 weeks, and identifies the main project phases.",
+      "missing_elements": [],
+      "reasoning": "The proposal provides an estimated timeline and identifies the main project phases.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_5",
+      "rule_name": "CLIENT VALIDATION",
+      "status": "COMPLIANT",
+      "evidence": "The proposal includes an intermediate client validation milestone (4. Intermediate client validation milestone) for projects lasting more than four weeks.",
+      "missing_elements": [],
+      "reasoning": "The proposal includes an intermediate client validation milestone for projects lasting more than four weeks.",
+      "recommendation": null
+    }
+  ]
+}
