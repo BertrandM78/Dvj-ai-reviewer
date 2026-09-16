@@ -1,0 +1,26 @@
+PROJECT — CUSTOMER PORTAL DEVELOPMENT
+
+Context
+The client wants to develop a web application allowing customers
+to manage their accounts.
+
+Project scope
+The team will design and develop the application.
+
+Project team
+The mission will involve two software engineering students.
+
+Project phases
+1. Requirements analysis
+2. UX/UI design
+3. Development
+4. Final delivery
+
+Estimated duration
+8 weeks.
+
+Deliverables
+The client will receive the source code and deployed web application.
+
+Project governance
+Weekly meetings will be organized with the client.

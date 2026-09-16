@@ -1,0 +1,27 @@
+DEVINCI JUNIOR — QUALITY RULES
+FICTITIOUS DATA FOR DEVELOPMENT
+
+
+RULE 1 — PROJECT PLANNING
+
+Every software development proposal must include a testing and acceptance phase before final delivery.
+
+
+RULE 2 — DELIVERABLES
+
+Every proposal must explicitly identify the deliverables provided to the client.
+
+
+RULE 3 — PROJECT GOVERNANCE
+
+The proposal must identify the project manager responsible for the mission.
+
+
+RULE 4 — TIMELINE
+
+Every proposal must provide an estimated timeline and identify the main project phases.
+
+
+RULE 5 — CLIENT VALIDATION
+
+Projects lasting more than four weeks must include at least one intermediate client validation milestone.

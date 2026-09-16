@@ -1,0 +1,55 @@
+{
+  "results": [
+    {
+      "rule_id": "RULE_1",
+      "rule_name": "PROJECT PLANNING",
+      "status": "COMPLIANT",
+      "evidence": "The development team will ensure the quality of the application before final delivery",
+      "missing_elements": [],
+      "reasoning": "The proposal explicitly mentions a phase where the development team will ensure the quality of the application before final delivery, which satisfies the requirement for a testing and acceptance phase.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_2",
+      "rule_name": "DELIVERABLES",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Explicit identification of the deliverables provided to the client"
+      ],
+      "reasoning": "The proposal mentions 'Work results and appropriate artifacts corresponding to the project scope will be handed over to the client,' but it does not explicitly identify the specific deliverables.",
+      "recommendation": "Explicitly identify the specific deliverables that will be provided to the client."
+    },
+    {
+      "rule_id": "RULE_3",
+      "rule_name": "PROJECT GOVERNANCE",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Identification of the project manager responsible for the mission"
+      ],
+      "reasoning": "The proposal mentions Sarah Bernard as the main point of contact coordinating the activities, but it does not explicitly identify her as the project manager responsible for the mission.",
+      "recommendation": "Explicitly identify the project manager responsible for the mission."
+    },
+    {
+      "rule_id": "RULE_4",
+      "rule_name": "TIMELINE",
+      "status": "COMPLIANT",
+      "evidence": "The initiative is expected to span approximately 5 to 6 weeks, depending on overall progress.\nProject phases\n⚬ Initial study and interface mockups\n⚬ Core implementation\n⚬ The development team will ensure the quality of the application before final delivery \n⚬ Project wrap-up and handover",
+      "missing_elements": [],
+      "reasoning": "The proposal provides an estimated duration of 5 to 6 weeks and identifies the main project phases.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_5",
+      "rule_name": "CLIENT VALIDATION",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "At least one intermediate client validation milestone"
+      ],
+      "reasoning": "The proposal does not mention any intermediate client validation milestones for the project, which is expected to last more than four weeks.",
+      "recommendation": "Include at least one intermediate client validation milestone in the proposal."
+    }
+  ]
+}
