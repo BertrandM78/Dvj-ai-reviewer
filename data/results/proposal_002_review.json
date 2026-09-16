@@ -4,34 +4,34 @@
       "rule_id": "RULE_1",
       "rule_name": "PROJECT PLANNING",
       "status": "COMPLIANT",
-      "evidence": "The proposal includes a testing and acceptance phase (6. Testing and acceptance (UAT)) before final delivery (7. Final delivery).",
+      "evidence": "Project phases\n​\n1.​Requirements analysis & architecture\n2.​UX/UI design & prototyping\n3.​Core module development\n4.​Intermediate client validation milestone\n5.​Integration & feature completion\n6.​Testing and acceptance (UAT)\n7.​Final delivery",
       "missing_elements": [],
-      "reasoning": "The proposal explicitly includes a testing and acceptance phase before final delivery.",
+      "reasoning": "The proposal explicitly includes a 'Testing and acceptance (UAT)' phase before final delivery.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_2",
       "rule_name": "DELIVERABLES",
       "status": "COMPLIANT",
-      "evidence": "The proposal explicitly identifies the deliverables: ⚬ Complete source code repository, ⚬ Deployed dashboard web application, ⚬ User manual and technical documentation, ⚬ Acceptance test report.",
+      "evidence": "Deliverables\nThe client will receive:\n⚬​Complete source code repository\n⚬​Deployed dashboard web application\n⚬​User manual and technical documentation\n⚬​Acceptance test report",
       "missing_elements": [],
-      "reasoning": "The proposal explicitly lists the deliverables provided to the client.",
+      "reasoning": "The proposal explicitly identifies the deliverables provided to the client.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_3",
       "rule_name": "PROJECT GOVERNANCE",
       "status": "COMPLIANT",
-      "evidence": "The proposal identifies the project manager responsible for the mission: Alexandre Dupont (Project Manager).",
+      "evidence": "Project team\nThe mission will involve two software engineering students and will be led by Alexandre Dupont, acting as Project Manager.\n\nProject governance\nThe mission is supervised by Alexandre Dupont (Project Manager).",
       "missing_elements": [],
-      "reasoning": "The proposal explicitly identifies the project manager responsible for the mission.",
+      "reasoning": "The proposal explicitly identifies Alexandre Dupont as the Project Manager.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_4",
       "rule_name": "TIMELINE",
       "status": "COMPLIANT",
-      "evidence": "The proposal provides an estimated timeline and identifies the main project phases: 1. Requirements analysis & architecture, 2. UX/UI design & prototyping, 3. Core module development, 4. Intermediate client validation milestone, 5. Integration & feature completion, 6. Testing and acceptance (UAT), 7. Final delivery.",
+      "evidence": "Estimated duration\n6 weeks.\n\nProject phases\n1.​Requirements analysis & architecture\n2.​UX/UI design & prototyping\n3.​Core module development\n4.​Intermediate client validation milestone\n5.​Integration & feature completion\n6.​Testing and acceptance (UAT)\n7.​Final delivery",
       "missing_elements": [],
       "reasoning": "The proposal provides an estimated timeline and identifies the main project phases.",
       "recommendation": null
@@ -40,9 +40,9 @@
       "rule_id": "RULE_5",
       "rule_name": "CLIENT VALIDATION",
       "status": "COMPLIANT",
-      "evidence": "The proposal includes an intermediate client validation milestone (4. Intermediate client validation milestone) for projects lasting more than four weeks.",
+      "evidence": "Project phases\n4.​Intermediate client validation milestone\n\nProject governance\nWeekly progress meetings will be held with the client, including a formal intermediate review at week 3 for milestone validation.",
       "missing_elements": [],
-      "reasoning": "The proposal includes an intermediate client validation milestone for projects lasting more than four weeks.",
+      "reasoning": "The proposal includes an intermediate client validation milestone at week 3 for projects lasting more than four weeks.",
       "recommendation": null
     }
   ]

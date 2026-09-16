@@ -10,7 +10,8 @@ import boto3
 
 REGION = "us-east-1"
 KNOWLEDGE_BASE_ID = "DJ33HADJNL"
-MODEL_ID = "meta.llama3-8b-instruct-v1:0"
+#MODEL_ID = "meta.llama3-8b-instruct-v1:0"
+MODEL_ID = "amazon.nova-pro-v1:0"
 
 INPUT_DIR = Path("data/test_proposals")
 OUTPUT_DIR = Path("data/results")

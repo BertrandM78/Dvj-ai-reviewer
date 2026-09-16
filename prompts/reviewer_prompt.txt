@@ -28,6 +28,24 @@ REVIEW PRINCIPLES
     - the reference rules;
     - the proposal content.
 
+DECISION PROCEDURE
+
+For each rule:
+
+1. Extract every atomic requirement from the reference rule.
+2. Determine whether the rule's applicability condition is satisfied, if one exists.
+3. Search the proposal for explicit textual evidence for each required element.
+4. Never substitute a semantically related concept for the required element.
+5. Mark each required element as PRESENT or MISSING.
+6. A rule is COMPLIANT only if every applicable required element is PRESENT.
+7. If at least one applicable required element is MISSING, the rule is NON_COMPLIANT.
+
+Examples of invalid substitutions:
+- "quality" is not automatically evidence of "testing and acceptance";
+- coordinating activities is not automatically evidence that the person is the Project Manager;
+- describing what is being developed is not automatically an explicit identification of client deliverables;
+- a meeting or alignment activity is not automatically a client validation milestone.
+
 EVIDENCE
 
 For each rule:

@@ -12,29 +12,33 @@
     {
       "rule_id": "RULE_2",
       "rule_name": "DELIVERABLES",
-      "status": "COMPLIANT",
-      "evidence": "The team will configure, implement, and validate the backend API bridge.",
-      "missing_elements": [],
-      "reasoning": "The proposal explicitly identifies the deliverable (backend API bridge) provided to the client.",
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Explicit identification of the deliverables provided to the client"
+      ],
+      "reasoning": "The proposal does not explicitly identify the deliverables provided to the client.",
+      "recommendation": "Explicitly identify the deliverables provided to the client in the proposal."
     },
     {
       "rule_id": "RULE_3",
       "rule_name": "PROJECT GOVERNANCE",
       "status": "COMPLIANT",
-      "evidence": "Thomas Martin (Project Manager) will supervise the mission and organize weekly follow-up touchpoints with the client.",
+      "evidence": "The mission will involve one software engineering student, overseen by Thomas Martin, acting as Project Manager.",
       "missing_elements": [],
-      "reasoning": "The proposal explicitly identifies the project manager responsible for the mission.",
+      "reasoning": "The proposal explicitly identifies Thomas Martin as the Project Manager.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_4",
       "rule_name": "TIMELINE",
-      "status": "COMPLIANT",
-      "evidence": "No specific timeline is provided, but the project scope is limited to configuring, implementing, and validating the backend API bridge, which suggests a relatively short project duration.",
-      "missing_elements": [],
-      "reasoning": "The proposal does not provide an estimated timeline, but it does provide a clear project scope, which implies a relatively short project duration.",
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "missing_elements": [
+        "Estimated timeline and identification of the main project phases"
+      ],
+      "reasoning": "The proposal does not provide an estimated timeline or identify the main project phases.",
+      "recommendation": "Provide an estimated timeline and identify the main project phases in the proposal."
     },
     {
       "rule_id": "RULE_5",
@@ -42,10 +46,10 @@
       "status": "NON_COMPLIANT",
       "evidence": null,
       "missing_elements": [
-        "Intermediate client validation milestone"
+        "At least one intermediate client validation milestone for projects lasting more than four weeks"
       ],
-      "reasoning": "The proposal does not include at least one intermediate client validation milestone, as required for projects lasting more than four weeks.",
-      "recommendation": "Include at least one intermediate client validation milestone in the project plan."
+      "reasoning": "The proposal does not mention any intermediate client validation milestone, and the project duration is not specified to determine if it lasts more than four weeks.",
+      "recommendation": "Include at least one intermediate client validation milestone in the proposal if the project lasts more than four weeks."
     }
   ]
 }
