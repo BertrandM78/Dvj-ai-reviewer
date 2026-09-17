@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
+print("Script demarre...")
 
 import boto3
+import re
 
 
 # ============================================================
@@ -91,7 +93,7 @@ def generate_review(prompt_text: str) -> str:
         ],
         inferenceConfig={
             "temperature": 0.0,
-            "maxTokens": 1500,
+            "maxTokens": 5000,
         },
     )
 
@@ -174,20 +176,21 @@ def process_proposals() -> None:
         encoding="utf-8"
     )
 
-    # Retrieve the reference rules once.
-    #
-    # We use the same reference context for all proposals,
-    # so there is no reason to repeat this retrieval for every file.
-    rules_query = (
-        "Retrieve the quality rules that should be used "
-        "to review a software development proposal."
+    RULES_PATH = Path(
+    "data/knowledge_base/proposal_review_rules_v0.txt"
     )
 
-    print("Retrieving reference rules...")
+    print("Loading mandatory reference rules...")
 
-    reference_rules = retrieve_rules(
-        rules_query
+    reference_rules = RULES_PATH.read_text(
+        encoding="utf-8"
     )
+
+    rule_numbers = sorted(
+        set(re.findall(r"RULE_?(\d{2})", reference_rules))
+    )
+
+    print(f"Mandatory rules loaded: {len(rule_numbers)}/31")
 
     # Find all test proposals.
     proposal_files = sorted(

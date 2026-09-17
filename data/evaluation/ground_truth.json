@@ -1,30 +1,35 @@
 {
   "proposal_001": {
-    "RULE_1": "NON_COMPLIANT",
-    "RULE_2": "COMPLIANT",
-    "RULE_3": "NON_COMPLIANT",
-    "RULE_4": "COMPLIANT",
-    "RULE_5": "NON_COMPLIANT"
-  },
-  "proposal_002": {
-    "RULE_1": "COMPLIANT",
-    "RULE_2": "COMPLIANT",
-    "RULE_3": "COMPLIANT",
-    "RULE_4": "COMPLIANT",
-    "RULE_5": "COMPLIANT"
-  },
-  "proposal_003": {
-    "RULE_1": "COMPLIANT",
-    "RULE_2": "NON_COMPLIANT",
-    "RULE_3": "COMPLIANT",
-    "RULE_4": "NON_COMPLIANT",
-    "RULE_5": "COMPLIANT"
-  },
-  "proposal_004": {
-    "RULE_1": "NON_COMPLIANT",
-    "RULE_2": "NON_COMPLIANT",
-    "RULE_3": "NON_COMPLIANT",
-    "RULE_4": "COMPLIANT",
-    "RULE_5": "NON_COMPLIANT"
+    "RULE_01": "COMPLIANT",
+    "RULE_02": "NON_COMPLIANT",
+    "RULE_03": "COMPLIANT",
+    "RULE_04": "COMPLIANT",
+    "RULE_05": "COMPLIANT",
+    "RULE_06": "COMPLIANT",
+    "RULE_07": "NON_COMPLIANT",
+    "RULE_08": "COMPLIANT",
+    "RULE_09": "COMPLIANT",
+    "RULE_10": "COMPLIANT",
+    "RULE_11": "NON_COMPLIANT",
+    "RULE_12": "COMPLIANT",
+    "RULE_13": "COMPLIANT",
+    "RULE_14": "COMPLIANT",
+    "RULE_15": "NON_COMPLIANT",
+    "RULE_16": "COMPLIANT",
+    "RULE_17": "COMPLIANT",
+    "RULE_18": "COMPLIANT",
+    "RULE_19": "COMPLIANT",
+    "RULE_20": "COMPLIANT",
+    "RULE_21": "COMPLIANT",
+    "RULE_22": "COMPLIANT",
+    "RULE_23": "COMPLIANT",
+    "RULE_24": "COMPLIANT",
+    "RULE_25": "COMPLIANT",
+    "RULE_26": "COMPLIANT",
+    "RULE_27": "COMPLIANT",
+    "RULE_28": "COMPLIANT",
+    "RULE_29": "COMPLIANT",
+    "RULE_30": "COMPLIANT",
+    "RULE_31": "COMPLIANT"
   }
 }

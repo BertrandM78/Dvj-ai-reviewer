@@ -1,0 +1,299 @@
+DEVINCI JUNIOR — PROPOSAL REVIEW RULES V0
+
+PURPOSE
+
+These rules define the quality requirements used to review a commercial proposal.
+A proposal must be evaluated using explicit evidence contained in the proposal.
+When a rule contains several requirements joined by "and", all requirements must
+be satisfied for the rule to be compliant.
+
+==================================================
+SECTION 1 — COVER PAGE
+==================================================
+
+RULE_01 — PROPOSAL REFERENCE
+
+The proposal reference must be present both:
+- in the proposal file name;
+- on the cover page.
+
+The reference must follow the format:
+DE-MMYY-XXXX-XXXX-XXXX
+
+MMYY must correspond to the month and year of the proposal.
+
+
+RULE_02 — VALIDITY DATE
+
+The proposal must explicitly state a validity date.
+
+The validity date must correspond to one month after the proposal date.
+
+
+==================================================
+SECTION 2 — COMPANY PRESENTATION
+==================================================
+
+RULE_03 — COMPANY PRESENTATION
+
+The proposal must contain a "Qui sommes-nous" company presentation section.
+
+
+==================================================
+SECTION 3 — UNDERSTANDING OF CLIENT NEED
+==================================================
+
+RULE_04 — CLIENT IDENTIFICATION
+
+The context section must explicitly identify:
+- the client's contact name;
+- the client's contact role;
+- the client's company.
+
+All three elements are required.
+
+
+RULE_05 — CONTEXT STRUCTURE
+
+The context should be structured into approximately 3 to 4 paragraphs.
+
+It must cover:
+- how the contact or commercial relationship was initiated;
+- the client's company and its relevant challenges;
+- the client's need or problem to be addressed.
+
+
+RULE_06 — PROPOSED SOLUTION
+
+The solution section must clearly summarize the proposal's value proposition.
+
+It must explain:
+- what DeVinci Junior proposes to do;
+- the expected impact, business value, or ROI for the client.
+
+
+RULE_07 — KEYWORD FORMATTING
+
+Important keywords in the client understanding and proposed solution sections
+should be highlighted in bold.
+
+
+==================================================
+SECTION 4 — REFERENCES
+==================================================
+
+RULE_08 — CLIENT REFERENCES PRESENT
+
+The proposal must contain client or project references demonstrating relevant
+past experience.
+
+
+RULE_09 — REFERENCES RELEVANCE
+
+At least one presented reference should be relevant to the proposed mission.
+
+Relevance can be established through:
+- a similar type of project;
+- a similar business problem;
+- a client operating in the same or a closely related sector.
+
+Generic references with no clear relationship to the proposed mission are not
+sufficient to establish relevance.
+
+
+==================================================
+SECTION 5 — METHODOLOGY
+==================================================
+
+RULE_10 — PHASE METHODOLOGY DETAIL
+
+Each methodology phase must contain at least three methodological steps or
+bullet points.
+
+
+RULE_11 — METHODOLOGY STEP FORMAT
+
+Each methodological step should begin with a noun describing the activity or
+work item, rather than with a conjugated action verb.
+
+Examples of expected structure include:
+"Conception", "Définition", "Réalisation".
+
+The first word introducing each methodological step should be displayed in bold.
+
+
+RULE_12 — PHASE INFORMATION
+
+For every methodology phase, the proposal must explicitly state:
+- the phase duration in weeks;
+- the total phase price in euros excluding VAT (€ HT);
+- the number of JEH allocated to the phase.
+
+All three elements are required.
+
+
+RULE_13 — VALIDATION ITERATIONS
+
+When a methodology phase requires client validation or feedback iterations,
+the number of planned validation iterations must be explicitly stated.
+
+The planned number of validation iterations should not exceed approximately
+1.5 validation iterations per week of the relevant phase.
+
+
+RULE_14 — DELIVERABLE IDENTIFICATION
+
+The deliverables associated with the mission must be explicitly identified.
+
+Generic wording such as "documents", "artifacts", "results" or equivalent
+without identifying what will actually be delivered is insufficient.
+
+
+RULE_15 — DELIVERABLE FORMAT
+
+For every explicitly identified deliverable, the expected delivery format must
+be stated when applicable.
+
+Examples include:
+.pdf
+.docx
+.pptx
+.xlsx
+source code
+deployed application
+other explicit digital format
+
+
+==================================================
+SECTION 6 — CSR / RSE
+==================================================
+
+RULE_16 — RSE SECTION
+
+The proposal must contain an RSE / CSR section.
+
+
+==================================================
+SECTION 7 — PROJECT PLANNING
+==================================================
+
+RULE_17 — PLANNING PHASE CONSISTENCY
+
+The phase names presented in the project planning must correspond to the phase
+names presented in the methodology.
+
+The order of the phases must also be consistent between the methodology and
+the planning.
+
+
+RULE_18 — PLANNING DURATION CONSISTENCY
+
+The duration of each phase shown in the planning must be consistent with the
+duration stated for the corresponding methodology phase.
+
+
+RULE_19 — PROJECT START DATE
+
+The planned project start date must not fall on a Saturday or Sunday.
+
+
+RULE_20 — TOTAL PROJECT DURATION
+
+The total project duration shown in the proposal must be consistent with:
+- individual phase durations;
+- their sequence;
+- any explicitly planned parallel phases.
+
+
+RULE_21 — PARALLEL PHASE CONSISTENCY
+
+When two or more project phases are scheduled in parallel, their parallel
+execution must be operationally coherent with the dependencies described in
+the methodology.
+
+A phase that explicitly depends on the completed output of another phase
+should not begin before that required output is available.
+
+
+==================================================
+SECTION 8 — BUDGET
+==================================================
+
+RULE_22 — BUDGET PHASE CONSISTENCY
+
+The budget must use phase names corresponding to those used in the methodology
+and planning.
+
+The phase order must remain consistent.
+
+
+RULE_23 — JEH CONSISTENCY
+
+For each phase, the number of JEH stated in the budget must be consistent with
+the number of JEH stated in the methodology.
+
+
+RULE_24 — BUDGET AMOUNT CONSISTENCY
+
+For each phase, the monetary amount stated in the budget must be consistent
+with the amount stated elsewhere in the proposal for the same phase.
+
+
+RULE_25 — PROJECT MANAGEMENT ALLOCATION
+
+Project management should represent approximately 10% of the total project
+budget.
+
+
+RULE_26 — UNIT JEH PRICE
+
+For each priced phase, the effective unit price per JEH must be between
+€80 HT and €500 HT.
+
+The effective unit JEH price is calculated as:
+
+phase price excluding VAT / number of JEH
+
+
+RULE_27 — TENDER FEES
+
+If the proposal is produced as part of an "appel d'offres" / tender process,
+the proposal must include the applicable tender-related fees.
+
+This rule only applies when the proposal explicitly indicates that the mission
+is part of a tender or request-for-proposal process.
+
+
+==================================================
+SECTION 9 — PROJECT TEAM
+==================================================
+
+RULE_28 — TEAM RELEVANCE
+
+The profiles and skills of the proposed project team should be relevant to the
+technical and business requirements of the mission.
+
+The assessment must rely on explicit information about the mission and the
+presented team profiles.
+
+
+==================================================
+SECTION 10 — REQUIRED CLOSING SLIDES
+==================================================
+
+RULE_29 — "ON POURSUIT ENSEMBLE"
+
+The proposal must contain the standard closing slide or section
+"On poursuit ensemble".
+
+
+RULE_30 — "BOOSTEZ VOTRE ENTREPRISE"
+
+The proposal must contain the standard closing slide or section
+"Boostez votre entreprise".
+
+
+RULE_31 — CONTACT DETAILS
+
+The proposal must contain the standard contact details slide or section
+"Nos coordonnées".

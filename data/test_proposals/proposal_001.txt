@@ -1,26 +1,377 @@
-PROJECT — CUSTOMER PORTAL DEVELOPMENT
+PROPOSAL FILE NAME:
+DE-0926-1042-1088-1121
 
-Context
-The client wants to develop a web application allowing customers
-to manage their accounts.
+==================================================
+SLIDE 1 — COVER
+==================================================
 
-Project scope
-The team will design and develop the application.
+DEVIS
 
-Project team
-The mission will involve two software engineering students.
+Étude de marché et stratégie de lancement
+pour le projet SilverCare
 
-Project phases
-1. Requirements analysis
-2. UX/UI design
-3. Development
-4. Final delivery
+Valable jusqu'au :
+16/10/2026
 
-Estimated duration
-8 weeks.
+Réf :
+DE-0926-1042-1088-1121
 
-Deliverables
-The client will receive the source code and deployed web application.
 
-Project governance
-Weekly meetings will be organized with the client.
+==================================================
+SLIDE 2 — PRÉSENTATION DU PROJET
+==================================================
+
+VOTRE PROBLÉMATIQUE
+
+Madame Claire Martin, Directrice du Développement de SilverCare,
+a présenté à DeVinci Junior son projet lors d'un premier échange
+réalisé à la suite d'une mise en relation par un partenaire de
+DeVinci Junior.
+
+SilverCare développe une solution destinée à accompagner les
+résidences seniors dans la digitalisation du suivi des services
+proposés aux résidents. L'entreprise souhaite aujourd'hui préparer
+le lancement commercial de sa solution sur le marché français et
+mieux comprendre les attentes des établissements concernés.
+
+Dans ce contexte, SilverCare souhaite disposer d'une meilleure
+compréhension du marché, identifier les acteurs déjà présents et
+déterminer les segments présentant le potentiel commercial le
+plus important.
+
+NOTRE SOLUTION
+
+DeVinci Junior propose de réaliser une étude permettant de
+caractériser le marché français des solutions numériques destinées
+aux résidences seniors, d'analyser les principaux concurrents et
+de définir une stratégie de lancement adaptée.
+
+Cette mission permettra à SilverCare de réduire l'incertitude
+associée à son lancement commercial et de concentrer ses ressources
+sur les segments présentant le potentiel le plus important.
+
+NOTRE PLUS-VALUE
+
+SilverCare bénéficiera d'intervenants disposant de compétences
+en analyse de marché, stratégie et analyse de données.
+
+
+==================================================
+SLIDE 3 — QUI SOMMES-NOUS ?
+==================================================
+
+QUI SOMMES-NOUS ?
+
+3 écoles, 1 Junior-Entreprise.
+
+Située au cœur de Paris-La Défense, DeVinci Junior rassemble
+des étudiants issus de formations en ingénierie, management
+et digital.
+
+Quelques chiffres :
+
+10 années d'expérience
+35 administrateurs engagés
+98 % de clients qui nous recommandent
+250 études réalisées
+
+
+==================================================
+SLIDE 4 — NOS RÉFÉRENCES
+==================================================
+
+NOS RÉFÉRENCES
+
+Référence 1 — RetailVision
+
+Étude de marché sur les habitudes d'achat des consommateurs
+dans le secteur du commerce spécialisé.
+
+Mission :
+- étude quantitative ;
+- analyse des comportements ;
+- recommandations stratégiques.
+
+6 semaines
+8 JEH
+1 intervenant et 1 chef de projet
+
+
+Référence 2 — MedAssist
+
+Étude de marché réalisée pour le lancement d'une plateforme
+numérique destinée aux professionnels de santé.
+
+Mission :
+- analyse du marché ;
+- benchmark concurrentiel ;
+- étude des besoins utilisateurs ;
+- recommandations de lancement.
+
+8 semaines
+11 JEH
+2 intervenants et 1 chef de projet
+
+
+==================================================
+SLIDE 5 — VOTRE CHEF DE PROJET
+==================================================
+
+Thomas Bernard
+
+Responsable du Suivi d'Études — DeVinci Junior
+
+5 supervisions de projets
+42 semaines cumulées en gestion de projet
+
+Notre accompagnement :
+
+Step 01 — Recherche de profils
+Step 02 — Réunion de lancement de projet
+Step 03 — Élaboration du planning détaillé
+Step 04 — Initialisation des outils de gestion de projet
+
+Méthodes de gestion :
+
+Diagramme de GANTT propre à chaque projet
+Organisation méthodologique Agile
+Points de suivi hebdomadaires
+
+
+==================================================
+SLIDE 6 — VOTRE ÉQUIPE PROJET
+==================================================
+
+Léa Moreau
+
+Étudiante en double diplôme Marketing & Data Analytics.
+
+Compétences :
+
+#AnalyseDeMarché
+#DataAnalytics
+#StratégieMarketing
+#Benchmark
+#ÉtudeQuantitative
+
+Expériences :
+
+2025 — Assistante Marketing, ConsumerLab
+Analyse de données clients et études de marché.
+
+2024 — Intervenante DeVinci Junior
+Participation à une étude de marché dans le secteur de la santé.
+
+À propos :
+
+Je me spécialise dans l'analyse des comportements consommateurs,
+les études de marché et l'exploitation de données marketing.
+
+
+==================================================
+SLIDE 7 — NOTRE MÉTHODOLOGIE
+==================================================
+
+PHASE 1 — CADRAGE ET CLARIFICATION
+
+- Définition des objectifs précis de l'étude
+- Identification des segments prioritaires
+- Formalisation des hypothèses de recherche
+
+2 semaines
+900 € HT
+3 JEH
+
+Livrable :
+Note de cadrage remise au format .pdf
+
+
+PHASE 2 — ANALYSE MACRO DU MARCHÉ
+
+- Analyse de la taille et de la dynamique du marché
+- Identification des principales tendances
+- Cartographie des acteurs du secteur
+- Étude du cadre réglementaire pertinent
+
+3 semaines
+1 200 € HT
+4 JEH
+
+Livrable :
+Analyse de marché remise au format .pdf
+
+
+PHASE 3 — BENCHMARK CONCURRENTIEL
+
+- Identification des principaux concurrents
+- Comparaison des propositions de valeur
+- Analyse des modèles économiques
+- Identification des facteurs différenciants
+
+2 semaines
+1 050 € HT
+3 JEH
+
+Livrable :
+Benchmark concurrentiel
+
+
+==================================================
+SLIDE 8 — NOTRE MÉTHODOLOGIE
+==================================================
+
+PHASE 4 — ANALYSE DES SEGMENTS CLIENTS
+
+- Segmentation des établissements cibles
+- Analyse des attentes principales
+- Identification des critères de décision
+- Priorisation des segments commerciaux
+
+3 semaines
+1 400 € HT
+4 JEH
+
+Remarque :
+4 allers-retours de validation avec le client sont prévus
+pendant cette phase.
+
+Livrable :
+Matrice de segmentation remise au format .xlsx
+
+
+PHASE 5 — RECOMMANDATIONS DE LANCEMENT
+
+- Définition des marchés prioritaires
+- Construction de la stratégie de lancement
+- Identification des principaux canaux d'acquisition
+- Formalisation des prochaines étapes
+
+2 semaines
+800 € HT
+2 JEH
+
+Livrable :
+Recommandations stratégiques remises au format .pdf
+
+
+==================================================
+SLIDE 9 — RSE
+==================================================
+
+ÉVALUATION DE L'IMPACT DU PROJET
+
+Évaluation des dimensions sociales, éthiques et environnementales
+du projet.
+
+Attribution d'un score sur 100.
+
+Analyse commentée et recommandations d'amélioration.
+
+Cette évaluation sera proposée à la fin de la mission sans coût
+supplémentaire.
+
+
+==================================================
+SLIDE 10 — ÉCHÉANCIER DU PROJET
+==================================================
+
+Début potentiel :
+21 septembre 2026
+
+Durée totale annoncée :
+10 semaines
+
+Phase 1 — Cadrage et clarification
+S1 à S2
+
+Phase 2 — Analyse macro du marché
+S3 à S5
+
+Phase 3 — Benchmark concurrentiel
+S5 à S6
+
+Phase 4 — Analyse des segments clients
+S7 à S9
+
+Phase 5 — Recommandations de lancement
+S9 à S10
+
+
+==================================================
+SLIDE 11 — BUDGET DU PROJET
+==================================================
+
+Phase 1 — Cadrage et clarification
+3 JEH
+300 € / JEH
+900 € HT
+
+Phase 2 — Analyse macro du marché
+4 JEH
+300 € / JEH
+1 200 € HT
+
+Phase 3 — Benchmark concurrentiel
+3 JEH
+350 € / JEH
+1 050 € HT
+
+Phase 4 — Analyse des segments clients
+4 JEH
+350 € / JEH
+1 400 € HT
+
+Phase 5 — Recommandations de lancement
+2 JEH
+400 € / JEH
+800 € HT
+
+Gestion et suivi de projet
+2 JEH
+250 € / JEH
+500 € HT
+
+TOTAL :
+18 JEH
+5 850 € HT
+
+
+==================================================
+SLIDE 12 — ON POURSUIT ENSEMBLE ?
+==================================================
+
+1 — Acceptation du devis
+2 — Signature de la Convention d'Étude
+3 — Suivi régulier du projet
+4 — Contrôle qualité des livrables
+5 — Livraison intermédiaire des livrables
+6 — Livraison finale des livrables de l'étude
+7 — Période de garantie
+
+
+==================================================
+SLIDE 13 — BOOSTEZ VOTRE ENTREPRISE
+==================================================
+
+BOOSTEZ VOTRE ENTREPRISE AVEC DES
+CONSEILS EXCLUSIFS CHAQUE MOIS
+
+Découvrez notre newsletter.
+
+- Des astuces pratiques pour votre activité
+- Des retours d'expérience inspirants
+- Les insights de nos experts et intervenants
+
+
+==================================================
+SLIDE 14 — NOS COORDONNÉES
+==================================================
+
+NOS COORDONNÉES
+
+DeVinci Junior
+32 rue des 3 Fontanot
+92000 Nanterre
+
+contact@devincijunior.fr
+www.devincijunior.fr
