@@ -3,7 +3,9 @@ from pathlib import Path
 print("Script demarre...")
 
 import boto3
+print("Script demarre...")
 import re
+from deterministic_rules import check_rule_13
 
 
 # ============================================================
@@ -131,6 +133,22 @@ def parse_review(raw_review: str) -> dict:
 # ============================================================
 # REVIEW ONE PROPOSAL
 # ============================================================
+def override_rule(
+    review_data: dict,
+    deterministic_result: dict,
+) -> None:
+
+    rule_id = deterministic_result["rule_id"]
+
+    results = review_data.get("results", [])
+
+    for index, result in enumerate(results):
+        if result.get("rule_id") == rule_id:
+            results[index] = deterministic_result
+            return
+
+    # Safety fallback if Nova did not return the rule.
+    results.append(deterministic_result)
 
 def review_proposal(
     proposal_text: str,
@@ -152,6 +170,15 @@ def review_proposal(
     raw_review = generate_review(prompt)
 
     review_data = parse_review(raw_review)
+
+    deterministic_result = check_rule_13(
+        proposal_text
+    )
+
+    override_rule(
+        review_data,
+        deterministic_result,
+    )
 
     return review_data
 

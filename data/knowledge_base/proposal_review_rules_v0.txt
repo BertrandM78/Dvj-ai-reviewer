@@ -27,7 +27,7 @@ RULE_02 — VALIDITY DATE
 
 The proposal must explicitly state a validity date.
 
-The validity date must correspond to one month after the proposal date.
+The validity date must fall exactly one calendar month after the proposal date.
 
 
 ==================================================
@@ -241,8 +241,12 @@ with the amount stated elsewhere in the proposal for the same phase.
 
 RULE_25 — PROJECT MANAGEMENT ALLOCATION
 
-Project management should represent approximately 10% of the total project
-budget.
+Project management must represent between 8% and 12% of the
+total project budget, inclusive.
+
+The ratio is calculated as:
+
+project management amount excluding VAT / total project amount excluding VAT
 
 
 RULE_26 — UNIT JEH PRICE

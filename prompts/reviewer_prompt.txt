@@ -46,12 +46,19 @@ Determine whether the rule applies to the proposal.
 For conditional rules, evaluate the condition using explicit proposal
 evidence.
 
-Do not assume that a condition is true when the proposal does not
-provide enough information to establish it.
+Use NOT_APPLICABLE only when:
+- the reference rule contains an explicit applicability condition;
+- and the proposal provides no evidence that this condition is triggered.
 
-If a conditional requirement is not triggered by the available
-proposal evidence, do not classify the proposal as NON_COMPLIANT
-because of that requirement.
+Example logic:
+IF condition X is explicitly present -> evaluate the requirement normally.
+IF condition X is not established -> NOT_APPLICABLE.
+
+Do not use NOT_APPLICABLE merely because information required by an
+applicable rule is missing.
+
+A missing required element in an applicable rule must result in
+NON_COMPLIANT, not NOT_APPLICABLE.
 
 
 3. LOCATE EVIDENCE
@@ -167,15 +174,22 @@ Use exactly one of these statuses:
 
 COMPLIANT
 NON_COMPLIANT
+NOT_APPLICABLE
 
 COMPLIANT:
-Every applicable requirement of the rule is supported by sufficient
+The rule applies and every required element is supported by sufficient
 explicit evidence.
 
 NON_COMPLIANT:
-At least one applicable required element is missing, contradicted,
-invalid, inconsistent, outside an allowed threshold, or otherwise
-fails the rule.
+The rule applies and at least one required element is missing,
+contradicted, invalid, inconsistent, outside an allowed threshold,
+or otherwise fails the rule.
+
+NOT_APPLICABLE:
+The rule contains an explicit applicability condition and the available
+proposal evidence does not establish that this condition is triggered.
+
+NOT_APPLICABLE must never be used for a non-conditional rule.
 
 
 10. VERIFY BEFORE FINALIZING
@@ -252,6 +266,14 @@ Use exactly this structure:
         "Specific missing, inconsistent, invalid or unverifiable element"
       ],
       "recommendation": "Specific action required to satisfy the reference rule."
+    },
+    {
+      "rule_id": "RULE_ZZ",
+      "status": "NOT_APPLICABLE",
+      "evidence": null,
+      "reasoning": "The applicability condition defined by the rule is not triggered by the proposal.",
+      "missing_elements": [],
+      "recommendation": null
     }
   ]
 }
@@ -268,6 +290,11 @@ For missing_elements:
 For recommendation:
 - COMPLIANT -> always null;
 - NON_COMPLIANT -> provide a concrete corrective action.
+
+For NOT_APPLICABLE:
+- evidence -> null unless explicit evidence establishes why the condition does not apply;
+- missing_elements -> always [];
+- recommendation -> always null.
 
 ==================================================
 REFERENCE RULES
