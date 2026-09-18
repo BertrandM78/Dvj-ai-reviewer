@@ -3,7 +3,7 @@ from pathlib import Path
 
 import boto3
 import re
-from deterministic_rules import check_rule_10, check_rule_13, check_rule_19,check_rule_20
+from deterministic_rules import check_rule_10, check_rule_13, check_rule_19,check_rule_20,check_rule_23,check_rule_25
 
 
 # ============================================================
@@ -174,6 +174,8 @@ def review_proposal(
         check_rule_13(proposal_text),
         check_rule_19(proposal_text),
         check_rule_20(proposal_text),
+        check_rule_23(proposal_text),
+        check_rule_25(proposal_text),
     ]
 
     for deterministic_rule in deterministic_result:

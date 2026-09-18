@@ -384,6 +384,268 @@ def check_rule_20(proposal_text: str) -> dict:
         "missing_elements": [],
         "recommendation": None,
     }
+def check_rule_23(proposal_text: str) -> dict:
+    """
+    RULE_23:
+    The JEH count for each phase must be consistent between
+    the methodology and the budget.
+    """
+
+    # Extract all methodology slides, from the first methodology slide
+    # until the next non-methodology slide.
+    methodology_match = re.search(
+        r"(SLIDE\s+\d+\s+—\s+NOTRE MÉTHODOLOGIE.*?)(?="
+        r"SLIDE\s+\d+\s+—\s+(?!NOTRE MÉTHODOLOGIE)|$)",
+        proposal_text,
+        re.DOTALL | re.IGNORECASE,
+    )
+
+    # Extract budget section
+    budget_match = re.search(
+        r"(SLIDE\s+\d+\s+—\s+BUDGET.*?)(?=SLIDE\s+\d+\s+—|$)",
+        proposal_text,
+        re.DOTALL | re.IGNORECASE,
+    )
+
+    if not methodology_match or not budget_match:
+        return {
+            "rule_id": "RULE_23",
+            "status": "NON_COMPLIANT",
+            "evidence": None,
+            "reasoning": (
+                "The methodology or budget section could not be identified."
+            ),
+            "missing_elements": [
+                "Methodology and budget sections with phase JEH counts"
+            ],
+            "recommendation": (
+                "Provide explicit JEH counts for each phase in both "
+                "the methodology and the budget."
+            ),
+        }
+
+    methodology_text = methodology_match.group(1)
+    budget_text = budget_match.group(1)
+
+    def extract_phase_jeh(section_text: str) -> dict:
+        phase_pattern = re.compile(
+            r"PHASE\s+(\d+)\s+—(.*?)(?=PHASE\s+\d+\s+—|"
+            r"SLIDE\s+\d+\s+—|$)",
+            re.DOTALL | re.IGNORECASE,
+        )
+
+        phase_jeh = {}
+
+        for phase_number, phase_text in phase_pattern.findall(section_text):
+            jeh_match = re.search(
+                r"(\d+)\s+JEH\b",
+                phase_text,
+                re.IGNORECASE,
+            )
+
+            if jeh_match:
+                phase_jeh[phase_number] = int(jeh_match.group(1))
+
+        return phase_jeh
+
+    methodology_jeh = extract_phase_jeh(methodology_text)
+    budget_jeh = extract_phase_jeh(budget_text)
+
+    violations = []
+
+    all_phases = sorted(
+        set(methodology_jeh) | set(budget_jeh),
+        key=int,
+    )
+
+    for phase_number in all_phases:
+        methodology_value = methodology_jeh.get(phase_number)
+        budget_value = budget_jeh.get(phase_number)
+
+        if methodology_value is None or budget_value is None:
+            violations.append(
+                f"Phase {phase_number}: JEH count missing from "
+                f"{'methodology' if methodology_value is None else 'budget'}."
+            )
+        elif methodology_value != budget_value:
+            violations.append(
+                f"Phase {phase_number}: methodology={methodology_value} JEH, "
+                f"budget={budget_value} JEH."
+            )
+
+    if violations:
+        return {
+            "rule_id": "RULE_23",
+            "status": "NON_COMPLIANT",
+            "evidence": "; ".join(violations),
+            "reasoning": (
+                "At least one phase has inconsistent JEH counts between "
+                "the methodology and the budget."
+            ),
+            "missing_elements": [],
+            "recommendation": (
+                "Align the JEH counts between the methodology and budget "
+                "for every project phase."
+            ),
+        }
+
+    return {
+        "rule_id": "RULE_23",
+        "status": "COMPLIANT",
+        "evidence": (
+            f"Methodology JEH: {methodology_jeh}; "
+            f"Budget JEH: {budget_jeh}"
+        ),
+        "reasoning": (
+            "JEH counts are consistent between the methodology "
+            "and budget for every project phase."
+        ),
+        "missing_elements": [],
+        "recommendation": None,
+    }
+def check_rule_25(proposal_text: str) -> dict:
+    """
+    RULE_25:
+    Project management fees must represent between 8% and 12%
+    of the total project amount excluding VAT.
+    """
+
+    # Isolate budget section
+    budget_match = re.search(
+        r"(SLIDE\s+\d+\s+—\s+BUDGET.*?)(?=SLIDE\s+\d+\s+—|$)",
+        proposal_text,
+        re.DOTALL | re.IGNORECASE,
+    )
+
+    if not budget_match:
+        return {
+            "rule_id": "RULE_25",
+            "status": "NON_COMPLIANT",
+            "evidence": None,
+            "reasoning": "The budget section could not be identified.",
+            "missing_elements": ["Budget section"],
+            "recommendation": (
+                "Add a budget section containing project management "
+                "fees and the total project amount."
+            ),
+        }
+
+    budget_text = budget_match.group(1)
+
+    # Extract project management block
+    management_match = re.search(
+        r"Gestion\s+et\s+suivi\s+de\s+projet"
+        r"(.*?)(?=TOTAL|$)",
+        budget_text,
+        re.DOTALL | re.IGNORECASE,
+    )
+
+    # Extract total block
+    total_match = re.search(
+        r"TOTAL\s*:?.*?([\d\s]+)\s*€\s*HT",
+        budget_text,
+        re.DOTALL | re.IGNORECASE,
+    )
+
+    if not management_match or not total_match:
+        return {
+            "rule_id": "RULE_25",
+            "status": "NON_COMPLIANT",
+            "evidence": None,
+            "reasoning": (
+                "Project management fees or total project amount "
+                "could not be identified."
+            ),
+            "missing_elements": [
+                "Project management amount",
+                "Total project amount",
+            ],
+            "recommendation": (
+                "Explicitly state both the project management amount "
+                "and total project amount."
+            ),
+        }
+
+    management_text = management_match.group(1)
+
+    # The management block contains:
+    # JEH count
+    # unit price
+    # total management amount
+    #
+    # We therefore collect all € HT amounts and take the last one.
+    management_amounts = re.findall(
+        r"([\d\s]+)\s*€\s*HT",
+        management_text,
+        re.IGNORECASE,
+    )
+
+    if not management_amounts:
+        return {
+            "rule_id": "RULE_25",
+            "status": "NON_COMPLIANT",
+            "evidence": None,
+            "reasoning": "Project management amount could not be identified.",
+            "missing_elements": ["Project management amount"],
+            "recommendation": (
+                "Explicitly state the total project management amount."
+            ),
+        }
+
+    def parse_amount(value: str) -> int:
+        return int(re.sub(r"\s+", "", value))
+
+    management_amount = parse_amount(management_amounts[-1])
+    total_amount = parse_amount(total_match.group(1))
+
+    if total_amount == 0:
+        return {
+            "rule_id": "RULE_25",
+            "status": "NON_COMPLIANT",
+            "evidence": "Total project amount: 0 € HT",
+            "reasoning": "The project management ratio cannot be calculated.",
+            "missing_elements": [],
+            "recommendation": "Provide a valid total project amount.",
+        }
+
+    ratio = management_amount / total_amount
+    ratio_percent = ratio * 100
+
+    if not 0.08 <= ratio <= 0.12:
+        return {
+            "rule_id": "RULE_25",
+            "status": "NON_COMPLIANT",
+            "evidence": (
+                f"Project management: {management_amount} € HT; "
+                f"total: {total_amount} € HT; "
+                f"ratio: {ratio_percent:.2f}%."
+            ),
+            "reasoning": (
+                "Project management fees fall outside the permitted "
+                "8% to 12% range."
+            ),
+            "missing_elements": [],
+            "recommendation": (
+                "Adjust project management fees so they represent "
+                "between 8% and 12% of the total project amount."
+            ),
+        }
+
+    return {
+        "rule_id": "RULE_25",
+        "status": "COMPLIANT",
+        "evidence": (
+            f"Project management: {management_amount} € HT; "
+            f"total: {total_amount} € HT; "
+            f"ratio: {ratio_percent:.2f}%."
+        ),
+        "reasoning": (
+            "Project management fees fall within the permitted "
+            "8% to 12% range."
+        ),
+        "missing_elements": [],
+        "recommendation": None,
+    }
 
 if __name__ == "__main__":
 
@@ -392,5 +654,5 @@ if __name__ == "__main__":
     p1 = Path("data/test_proposals/proposal_001.txt").read_text()
     p2 = Path("data/test_proposals/proposal_002.txt").read_text()
 
-    print(check_rule_20(p1))
-    print(check_rule_20(p2))
+    print(check_rule_25(p1))
+    print(check_rule_25(p2))

@@ -3,50 +3,48 @@
     {
       "rule_id": "RULE_01",
       "status": "COMPLIANT",
-      "evidence": "The proposal reference 'DE-0926-1042-1088-1121' is present both in the file name and on the cover page.",
-      "reasoning": "The reference follows the required format and corresponds to the month and year of the proposal.",
+      "evidence": "DE-0926-1042-1088-1121",
+      "reasoning": "The proposal reference is present both in the file name and on the cover page, and it follows the required format.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_02",
-      "status": "NON_COMPLIANT",
-      "evidence": null,
-      "reasoning": "The proposal does not explicitly state a validity date.",
-      "missing_elements": [
-        "Validity date"
-      ],
-      "recommendation": "Add a validity date that falls exactly one calendar month after the proposal date."
+      "status": "COMPLIANT",
+      "evidence": "16/10/2026",
+      "reasoning": "The proposal explicitly states a validity date that falls exactly one calendar month after the proposal date.",
+      "missing_elements": [],
+      "recommendation": null
     },
     {
       "rule_id": "RULE_03",
       "status": "COMPLIANT",
-      "evidence": "The 'Qui sommes-nous' section is present on slide 3.",
-      "reasoning": "The proposal contains the required company presentation section.",
+      "evidence": "Slide 3",
+      "reasoning": "The proposal contains a 'Qui sommes-nous' company presentation section.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_04",
       "status": "COMPLIANT",
-      "evidence": "The client's contact name is Claire Martin, the contact role is Directrice du Développement, and the client's company is SilverCare.",
-      "reasoning": "All three required elements are explicitly identified in the proposal.",
+      "evidence": "Madame Claire Martin, Directrice du Développement de SilverCare",
+      "reasoning": "The context section explicitly identifies the client's contact name, role, and company.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_05",
       "status": "COMPLIANT",
-      "evidence": "The context section is structured into approximately 3 paragraphs covering the initiation of the contact, the client's company and its challenges, and the client's need to be addressed.",
-      "reasoning": "The context section meets the required structure and content.",
+      "evidence": "Slide 2",
+      "reasoning": "The context is structured into approximately 3 paragraphs and covers the required elements.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_06",
       "status": "COMPLIANT",
-      "evidence": "The solution section summarizes the proposal's value proposition, what DeVinci Junior proposes to do, and the expected impact for the client.",
-      "reasoning": "The solution section clearly explains the proposal's value proposition and expected impact.",
+      "evidence": "Slide 2",
+      "reasoning": "The solution section clearly summarizes the proposal's value proposition and explains the expected impact.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -54,24 +52,24 @@
       "rule_id": "RULE_07",
       "status": "NON_COMPLIANT",
       "evidence": null,
-      "reasoning": "Important keywords are not highlighted in bold in the client understanding and proposed solution sections.",
+      "reasoning": "Important keywords in the client understanding and proposed solution sections are not highlighted in bold.",
       "missing_elements": [
-        "Bold formatting for important keywords"
+        "Keywords in bold"
       ],
-      "recommendation": "Highlight important keywords in bold in the client understanding and proposed solution sections."
+      "recommendation": "Highlight important keywords in bold as required by the rule."
     },
     {
       "rule_id": "RULE_08",
       "status": "COMPLIANT",
-      "evidence": "The proposal contains client references on slide 4.",
-      "reasoning": "The proposal includes client or project references demonstrating relevant past experience.",
+      "evidence": "Slide 4",
+      "reasoning": "The proposal contains client or project references demonstrating relevant past experience.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_09",
       "status": "COMPLIANT",
-      "evidence": "The references on slide 4 are relevant to the proposed mission, as they involve similar types of market studies and analyses.",
+      "evidence": "Slide 4",
       "reasoning": "At least one presented reference is relevant to the proposed mission.",
       "missing_elements": [],
       "recommendation": null
@@ -88,18 +86,17 @@
       "rule_id": "RULE_11",
       "status": "NON_COMPLIANT",
       "evidence": null,
-      "reasoning": "Methodological steps do not begin with a noun and the first word is not displayed in bold.",
+      "reasoning": "Methodological steps do not begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
       "missing_elements": [
-        "Noun-starting steps",
-        "Bold formatting for the first word of each step"
+        "Nouns in bold"
       ],
-      "recommendation": "Ensure each methodological step begins with a noun and display the first word in bold."
+      "recommendation": "Ensure each methodological step begins with a noun and is displayed in bold."
     },
     {
       "rule_id": "RULE_12",
       "status": "COMPLIANT",
-      "evidence": "Each methodology phase states the phase duration, total phase price, and number of JEH.",
-      "reasoning": "All required elements are explicitly stated for every methodology phase.",
+      "evidence": "Slide 7 and Slide 8",
+      "reasoning": "For every methodology phase, the proposal explicitly states the phase duration, total phase price, and number of JEH allocated.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -114,31 +111,31 @@
     {
       "rule_id": "RULE_14",
       "status": "COMPLIANT",
-      "evidence": "Deliverables are explicitly identified for each phase.",
-      "reasoning": "The proposal provides specific deliverables for each phase.",
+      "evidence": "Slide 7 and Slide 8",
+      "reasoning": "The deliverables associated with the mission are explicitly identified.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_15",
       "status": "COMPLIANT",
-      "evidence": "The expected delivery format is stated for every identified deliverable.",
-      "reasoning": "The proposal states the expected delivery format for each deliverable.",
+      "evidence": "Slide 7 and Slide 8",
+      "reasoning": "For every explicitly identified deliverable, the expected delivery format is stated.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_16",
       "status": "COMPLIANT",
-      "evidence": "The RSE section is present on slide 9.",
-      "reasoning": "The proposal contains the required RSE / CSR section.",
+      "evidence": "Slide 9",
+      "reasoning": "The proposal contains an RSE / CSR section.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_17",
       "status": "COMPLIANT",
-      "evidence": "The phase names and order in the project planning (slide 10) correspond to those in the methodology (slides 7 and 8).",
+      "evidence": "Slide 7, Slide 8, and Slide 10",
       "reasoning": "The phase names and order are consistent between the methodology and the planning.",
       "missing_elements": [],
       "recommendation": null
@@ -146,8 +143,8 @@
     {
       "rule_id": "RULE_18",
       "status": "COMPLIANT",
-      "evidence": "The duration of each phase in the planning is consistent with the duration stated in the methodology.",
-      "reasoning": "The phase durations are consistent between the methodology and the planning.",
+      "evidence": "Slide 7, Slide 8, and Slide 10",
+      "reasoning": "The duration of each phase shown in the planning is consistent with the duration stated for the corresponding methodology phase.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -170,48 +167,48 @@
     {
       "rule_id": "RULE_21",
       "status": "COMPLIANT",
-      "evidence": "There are no parallel phases scheduled; all phases are sequential.",
-      "reasoning": "The proposal does not schedule any phases in parallel, so this rule is inherently compliant.",
+      "evidence": "Slide 10",
+      "reasoning": "There are no parallel phases scheduled, so the rule is compliant by default.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_22",
       "status": "COMPLIANT",
-      "evidence": "The budget (slide 11) uses phase names corresponding to those in the methodology and planning, and the phase order is consistent.",
-      "reasoning": "The budget phase names and order are consistent with the methodology and planning.",
+      "evidence": "Slide 7, Slide 8, and Slide 11",
+      "reasoning": "The budget uses phase names corresponding to those used in the methodology and planning, and the phase order remains consistent.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_23",
       "status": "COMPLIANT",
-      "evidence": "The number of JEH stated in the budget is consistent with the number of JEH stated in the methodology for each phase.",
-      "reasoning": "The JEH quantities are consistent between the budget and the methodology.",
+      "evidence": "Methodology JEH: {'1': 3, '2': 4, '3': 3, '4': 4, '5': 2}; Budget JEH: {'1': 3, '2': 4, '3': 3, '4': 4, '5': 2}",
+      "reasoning": "JEH counts are consistent between the methodology and budget for every project phase.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_24",
       "status": "COMPLIANT",
-      "evidence": "The monetary amounts stated in the budget are consistent with the amounts stated elsewhere in the proposal for the same phases.",
-      "reasoning": "The budget amounts are consistent with the amounts stated in the methodology.",
+      "evidence": "Slide 7, Slide 8, and Slide 11",
+      "reasoning": "For each phase, the monetary amount stated in the budget is consistent with the amount stated elsewhere in the proposal for the same phase.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_25",
       "status": "COMPLIANT",
-      "evidence": "Project management represents 8.55% of the total project budget (500 € HT / 5 850 € HT).",
-      "reasoning": "The project management allocation falls within the required range of 8% to 12%.",
+      "evidence": "Project management: 500 € HT; total: 5850 € HT; ratio: 8.55%.",
+      "reasoning": "Project management fees fall within the permitted 8% to 12% range.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_26",
       "status": "COMPLIANT",
-      "evidence": "The effective unit JEH price for each phase falls within the required range of €80 HT to €500 HT.",
-      "reasoning": "The unit JEH prices are calculated as follows: Phase 1 (300 € HT), Phase 2 (300 € HT), Phase 3 (350 € HT), Phase 4 (350 € HT), Phase 5 (400 € HT).",
+      "evidence": "Slide 7, Slide 8, and Slide 11",
+      "reasoning": "For each priced phase, the effective unit price per JEH is within the required range of €80 HT to €500 HT.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -226,32 +223,32 @@
     {
       "rule_id": "RULE_28",
       "status": "COMPLIANT",
-      "evidence": "The profiles and skills of the proposed project team are relevant to the technical and business requirements of the mission.",
-      "reasoning": "The team profiles on slides 5 and 6 are relevant to the mission's requirements.",
+      "evidence": "Slide 5 and Slide 6",
+      "reasoning": "The profiles and skills of the proposed project team are relevant to the technical and business requirements of the mission.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_29",
       "status": "COMPLIANT",
-      "evidence": "The 'On poursuit ensemble' section is present on slide 12.",
-      "reasoning": "The proposal contains the required standard closing slide.",
+      "evidence": "Slide 12",
+      "reasoning": "The proposal contains the standard closing slide or section 'On poursuit ensemble'.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_30",
       "status": "COMPLIANT",
-      "evidence": "The 'Boostez votre entreprise' section is present on slide 13.",
-      "reasoning": "The proposal contains the required standard closing slide.",
+      "evidence": "Slide 13",
+      "reasoning": "The proposal contains the standard closing slide or section 'Boostez votre entreprise'.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_31",
       "status": "COMPLIANT",
-      "evidence": "The contact details are present on slide 14.",
-      "reasoning": "The proposal contains the required standard contact details slide.",
+      "evidence": "Slide 14",
+      "reasoning": "The proposal contains the standard contact details slide or section 'Nos coordonnées'.",
       "missing_elements": [],
       "recommendation": null
     }
