@@ -4,7 +4,7 @@ from pathlib import Path
 import boto3
 import re
 from deterministic_rules import check_rule_10, check_rule_13, check_rule_19,check_rule_20,check_rule_23,check_rule_25
-
+from document_parser import extract_pdf_text
 
 # ============================================================
 # CONFIGURATION
@@ -34,6 +34,18 @@ bedrock_client = boto3.client(
     region_name=REGION,
 )
 
+
+# ============================================================
+# LOAD PROPOSAL
+# ============================================================
+def load_proposal(file_path: Path) -> str:
+    if file_path.suffix.lower() == ".pdf":
+        return extract_pdf_text(file_path)
+
+    if file_path.suffix.lower() == ".txt":
+        return file_path.read_text(encoding="utf-8")
+
+    raise ValueError(f"Unsupported file format: {file_path.suffix}")
 
 # ============================================================
 # RETRIEVAL
@@ -225,7 +237,8 @@ def process_proposals() -> None:
 
     # Find all test proposals.
     proposal_files = sorted(
-        INPUT_DIR.glob("proposal_*.txt")
+        list(INPUT_DIR.glob("*.txt")) +
+        list(INPUT_DIR.glob("*.pdf"))
     )
 
     if not proposal_files:
@@ -245,9 +258,7 @@ def process_proposals() -> None:
             f"\n--- Reviewing {file_path.name} ---"
         )
 
-        proposal_text = file_path.read_text(
-            encoding="utf-8"
-        )
+        proposal_text = load_proposal(file_path)
 
         try:
             review_data = review_proposal(
