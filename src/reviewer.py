@@ -1,11 +1,9 @@
 import json
 from pathlib import Path
-print("Script demarre...")
 
 import boto3
-print("Script demarre...")
 import re
-from deterministic_rules import check_rule_13
+from deterministic_rules import check_rule_10, check_rule_13
 
 
 # ============================================================
@@ -171,14 +169,16 @@ def review_proposal(
 
     review_data = parse_review(raw_review)
 
-    deterministic_result = check_rule_13(
-        proposal_text
-    )
+    deterministic_result = [
+        check_rule_10(proposal_text),
+        check_rule_13(proposal_text)
+    ]
 
-    override_rule(
-        review_data,
-        deterministic_result,
-    )
+    for deterministic_rule in deterministic_result:
+        override_rule(
+            review_data,
+            deterministic_rule,
+        )
 
     return review_data
 

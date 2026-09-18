@@ -14,7 +14,7 @@
       "evidence": null,
       "reasoning": "The proposal does not explicitly state a validity date.",
       "missing_elements": [
-        "Validity date"
+        "Explicit validity date"
       ],
       "recommendation": "Add a validity date that falls exactly one calendar month after the proposal date."
     },
@@ -38,7 +38,7 @@
       "rule_id": "RULE_05",
       "status": "COMPLIANT",
       "evidence": "Slide 2",
-      "reasoning": "The context is structured into approximately 3 paragraphs and covers the initiation of the contact, the client's company and its challenges, and the client's need to be addressed.",
+      "reasoning": "The context is structured into approximately 3 paragraphs and covers the initiation of the contact, the client's company and its challenges, and the client's need or problem to be addressed.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -64,7 +64,7 @@
       "rule_id": "RULE_08",
       "status": "COMPLIANT",
       "evidence": "Slide 4",
-      "reasoning": "The proposal contains client or project references demonstrating relevant past experience.",
+      "reasoning": "The proposal contains client references demonstrating relevant past experience.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -79,8 +79,8 @@
     {
       "rule_id": "RULE_10",
       "status": "COMPLIANT",
-      "evidence": "Slides 7 and 8",
-      "reasoning": "Each methodology phase contains at least three methodological steps or bullet points.",
+      "evidence": "[{'phase': '1', 'step_count': 3}, {'phase': '2', 'step_count': 4}, {'phase': '3', 'step_count': 4}, {'phase': '4', 'step_count': 4}, {'phase': '5', 'step_count': 4}]",
+      "reasoning": "Every detected methodology phase contains at least 3 explicit steps.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -90,10 +90,9 @@
       "evidence": null,
       "reasoning": "Methodological steps do not begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
       "missing_elements": [
-        "Noun-based step introductions",
-        "Bold formatting for first word"
+        "Noun-starting steps in bold"
       ],
-      "recommendation": "Reformat methodological steps to begin with a noun and display the first word in bold."
+      "recommendation": "Ensure each methodological step begins with a noun and is displayed in bold."
     },
     {
       "rule_id": "RULE_12",
@@ -123,7 +122,7 @@
       "rule_id": "RULE_15",
       "status": "COMPLIANT",
       "evidence": "Slides 7 and 8",
-      "reasoning": "For every explicitly identified deliverable, the expected delivery format is stated when applicable.",
+      "reasoning": "For every explicitly identified deliverable, the expected delivery format is stated.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -169,9 +168,9 @@
     },
     {
       "rule_id": "RULE_21",
-      "status": "COMPLIANT",
-      "evidence": "Slides 7, 8, and 10",
-      "reasoning": "There are no parallel phases scheduled, so this rule is compliant by default.",
+      "status": "NOT_APPLICABLE",
+      "evidence": null,
+      "reasoning": "No phases are scheduled in parallel.",
       "missing_elements": [],
       "recommendation": null
     },

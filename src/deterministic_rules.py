@@ -1,6 +1,108 @@
 import re
 
 
+def check_rule_10(proposal_text: str) -> dict:
+    """
+    RULE_10:
+    Each methodology phase must contain at least 3 explicit steps/bullets.
+    """
+
+    # Only analyze methodology sections.
+    # Stop before the next major section after methodology.
+    methodology_match = re.search(
+        r"(SLIDE\s+\d+\s+—\s+NOTRE MÉTHODOLOGIE.*?)(?="
+        r"SLIDE\s+\d+\s+—\s+(?!NOTRE MÉTHODOLOGIE)|$)",
+        proposal_text,
+        re.DOTALL | re.IGNORECASE,
+    )
+
+    if not methodology_match:
+        return {
+            "rule_id": "RULE_10",
+            "status": "NON_COMPLIANT",
+            "evidence": None,
+            "reasoning": "No methodology section could be identified.",
+            "missing_elements": [
+                "Methodology section with phases and explicit steps"
+            ],
+            "recommendation": (
+                "Add a clearly identified methodology section containing "
+                "at least 3 explicit steps for each phase."
+            ),
+        }
+
+    methodology_text = methodology_match.group(1)
+
+    # Extract each phase inside the methodology section.
+    phase_pattern = re.compile(
+        r"(PHASE\s+(\d+)\s+—.*?)(?=PHASE\s+\d+\s+—|"
+        r"SLIDE\s+\d+\s+—|$)",
+        re.DOTALL | re.IGNORECASE,
+    )
+
+    phases = phase_pattern.findall(methodology_text)
+
+    checked_phases = []
+    violations = []
+
+    for phase_text, phase_number in phases:
+
+        # Steps in our normalized proposals are represented as:
+        # - First step
+        # - Second step
+        # - Third step
+        steps = re.findall(
+            r"^\s*-\s+\S.*$",
+            phase_text,
+            re.MULTILINE,
+        )
+
+        step_count = len(steps)
+
+        checked_phases.append(
+            {
+                "phase": phase_number,
+                "step_count": step_count,
+            }
+        )
+
+        if step_count < 3:
+            violations.append(
+                f"Phase {phase_number} contains only "
+                f"{step_count} explicit steps."
+            )
+
+    if violations:
+        return {
+            "rule_id": "RULE_10",
+            "status": "NON_COMPLIANT",
+            "evidence": "; ".join(violations),
+            "reasoning": (
+                "At least one methodology phase contains fewer "
+                "than the required 3 explicit steps."
+            ),
+            "missing_elements": [
+                "At least 3 explicit steps are required in each methodology phase"
+            ],
+            "recommendation": (
+                "Add enough explicit steps to each non-compliant methodology "
+                "phase so that every phase contains at least 3."
+            ),
+        }
+
+    return {
+        "rule_id": "RULE_10",
+        "status": "COMPLIANT",
+        "evidence": str(checked_phases),
+        "reasoning": (
+            "Every detected methodology phase contains at least "
+            "3 explicit steps."
+        ),
+        "missing_elements": [],
+        "recommendation": None,
+    }
+
+
 def check_rule_13(proposal_text: str) -> dict:
     """
     RULE_13 — Validation iterations.
@@ -102,21 +204,8 @@ if __name__ == "__main__":
 
     from pathlib import Path
 
-    for proposal_name in [
-        "proposal_001.txt",
-        "proposal_002.txt",
-    ]:
+    p1 = Path("data/test_proposals/proposal_001.txt").read_text()
+    p2 = Path("data/test_proposals/proposal_002.txt").read_text()
 
-        proposal_path = (
-            Path("data/test_proposals")
-            / proposal_name
-        )
-
-        proposal_text = proposal_path.read_text(
-            encoding="utf-8"
-        )
-
-        result = check_rule_13(proposal_text)
-
-        print(f"\n--- {proposal_name} ---")
-        print(result)
+    print(check_rule_10(p1))
+    print(check_rule_10(p2))
