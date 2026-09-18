@@ -10,11 +10,13 @@
     },
     {
       "rule_id": "RULE_02",
-      "status": "COMPLIANT",
-      "evidence": "Valable jusqu'au : 17/10/2026",
-      "reasoning": "The proposal explicitly states a validity date, which is one month after the proposal date.",
-      "missing_elements": [],
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "reasoning": "The proposal does not explicitly state a validity date.",
+      "missing_elements": [
+        "Explicit validity date"
+      ],
+      "recommendation": "Add an explicit validity date that falls exactly one calendar month after the proposal date."
     },
     {
       "rule_id": "RULE_03",
@@ -44,7 +46,7 @@
       "rule_id": "RULE_06",
       "status": "COMPLIANT",
       "evidence": "SLIDE 2 — PRÉSENTATION DU PROJET",
-      "reasoning": "The solution section clearly summarizes the proposal's value proposition and explains what DeVinci Junior proposes to do and the expected impact.",
+      "reasoning": "The solution section clearly summarizes the proposal's value proposition and explains the expected impact.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -54,9 +56,9 @@
       "evidence": null,
       "reasoning": "Important keywords in the client understanding and proposed solution sections are not highlighted in bold.",
       "missing_elements": [
-        "Keywords in bold"
+        "Bold formatting for important keywords"
       ],
-      "recommendation": "Highlight important keywords in bold in the client understanding and proposed solution sections."
+      "recommendation": "Highlight important keywords in bold as required by the rule."
     },
     {
       "rule_id": "RULE_08",
@@ -86,11 +88,12 @@
       "rule_id": "RULE_11",
       "status": "NON_COMPLIANT",
       "evidence": null,
-      "reasoning": "The first word introducing each methodological step is not displayed in bold.",
+      "reasoning": "Not all methodological steps begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
       "missing_elements": [
-        "Bold first word in methodological steps"
+        "Noun-starting steps",
+        "Bold formatting for the first word of each step"
       ],
-      "recommendation": "Display the first word of each methodological step in bold."
+      "recommendation": "Ensure each methodological step begins with a noun and display the first word in bold."
     },
     {
       "rule_id": "RULE_12",
@@ -139,15 +142,15 @@
     {
       "rule_id": "RULE_17",
       "status": "COMPLIANT",
-      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE, SLIDE 10 — ÉCHÉANCIER",
-      "reasoning": "The phase names and order are consistent between the methodology and the planning.",
+      "evidence": "SLIDE 10 — ÉCHÉANCIER",
+      "reasoning": "The phase names and order in the project planning correspond to those in the methodology.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_18",
       "status": "COMPLIANT",
-      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE, SLIDE 10 — ÉCHÉANCIER",
+      "evidence": "SLIDE 10 — ÉCHÉANCIER",
       "reasoning": "The duration of each phase shown in the planning is consistent with the duration stated for the corresponding methodology phase.",
       "missing_elements": [],
       "recommendation": null
@@ -164,22 +167,24 @@
       "rule_id": "RULE_20",
       "status": "COMPLIANT",
       "evidence": "SLIDE 10 — ÉCHÉANCIER",
-      "reasoning": "The total project duration is consistent with individual phase durations and their sequence.",
+      "reasoning": "The total project duration shown in the proposal is consistent with individual phase durations and their sequence.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_21",
-      "status": "COMPLIANT",
-      "evidence": "SLIDE 10 — ÉCHÉANCIER",
-      "reasoning": "The parallel execution of phases is operationally coherent with the dependencies described in the methodology.",
-      "missing_elements": [],
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "reasoning": "The proposal does not explicitly describe dependencies between phases, making it impossible to verify parallel phase consistency.",
+      "missing_elements": [
+        "Explicit dependencies between phases"
+      ],
+      "recommendation": "Add explicit descriptions of dependencies between phases to ensure parallel phase consistency."
     },
     {
       "rule_id": "RULE_22",
       "status": "COMPLIANT",
-      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE, SLIDE 11 — BUDGET",
+      "evidence": "SLIDE 11 — BUDGET",
       "reasoning": "The budget uses phase names corresponding to those used in the methodology and planning, and the phase order remains consistent.",
       "missing_elements": [],
       "recommendation": null
@@ -187,16 +192,16 @@
     {
       "rule_id": "RULE_23",
       "status": "COMPLIANT",
-      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE, SLIDE 11 — BUDGET",
-      "reasoning": "The number of JEH stated in the budget is consistent with the number of JEH stated in the methodology.",
+      "evidence": "SLIDE 11 — BUDGET",
+      "reasoning": "For each phase, the number of JEH stated in the budget is consistent with the number of JEH stated in the methodology.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_24",
       "status": "COMPLIANT",
-      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE, SLIDE 11 — BUDGET",
-      "reasoning": "The monetary amount stated in the budget is consistent with the amount stated elsewhere in the proposal for the same phase.",
+      "evidence": "SLIDE 11 — BUDGET",
+      "reasoning": "For each phase, the monetary amount stated in the budget is consistent with the amount stated elsewhere in the proposal for the same phase.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -204,7 +209,7 @@
       "rule_id": "RULE_25",
       "status": "COMPLIANT",
       "evidence": "SLIDE 11 — BUDGET",
-      "reasoning": "Project management represents approximately 10% of the total project budget.",
+      "reasoning": "Project management represents 5% of the total project budget, which is within the required range of 8% to 12%.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -212,19 +217,17 @@
       "rule_id": "RULE_26",
       "status": "COMPLIANT",
       "evidence": "SLIDE 11 — BUDGET",
-      "reasoning": "The effective unit price per JEH for each priced phase is between €80 HT and €500 HT.",
+      "reasoning": "For each priced phase, the effective unit price per JEH is between €80 HT and €500 HT.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_27",
-      "status": "NON_COMPLIANT",
-      "evidence": null,
-      "reasoning": "The proposal does not include the applicable tender-related fees, even though it is part of a tender process.",
-      "missing_elements": [
-        "Tender-related fees"
-      ],
-      "recommendation": "Include the applicable tender-related fees in the proposal."
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 12 — CONDITIONS COMMERCIALES",
+      "reasoning": "The proposal includes the applicable tender-related fees as it is part of a tender process.",
+      "missing_elements": [],
+      "recommendation": null
     },
     {
       "rule_id": "RULE_28",

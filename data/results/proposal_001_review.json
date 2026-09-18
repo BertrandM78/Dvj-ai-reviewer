@@ -14,9 +14,9 @@
       "evidence": null,
       "reasoning": "The proposal does not explicitly state a validity date.",
       "missing_elements": [
-        "Explicit validity date"
+        "Validity date"
       ],
-      "recommendation": "Add a validity date that corresponds to one month after the proposal date."
+      "recommendation": "Add a validity date that falls exactly one calendar month after the proposal date."
     },
     {
       "rule_id": "RULE_03",
@@ -38,7 +38,7 @@
       "rule_id": "RULE_05",
       "status": "COMPLIANT",
       "evidence": "Slide 2",
-      "reasoning": "The context is structured into approximately 3 paragraphs and covers the initiation of the contact, the client's company and its challenges, and the client's need or problem to be addressed.",
+      "reasoning": "The context is structured into approximately 3 paragraphs and covers the initiation of the contact, the client's company and its challenges, and the client's need to be addressed.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -54,11 +54,11 @@
       "rule_id": "RULE_07",
       "status": "NON_COMPLIANT",
       "evidence": null,
-      "reasoning": "The proposal does not highlight important keywords in bold in the client understanding and proposed solution sections.",
+      "reasoning": "Important keywords in the client understanding and proposed solution sections are not highlighted in bold.",
       "missing_elements": [
         "Bold formatting for important keywords"
       ],
-      "recommendation": "Highlight important keywords in bold in the client understanding and proposed solution sections."
+      "recommendation": "Highlight important keywords in bold as required."
     },
     {
       "rule_id": "RULE_08",
@@ -72,7 +72,7 @@
       "rule_id": "RULE_09",
       "status": "COMPLIANT",
       "evidence": "Slide 4",
-      "reasoning": "At least one presented reference (MedAssist) is relevant to the proposed mission, as it involves a similar type of project and a similar business problem.",
+      "reasoning": "At least one presented reference (MedAssist) is relevant to the proposed mission as it involves a market study for a digital solution launch.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -88,12 +88,12 @@
       "rule_id": "RULE_11",
       "status": "NON_COMPLIANT",
       "evidence": null,
-      "reasoning": "The methodological steps do not begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
+      "reasoning": "Methodological steps do not begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
       "missing_elements": [
-        "Noun-based step titles",
-        "Bold formatting for the first word of each step"
+        "Noun-based step introductions",
+        "Bold formatting for first word"
       ],
-      "recommendation": "Rewrite each methodological step to begin with a noun and display the first word in bold."
+      "recommendation": "Reformat methodological steps to begin with a noun and display the first word in bold."
     },
     {
       "rule_id": "RULE_12",
@@ -123,7 +123,7 @@
       "rule_id": "RULE_15",
       "status": "COMPLIANT",
       "evidence": "Slides 7 and 8",
-      "reasoning": "For every explicitly identified deliverable, the expected delivery format is stated.",
+      "reasoning": "For every explicitly identified deliverable, the expected delivery format is stated when applicable.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -171,7 +171,7 @@
       "rule_id": "RULE_21",
       "status": "COMPLIANT",
       "evidence": "Slides 7, 8, and 10",
-      "reasoning": "There are no parallel phases scheduled in the proposal.",
+      "reasoning": "There are no parallel phases scheduled, so this rule is compliant by default.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -201,27 +201,25 @@
     },
     {
       "rule_id": "RULE_25",
-      "status": "NON_COMPLIANT",
+      "status": "COMPLIANT",
       "evidence": "Slide 11",
-      "reasoning": "Project management represents 2 JEH out of 18 JEH, which is approximately 11.11%, not the required 10%.",
-      "missing_elements": [
-        "Project management allocation of approximately 10% of the total project budget"
-      ],
-      "recommendation": "Adjust the project management allocation to represent approximately 10% of the total project budget."
+      "reasoning": "Project management represents 8.55% of the total project budget, which falls within the required range of 8% to 12%.",
+      "missing_elements": [],
+      "recommendation": null
     },
     {
       "rule_id": "RULE_26",
       "status": "COMPLIANT",
       "evidence": "Slides 7, 8, and 11",
-      "reasoning": "For each priced phase, the effective unit price per JEH is between €80 HT and €500 HT.",
+      "reasoning": "For each priced phase, the effective unit price per JEH falls within the required range of €80 HT to €500 HT.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_27",
-      "status": "NON_COMPLIANT",
+      "status": "NOT_APPLICABLE",
       "evidence": null,
-      "reasoning": "The proposal does not indicate that the mission is part of a tender or request-for-proposal process, so tender-related fees are not required.",
+      "reasoning": "The proposal does not explicitly indicate that the mission is part of a tender or request-for-proposal process.",
       "missing_elements": [],
       "recommendation": null
     },
