@@ -303,7 +303,7 @@ def process_proposals() -> None:
         # Save the structured review.
         output_file = (
             OUTPUT_DIR
-            / f"{file_path.stem}_review.json"
+            / f"{file_path.stem}_{file_path.suffix[1:]}_review.json"
         )
 
         with output_file.open(
