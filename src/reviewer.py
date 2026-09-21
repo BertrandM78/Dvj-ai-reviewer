@@ -2,7 +2,21 @@ import json
 from pathlib import Path
 
 import boto3
-
+import re
+from src.document_parser import extract_pdf_text
+from src.document_normalizer import normalize_document
+from src.mission_retriever import (
+    retrieve_references,
+    generate_reference_summary,
+)
+from src.deterministic_rules import (
+    check_rule_10,
+    check_rule_13,
+    check_rule_19,
+    check_rule_20,
+    check_rule_23,
+    check_rule_25,
+)
 
 # ============================================================
 # CONFIGURATION
@@ -32,6 +46,18 @@ bedrock_client = boto3.client(
     region_name=REGION,
 )
 
+
+# ============================================================
+# LOAD PROPOSAL
+# ============================================================
+def load_proposal(file_path: Path) -> str:
+    if file_path.suffix.lower() == ".pdf":
+        return extract_pdf_text(file_path)
+
+    if file_path.suffix.lower() == ".txt":
+        return file_path.read_text(encoding="utf-8")
+
+    raise ValueError(f"Unsupported file format: {file_path.suffix}")
 
 # ============================================================
 # RETRIEVAL
@@ -91,7 +117,7 @@ def generate_review(prompt_text: str) -> str:
         ],
         inferenceConfig={
             "temperature": 0.0,
-            "maxTokens": 1500,
+            "maxTokens": 5000,
         },
     )
 
@@ -129,9 +155,26 @@ def parse_review(raw_review: str) -> dict:
 # ============================================================
 # REVIEW ONE PROPOSAL
 # ============================================================
+def override_rule(
+    review_data: dict,
+    deterministic_result: dict,
+) -> None:
+
+    rule_id = deterministic_result["rule_id"]
+
+    results = review_data.get("results", [])
+
+    for index, result in enumerate(results):
+        if result.get("rule_id") == rule_id:
+            results[index] = deterministic_result
+            return
+
+    # Safety fallback if Nova did not return the rule.
+    results.append(deterministic_result)
 
 def review_proposal(
     proposal_text: str,
+    normalized_proposal: dict,
     reference_rules: str,
     prompt_template: str,
 ) -> dict:
@@ -151,8 +194,94 @@ def review_proposal(
 
     review_data = parse_review(raw_review)
 
+    deterministic_results = [
+        check_rule_10(normalized_proposal),
+        check_rule_13(normalized_proposal),
+        check_rule_19(normalized_proposal),
+        check_rule_20(normalized_proposal),
+        check_rule_23(normalized_proposal),
+        check_rule_25(normalized_proposal),
+    ]
+
+    for deterministic_rule in deterministic_results:
+        override_rule(
+            review_data,
+            deterministic_rule,
+        )
+
     return review_data
 
+
+def review_file(file_path: Path | str) -> dict:
+    """
+    Run the complete review pipeline on one proposal.
+
+    Returns:
+    - quality review
+    - commercial context
+    - historical reference summary
+    """
+
+    file_path = Path(file_path)
+
+    # 1. Extract proposal text
+    proposal_text = load_proposal(file_path)
+
+    # 2. Normalize document
+    normalized_proposal = normalize_document(proposal_text)
+
+    # 3. Load mandatory rules
+    rules_path = Path(
+        "data/knowledge_base/proposal_review_rules_v0.txt"
+    )
+
+    reference_rules = rules_path.read_text(
+        encoding="utf-8"
+    )
+
+    # 4. Load reviewer prompt
+    prompt_template = PROMPT_PATH.read_text(
+        encoding="utf-8"
+    )
+
+    # 5. Review proposal
+    review_data = review_proposal(
+        proposal_text=proposal_text,
+        normalized_proposal=normalized_proposal,
+        reference_rules=reference_rules,
+        prompt_template=prompt_template,
+    )
+
+    # 6. Extract commercial context
+    commercial_context = normalized_proposal.get(
+        "commercial_context",
+        {}
+    )
+
+    sector = commercial_context.get("sector")
+    mission_type = commercial_context.get("mission_type")
+
+    historical_summary = None
+
+    # 7. Historical retrieval
+    if sector and mission_type:
+        references = retrieve_references(
+            sector=sector,
+            mission_type=mission_type,
+        )
+
+        historical_summary = generate_reference_summary(
+            sector=sector,
+            mission_type=mission_type,
+            references=references,
+        )
+
+    # 8. Return everything Streamlit needs
+    return {
+        "review": review_data,
+        "commercial_context": commercial_context,
+        "historical_summary": historical_summary,
+    }
 
 # ============================================================
 # PROCESS ALL TEST PROPOSALS
@@ -174,24 +303,26 @@ def process_proposals() -> None:
         encoding="utf-8"
     )
 
-    # Retrieve the reference rules once.
-    #
-    # We use the same reference context for all proposals,
-    # so there is no reason to repeat this retrieval for every file.
-    rules_query = (
-        "Retrieve the quality rules that should be used "
-        "to review a software development proposal."
+    RULES_PATH = Path(
+    "data/knowledge_base/proposal_review_rules_v0.txt"
     )
 
-    print("Retrieving reference rules...")
+    print("Loading mandatory reference rules...")
 
-    reference_rules = retrieve_rules(
-        rules_query
+    reference_rules = RULES_PATH.read_text(
+        encoding="utf-8"
     )
+
+    rule_numbers = sorted(
+        set(re.findall(r"RULE_?(\d{2})", reference_rules))
+    )
+
+    print(f"Mandatory rules loaded: {len(rule_numbers)}/31")
 
     # Find all test proposals.
     proposal_files = sorted(
-        INPUT_DIR.glob("proposal_*.txt")
+        list(INPUT_DIR.glob("*.txt")) +
+        list(INPUT_DIR.glob("*.pdf"))
     )
 
     if not proposal_files:
@@ -211,13 +342,13 @@ def process_proposals() -> None:
             f"\n--- Reviewing {file_path.name} ---"
         )
 
-        proposal_text = file_path.read_text(
-            encoding="utf-8"
-        )
+        proposal_text = load_proposal(file_path)
+        normalized_proposal = normalize_document(proposal_text)
 
         try:
             review_data = review_proposal(
                 proposal_text=proposal_text,
+                normalized_proposal=normalized_proposal,
                 reference_rules=reference_rules,
                 prompt_template=prompt_template,
             )
@@ -265,6 +396,74 @@ def process_proposals() -> None:
             f"Saved: {output_file}"
         )
 
+# ============================================================
+# REVIEW ONE FILE
+# ============================================================
+
+def review_file(file_path: Path | str) -> dict:
+    """
+    Run the complete review pipeline on a single PDF or TXT file.
+
+    Returns the structured review as a Python dictionary.
+    """
+
+    file_path = Path(file_path)
+
+    # 1. Load proposal
+    proposal_text = load_proposal(file_path)
+
+    # 2. Normalize document for deterministic checks
+    normalized_proposal = normalize_document(proposal_text)
+
+    # 3. Load mandatory rules
+    rules_path = Path(
+        "data/knowledge_base/proposal_review_rules_v0.txt"
+    )
+
+    reference_rules = rules_path.read_text(
+        encoding="utf-8"
+    )
+
+    # 4. Load reviewer prompt
+    prompt_template = PROMPT_PATH.read_text(
+        encoding="utf-8"
+    )
+
+    # 5. Run semantic + deterministic review
+    review_data = review_proposal(
+        proposal_text=proposal_text,
+        normalized_proposal=normalized_proposal,
+        reference_rules=reference_rules,
+        prompt_template=prompt_template,
+    )
+
+    commercial_context = normalized_proposal.get(
+        "commercial_context",
+        {}
+    )
+
+    sector = commercial_context.get("sector")
+    mission_type = commercial_context.get("mission_type")
+
+    historical_summary = None
+
+    if sector and mission_type:
+        references = retrieve_references(
+            sector=sector,
+            mission_type=mission_type,
+        )
+
+        historical_summary = generate_reference_summary(
+            sector=sector,
+            mission_type=mission_type,
+            references=references,
+        )
+
+    return {
+        "review": review_data,
+        "commercial_context": commercial_context,
+        "historical_summary": historical_summary,
+    }
 
 # ============================================================
 # ENTRY POINT

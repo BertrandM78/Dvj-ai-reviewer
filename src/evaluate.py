@@ -68,6 +68,18 @@ def extract_predictions(review_data: dict) -> dict:
         rule_id = result.get("rule_id")
         status = result.get("status")
 
+        valid_statuses = {
+            "COMPLIANT",
+            "NON_COMPLIANT",
+            "NOT_APPLICABLE",
+        }
+
+        if status not in valid_statuses:
+            print(
+                f"WARNING: Invalid status for {rule_id}: {status}"
+            )
+            continue
+
         if rule_id is not None and status is not None:
             predictions[rule_id] = status
 
@@ -196,24 +208,25 @@ def evaluate() -> None:
             # Precision / Recall
             #
             # Positive class = NON_COMPLIANT
+            # COMPLIANT and NOT_APPLICABLE are both
+            # negative classes for violation detection.
             # ------------------------------------------------
 
-            if (
+            expected_violation = (
                 expected_status == "NON_COMPLIANT"
-                and predicted_status == "NON_COMPLIANT"
-            ):
+            )
+
+            predicted_violation = (
+                predicted_status == "NON_COMPLIANT"
+            )
+
+            if expected_violation and predicted_violation:
                 true_positive += 1
 
-            elif (
-                expected_status == "COMPLIANT"
-                and predicted_status == "NON_COMPLIANT"
-            ):
+            elif not expected_violation and predicted_violation:
                 false_positive += 1
 
-            elif (
-                expected_status == "NON_COMPLIANT"
-                and predicted_status == "COMPLIANT"
-            ):
+            elif expected_violation and not predicted_violation:
                 false_negative += 1
 
     # ========================================================

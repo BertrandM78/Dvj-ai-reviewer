@@ -1,48 +1,262 @@
 {
   "results": [
     {
-      "rule_id": "RULE_1",
-      "rule_name": "PROJECT PLANNING",
+      "rule_id": "RULE_01",
       "status": "COMPLIANT",
-      "evidence": "Project phases\n​\n1.​Requirements analysis & architecture\n2.​UX/UI design & prototyping\n3.​Core module development\n4.​Intermediate client validation milestone\n5.​Integration & feature completion\n6.​Testing and acceptance (UAT)\n7.​Final delivery",
+      "evidence": "DE-0926-1056-1091-1134",
+      "reasoning": "The proposal reference is present both in the file name and on the cover page, and it follows the required format.",
       "missing_elements": [],
-      "reasoning": "The proposal explicitly includes a 'Testing and acceptance (UAT)' phase before final delivery.",
       "recommendation": null
     },
     {
-      "rule_id": "RULE_2",
-      "rule_name": "DELIVERABLES",
+      "rule_id": "RULE_02",
       "status": "COMPLIANT",
-      "evidence": "Deliverables\nThe client will receive:\n⚬​Complete source code repository\n⚬​Deployed dashboard web application\n⚬​User manual and technical documentation\n⚬​Acceptance test report",
+      "evidence": "Valable jusqu'au : 17/10/2026",
+      "reasoning": "The proposal explicitly states a validity date, which is exactly one month after the proposal date.",
       "missing_elements": [],
-      "reasoning": "The proposal explicitly identifies the deliverables provided to the client.",
       "recommendation": null
     },
     {
-      "rule_id": "RULE_3",
-      "rule_name": "PROJECT GOVERNANCE",
+      "rule_id": "RULE_03",
       "status": "COMPLIANT",
-      "evidence": "Project team\nThe mission will involve two software engineering students and will be led by Alexandre Dupont, acting as Project Manager.\n\nProject governance\nThe mission is supervised by Alexandre Dupont (Project Manager).",
+      "evidence": "SLIDE 3 — QUI SOMMES-NOUS?",
+      "reasoning": "The proposal contains a 'Qui sommes-nous' company presentation section.",
       "missing_elements": [],
-      "reasoning": "The proposal explicitly identifies Alexandre Dupont as the Project Manager.",
       "recommendation": null
     },
     {
-      "rule_id": "RULE_4",
-      "rule_name": "TIMELINE",
+      "rule_id": "RULE_04",
       "status": "COMPLIANT",
-      "evidence": "Estimated duration\n6 weeks.\n\nProject phases\n1.​Requirements analysis & architecture\n2.​UX/UI design & prototyping\n3.​Core module development\n4.​Intermediate client validation milestone\n5.​Integration & feature completion\n6.​Testing and acceptance (UAT)\n7.​Final delivery",
+      "evidence": "Monsieur Antoine Lefèvre, Directeur Commercial de GreenPulse",
+      "reasoning": "The context section explicitly identifies the client's contact name, role, and company.",
       "missing_elements": [],
-      "reasoning": "The proposal provides an estimated timeline and identifies the main project phases.",
       "recommendation": null
     },
     {
-      "rule_id": "RULE_5",
-      "rule_name": "CLIENT VALIDATION",
+      "rule_id": "RULE_05",
       "status": "COMPLIANT",
-      "evidence": "Project phases\n4.​Intermediate client validation milestone\n\nProject governance\nWeekly progress meetings will be held with the client, including a formal intermediate review at week 3 for milestone validation.",
+      "evidence": "SLIDE 2 — PRÉSENTATION DU PROJET",
+      "reasoning": "The context is structured into approximately 3 to 4 paragraphs and covers the required elements.",
       "missing_elements": [],
-      "reasoning": "The proposal includes an intermediate client validation milestone at week 3 for projects lasting more than four weeks.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_06",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 2 — PRÉSENTATION DU PROJET",
+      "reasoning": "The solution section clearly summarizes the proposal's value proposition and explains what DeVinci Junior proposes to do and the expected impact.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_07",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "reasoning": "Important keywords in the client understanding and proposed solution sections are not highlighted in bold.",
+      "missing_elements": [
+        "Keywords in bold"
+      ],
+      "recommendation": "Highlight important keywords in bold in the client understanding and proposed solution sections."
+    },
+    {
+      "rule_id": "RULE_08",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 4 — NOS RÉFÉRENCES",
+      "reasoning": "The proposal contains client or project references demonstrating relevant past experience.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_09",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 4 — NOS RÉFÉRENCES",
+      "reasoning": "At least one presented reference is relevant to the proposed mission.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_10",
+      "status": "NON_COMPLIANT",
+      "evidence": "{'phase_step_counts': [{'phase': 1, 'step_count': 3}, {'phase': 2, 'step_count': 4}, {'phase': 3, 'step_count': 2}, {'phase': 4, 'step_count': 4}, {'phase': 5, 'step_count': 4}]}",
+      "reasoning": "At least one methodology phase contains fewer than 3 explicit steps: [{'phase': 3, 'step_count': 2}]",
+      "missing_elements": [],
+      "recommendation": "Add enough explicit steps so that every methodology phase contains at least 3."
+    },
+    {
+      "rule_id": "RULE_11",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "reasoning": "The methodological steps do not begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
+      "missing_elements": [
+        "Noun at the beginning of each step",
+        "Bold first word"
+      ],
+      "recommendation": "Ensure each methodological step begins with a noun and display the first word in bold."
+    },
+    {
+      "rule_id": "RULE_12",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE",
+      "reasoning": "For every methodology phase, the proposal explicitly states the phase duration, total phase price, and number of JEH allocated.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_13",
+      "status": "NON_COMPLIANT",
+      "evidence": "[{'phase': 4, 'iterations': 6, 'duration_weeks': 2, 'iterations_per_week': 3.0}]",
+      "reasoning": "At least one phase exceeds the maximum validation frequency of 1.5 iterations per week.",
+      "missing_elements": [],
+      "recommendation": "Reduce the number of planned validation iterations or increase the phase duration."
+    },
+    {
+      "rule_id": "RULE_14",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE",
+      "reasoning": "The deliverables associated with the mission are explicitly identified.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_15",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 7 — NOTRE MÉTHODOLOGIE",
+      "reasoning": "For every explicitly identified deliverable, the expected delivery format is stated.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_16",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "reasoning": "The proposal does not contain an RSE / CSR section.",
+      "missing_elements": [
+        "RSE / CSR section"
+      ],
+      "recommendation": "Include an RSE / CSR section in the proposal."
+    },
+    {
+      "rule_id": "RULE_17",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 10 — ÉCHÉANCIER",
+      "reasoning": "The phase names and order in the project planning correspond to those in the methodology.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_18",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 10 — ÉCHÉANCIER",
+      "reasoning": "The duration of each phase shown in the planning is consistent with the duration stated for the corresponding methodology phase.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_19",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "reasoning": "No explicit project start date was found.",
+      "missing_elements": [
+        "Project start date"
+      ],
+      "recommendation": "Specify an explicit project start date."
+    },
+    {
+      "rule_id": "RULE_20",
+      "status": "NON_COMPLIANT",
+      "evidence": "{'stated_total_duration_weeks': 8, 'planning_end_week': 9}",
+      "reasoning": "The stated project duration is 8 weeks, while the planning extends to week 9.",
+      "missing_elements": [],
+      "recommendation": "Align the stated total duration with the planning timeline."
+    },
+    {
+      "rule_id": "RULE_21",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 10 — ÉCHÉANCIER",
+      "reasoning": "The parallel execution of phases is operationally coherent with the dependencies described in the methodology.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_22",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 11 — BUDGET",
+      "reasoning": "The budget uses phase names corresponding to those used in the methodology and planning, and the phase order remains consistent.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_23",
+      "status": "NON_COMPLIANT",
+      "evidence": "{'methodology_jeh': {1: 3, 2: 5, 3: 4, 4: 4, 5: 3}, 'budget_jeh': {1: 3, 2: 5, 3: 3, 4: 4, 5: 3}, 'compared_phases': [1, 2, 3, 4, 5]}",
+      "reasoning": "JEH inconsistencies detected: [{'phase': 3, 'methodology_jeh': 4, 'budget_jeh': 3}]",
+      "missing_elements": [],
+      "recommendation": "Align phase-level JEH counts between methodology and budget."
+    },
+    {
+      "rule_id": "RULE_24",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 11 — BUDGET",
+      "reasoning": "For each phase, the monetary amount stated in the budget is consistent with the amount stated elsewhere in the proposal for the same phase.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_25",
+      "status": "NON_COMPLIANT",
+      "evidence": "{'project_management_ht': 300, 'total_project_ht': 6000, 'percentage': 5.0}",
+      "reasoning": "Project management represents 5.00% of the total project amount, which is outside the required 8–12% range.",
+      "missing_elements": [],
+      "recommendation": "Adjust the project management amount so that it represents between 8% and 12% of the total project amount."
+    },
+    {
+      "rule_id": "RULE_26",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 11 — BUDGET",
+      "reasoning": "For each priced phase, the effective unit price per JEH is within the range of €80 HT to €500 HT.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_27",
+      "status": "NOT_APPLICABLE",
+      "evidence": null,
+      "reasoning": "The proposal does not explicitly indicate that the mission is part of a tender or request-for-proposal process.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_28",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 5 — VOTRE CHEF DE PROJET, SLIDE 6 — VOTRE ÉQUIPE PROJET",
+      "reasoning": "The profiles and skills of the proposed project team are relevant to the technical and business requirements of the mission.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_29",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 13 — ON POURSUIT ENSEMBLE?",
+      "reasoning": "The proposal contains the standard closing slide or section 'On poursuit ensemble'.",
+      "missing_elements": [],
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_30",
+      "status": "NON_COMPLIANT",
+      "evidence": null,
+      "reasoning": "The proposal does not contain the standard closing slide or section 'Boostez votre entreprise'.",
+      "missing_elements": [
+        "Closing slide or section 'Boostez votre entreprise'"
+      ],
+      "recommendation": "Include the standard closing slide or section 'Boostez votre entreprise' in the proposal."
+    },
+    {
+      "rule_id": "RULE_31",
+      "status": "COMPLIANT",
+      "evidence": "SLIDE 14 — NOS COORDONNÉES",
+      "reasoning": "The proposal contains the standard contact details slide or section 'Nos coordonnées'.",
+      "missing_elements": [],
       "recommendation": null
     }
   ]
