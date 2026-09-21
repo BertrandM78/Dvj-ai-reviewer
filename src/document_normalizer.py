@@ -39,6 +39,20 @@ CRITICAL EXTRACTION RULES:
 - Never copy a budget value into the methodology.
 - Preserve contradictions exactly as written in the document.
 
+PLANNING EXTRACTION RULES:
+
+- Extract total_duration_weeks only when a total duration is explicitly stated
+  in the planning section.
+- Extract start_week and end_week only when the phase position or week range
+  is explicitly recoverable from the extracted document text.
+- Never reconstruct start_week or end_week from methodology duration.
+- Never infer sequential execution unless the planning explicitly shows it.
+- If a Gantt chart, graphical bar, or visual layout cannot be reliably
+  represented by the extracted text, return null for the corresponding
+  start_week and end_week.
+- Preserve inconsistencies between the stated total duration and the visible
+  planning. Never reconcile them.
+
 For methodology fields:
 - Extract values ONLY from the methodology section.
 - Ignore values found in the budget or planning sections.

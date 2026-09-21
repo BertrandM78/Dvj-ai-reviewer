@@ -1,222 +1,169 @@
 import re
 from datetime import datetime
+def check_rule_10(normalized: dict) -> dict:
+    phases = normalized.get(
+        "methodology", {}
+    ).get("phases", [])
 
-def check_rule_10(proposal_text: str) -> dict:
-    """
-    RULE_10:
-    Each methodology phase must contain at least 3 explicit steps/bullets.
-    """
-
-    # Only analyze methodology sections.
-    # Stop before the next major section after methodology.
-    methodology_match = re.search(
-        r"(SLIDE\s+\d+\s+—\s+NOTRE MÉTHODOLOGIE.*?)(?="
-        r"SLIDE\s+\d+\s+—\s+(?!NOTRE MÉTHODOLOGIE)|$)",
-        proposal_text,
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    if not methodology_match:
+    if not phases:
         return {
             "rule_id": "RULE_10",
             "status": "NON_COMPLIANT",
             "evidence": None,
-            "reasoning": "No methodology section could be identified.",
-            "missing_elements": [
-                "Methodology section with phases and explicit steps"
-            ],
+            "reasoning": "No methodology phases were found.",
+            "missing_elements": ["Methodology phases"],
             "recommendation": (
-                "Add a clearly identified methodology section containing "
-                "at least 3 explicit steps for each phase."
+                "Add a structured methodology with at least "
+                "3 steps per phase."
             ),
         }
 
-    methodology_text = methodology_match.group(1)
-
-    # Extract each phase inside the methodology section.
-    phase_pattern = re.compile(
-        r"(PHASE\s+(\d+)\s+—.*?)(?=PHASE\s+\d+\s+—|"
-        r"SLIDE\s+\d+\s+—|$)",
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    phases = phase_pattern.findall(methodology_text)
-
-    checked_phases = []
+    phase_counts = []
     violations = []
 
-    for phase_text, phase_number in phases:
+    for phase in phases:
+        phase_number = phase.get("phase_number")
+        steps = phase.get("steps") or []
 
-        # Steps in our normalized proposals are represented as:
-        # - First step
-        # - Second step
-        # - Third step
-        steps = re.findall(
-            r"^\s*-\s+\S.*$",
-            phase_text,
-            re.MULTILINE,
-        )
+        phase_result = {
+            "phase": phase_number,
+            "step_count": len(steps),
+        }
 
-        step_count = len(steps)
+        phase_counts.append(phase_result)
 
-        checked_phases.append(
-            {
-                "phase": phase_number,
-                "step_count": step_count,
-            }
-        )
+        if len(steps) < 3:
+            violations.append(phase_result)
 
-        if step_count < 3:
-            violations.append(
-                f"Phase {phase_number} contains only "
-                f"{step_count} explicit steps."
-            )
+    evidence = {
+        "phase_step_counts": phase_counts
+    }
 
     if violations:
         return {
             "rule_id": "RULE_10",
             "status": "NON_COMPLIANT",
-            "evidence": "; ".join(violations),
+            "evidence": str(evidence),
             "reasoning": (
-                "At least one methodology phase contains fewer "
-                "than the required 3 explicit steps."
+                "At least one methodology phase contains "
+                "fewer than 3 explicit steps: "
+                f"{violations}"
             ),
-            "missing_elements": [
-                "At least 3 explicit steps are required in each methodology phase"
-            ],
+            "missing_elements": [],
             "recommendation": (
-                "Add enough explicit steps to each non-compliant methodology "
-                "phase so that every phase contains at least 3."
+                "Add enough explicit steps so that every "
+                "methodology phase contains at least 3."
             ),
         }
 
     return {
         "rule_id": "RULE_10",
         "status": "COMPLIANT",
-        "evidence": str(checked_phases),
+        "evidence": str(evidence),
         "reasoning": (
-            "Every detected methodology phase contains at least "
+            "Every methodology phase contains at least "
             "3 explicit steps."
         ),
         "missing_elements": [],
         "recommendation": None,
     }
+def check_rule_13(normalized: dict) -> dict:
+    phases = normalized.get(
+        "methodology", {}
+    ).get("phases", [])
 
-
-def check_rule_13(proposal_text: str) -> dict:
-    """
-    RULE_13 — Validation iterations.
-
-    When a phase requires client validation/feedback:
-    - the number of iterations must be explicit;
-    - the ratio must not exceed 1.5 iterations per week.
-    """
-
-    # Find methodology phases.
-    phase_pattern = re.compile(
-        r"(PHASE\s+\d+\s+—.*?)(?=PHASE\s+\d+\s+—|SLIDE\s+\d+|$)",
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    phases = phase_pattern.findall(proposal_text)
-
-    violations = []
     checked_phases = []
+    violations = []
 
     for phase in phases:
+        iterations = phase.get("validation_iterations")
+        duration = phase.get("duration_weeks")
 
-        weeks_match = re.search(
-            r"(\d+)\s+semaines?",
-            phase,
-            re.IGNORECASE,
-        )
-
-        iterations_match = re.search(
-            r"(\d+)\s+allers?-retours?",
-            phase,
-            re.IGNORECASE,
-        )
-
-        # No explicit validation iterations:
-        # this phase does not provide evidence that the
-        # validation-frequency requirement is triggered.
-        if not iterations_match:
+        # Rule is conditional:
+        # no explicit iterations -> nothing to evaluate.
+        if iterations is None:
             continue
 
-        if not weeks_match:
-            violations.append(
-                "Validation iterations are specified but phase duration "
-                "could not be determined."
-            )
+        phase_number = phase.get("phase_number")
+
+        if duration is None or duration <= 0:
+            violations.append({
+                "phase": phase_number,
+                "reason": "Duration unavailable",
+            })
             continue
 
-        weeks = int(weeks_match.group(1))
-        iterations = int(iterations_match.group(1))
+        frequency = iterations / duration
 
-        ratio = iterations / weeks
+        phase_result = {
+            "phase": phase_number,
+            "iterations": iterations,
+            "duration_weeks": duration,
+            "iterations_per_week": round(frequency, 2),
+        }
 
-        checked_phases.append(
-            {
-                "weeks": weeks,
-                "iterations": iterations,
-                "ratio": ratio,
-            }
-        )
+        checked_phases.append(phase_result)
 
-        if ratio > 1.5:
-            violations.append(
-                f"{iterations} validation iterations over {weeks} weeks "
-                f"= {ratio:.2f} iterations/week."
-            )
+        if frequency > 1.5:
+            violations.append(phase_result)
 
     if violations:
         return {
             "rule_id": "RULE_13",
             "status": "NON_COMPLIANT",
-            "evidence": "; ".join(violations),
+            "evidence": str(violations),
             "reasoning": (
-                "At least one phase exceeds the maximum validation "
-                "frequency of 1.5 iterations per week."
+                "At least one phase exceeds the maximum "
+                "validation frequency of 1.5 iterations per week."
             ),
-            "missing_elements": [
-                "Validation frequency exceeds the permitted threshold"
-            ],
+            "missing_elements": [],
             "recommendation": (
-                "Reduce the number of validation iterations so that "
-                "each relevant phase stays at or below 1.5 iterations "
-                "per week."
+                "Reduce the number of planned validation iterations "
+                "or increase the phase duration."
             ),
+        }
+
+    if not checked_phases:
+        return {
+            "rule_id": "RULE_13",
+            "status": "NOT_APPLICABLE",
+            "evidence": None,
+            "reasoning": (
+                "No phase explicitly states validation iterations "
+                "or feedback round trips."
+            ),
+            "missing_elements": [],
+            "recommendation": None,
         }
 
     return {
         "rule_id": "RULE_13",
-        "status": "COMPLIANT" if checked_phases else "NOT_APPLICABLE",
-        "evidence": str(checked_phases) if checked_phases else None,
+        "status": "COMPLIANT",
+        "evidence": str(checked_phases),
         "reasoning": (
-            "All explicitly stated validation frequencies are at or below "
-            "1.5 iterations per week."
-            if checked_phases
-            else
-            "No phase explicitly states validation iterations or feedback "
-            "round trips, so the rule is not applicable."
+            "All explicitly stated validation frequencies are "
+            "at or below 1.5 iterations per week."
         ),
         "missing_elements": [],
         "recommendation": None,
     }
 
-def check_rule_19(proposal_text: str) -> dict:
-    """
-    RULE_19:
-    The project start date must not fall on a weekend.
+def check_rule_19(normalized: dict) -> dict:
+    start_date = normalized.get(
+        "planning", {}
+    ).get("start_date")
 
-    Supports:
-    - normalized synthetic proposals:
-      "Début potentiel : 21 septembre 2026"
-    - extracted real PDFs:
-      "4 mai 2026 14 semaines 13 juillet 2026"
-    """
+    if not start_date:
+        return {
+            "rule_id": "RULE_19",
+            "status": "NON_COMPLIANT",
+            "evidence": None,
+            "reasoning": "No explicit project start date was found.",
+            "missing_elements": ["Project start date"],
+            "recommendation": "Specify an explicit project start date.",
+        }
 
-    months = {
+    french_months = {
         "janvier": 1,
         "février": 2,
         "fevrier": 2,
@@ -234,220 +181,163 @@ def check_rule_19(proposal_text: str) -> dict:
         "decembre": 12,
     }
 
-    month_pattern = (
-        r"janvier|février|fevrier|mars|avril|mai|juin|juillet|"
-        r"août|aout|septembre|octobre|novembre|décembre|decembre"
-    )
+    parsed_date = None
 
-    # ---------------------------------------------------------
-    # Strategy 1 — explicit "Début potentiel"
-    # Used by normalized/synthetic proposals.
-    # ---------------------------------------------------------
+    # Formats such as 21/09/2026 or 2026-09-20
+    for date_format in ("%d/%m/%Y", "%Y-%m-%d"):
+        try:
+            parsed_date = datetime.strptime(
+                start_date,
+                date_format,
+            )
+            break
+        except ValueError:
+            pass
 
-    date_match = re.search(
-        rf"début\s+(?:d['’]étude\s+)?potentiel(?:le)?\s*:?\s*"
-        rf"(\d{{1,2}})\s+"
-        rf"({month_pattern})\s+"
-        rf"(\d{{4}})",
-        proposal_text,
-        re.IGNORECASE,
-    )
-
-    # ---------------------------------------------------------
-    # Strategy 2 — real PDF schedule extraction
-    #
-    # Example:
-    # 4 mai 2026 14 semaines 13 juillet 2026
-    # Semaines S1 S2 ...
-    #
-    # The first date immediately preceding the announced
-    # duration is the potential project start date.
-    # ---------------------------------------------------------
-
-    if not date_match:
-        date_match = re.search(
-            rf"(\d{{1,2}})\s+"
-            rf"({month_pattern})\s+"
-            rf"(\d{{4}})"
-            rf"\s+\d+\s+semaines?",
-            proposal_text,
+    # Format such as "4 mai 2026"
+    if parsed_date is None:
+        match = re.fullmatch(
+            r"(\d{1,2})\s+([A-Za-zÀ-ÿ]+)\s+(\d{4})",
+            start_date.strip(),
             re.IGNORECASE,
         )
 
-    if not date_match:
+        if match:
+            day = int(match.group(1))
+            month_name = match.group(2).lower()
+            year = int(match.group(3))
+
+            month = french_months.get(month_name)
+
+            if month:
+                try:
+                    parsed_date = datetime(
+                        year,
+                        month,
+                        day,
+                    )
+                except ValueError:
+                    pass
+
+    if parsed_date is None:
         return {
             "rule_id": "RULE_19",
             "status": "NON_COMPLIANT",
-            "evidence": None,
-            "reasoning": (
-                "No explicit project start date could be identified."
-            ),
-            "missing_elements": [
-                "Explicit project start date"
-            ],
-            "recommendation": (
-                "Add an explicit project start date."
-            ),
-        }
-
-    day = int(date_match.group(1))
-    month_name = date_match.group(2).lower()
-    year = int(date_match.group(3))
-
-    try:
-        start_date = datetime(
-            year,
-            months[month_name],
-            day,
-        )
-    except ValueError:
-        return {
-            "rule_id": "RULE_19",
-            "status": "NON_COMPLIANT",
-            "evidence": date_match.group(0),
-            "reasoning": (
-                "The detected project start date is invalid."
-            ),
+            "evidence": start_date,
+            "reasoning": "The project start date could not be parsed.",
             "missing_elements": [],
             "recommendation": (
-                "Provide a valid project start date."
+                "Use an explicit and unambiguous project start date."
             ),
         }
 
-    weekday = start_date.strftime("%A")
-
-    evidence = (
-        f"Project start date: "
-        f"{day:02d}/{months[month_name]:02d}/{year} "
-        f"({weekday})"
-    )
-
-    if start_date.weekday() >= 5:
-        return {
-            "rule_id": "RULE_19",
-            "status": "NON_COMPLIANT",
-            "evidence": evidence,
-            "reasoning": (
-                "The project start date falls on a weekend."
-            ),
-            "missing_elements": [],
-            "recommendation": (
-                "Move the project start date to a weekday."
-            ),
-        }
+    weekday = parsed_date.strftime("%A")
+    is_weekend = parsed_date.weekday() >= 5
 
     return {
         "rule_id": "RULE_19",
-        "status": "COMPLIANT",
-        "evidence": evidence,
+        "status": (
+            "NON_COMPLIANT"
+            if is_weekend
+            else "COMPLIANT"
+        ),
+        "evidence": (
+            f"{parsed_date.strftime('%d/%m/%Y')} "
+            f"({weekday})"
+        ),
         "reasoning": (
-            "The project start date falls on a weekday."
+            "The project start date falls on a weekend."
+            if is_weekend
+            else "The project start date falls on a weekday."
         ),
         "missing_elements": [],
-        "recommendation": None,
+        "recommendation": (
+            "Move the project start date to a weekday."
+            if is_weekend
+            else None
+        ),
     }
+def check_rule_20(normalized: dict) -> dict:
+    planning = normalized.get("planning", {})
 
-def check_rule_20(proposal_text: str) -> dict:
-    """
-    RULE_20:
-    The announced total project duration must be coherent
-    with the project schedule.
-    """
+    total_duration = planning.get("total_duration_weeks")
+    phases = planning.get("phases", [])
 
-    # Isolate the schedule section
-    schedule_match = re.search(
-        r"(SLIDE\s+\d+\s+—\s+ÉCHÉANCIER.*?)(?=SLIDE\s+\d+\s+—|$)",
-        proposal_text,
-        re.DOTALL | re.IGNORECASE,
-    )
+    end_weeks = [
+        phase.get("end_week")
+        for phase in phases
+        if phase.get("end_week") is not None
+    ]
 
-    if not schedule_match:
+    if total_duration is None:
         return {
             "rule_id": "RULE_20",
             "status": "NON_COMPLIANT",
             "evidence": None,
-            "reasoning": "No project schedule section could be identified.",
-            "missing_elements": ["Project schedule"],
+            "reasoning": (
+                "No explicit total project duration was found "
+                "in the planning."
+            ),
+            "missing_elements": [
+                "Explicit total project duration"
+            ],
             "recommendation": (
-                "Add a clearly identified project schedule with "
-                "an announced total duration."
+                "State the total project duration explicitly."
             ),
         }
 
-    schedule_text = schedule_match.group(1)
-
-    # Extract announced total duration
-    duration_match = re.search(
-        r"Durée\s+totale\s+annoncée\s*:\s*(\d+)\s+semaines?",
-        schedule_text,
-        re.IGNORECASE,
-    )
-
-    if not duration_match:
-        return {
-            "rule_id": "RULE_20",
-            "status": "NON_COMPLIANT",
-            "evidence": None,
-            "reasoning": "No announced total project duration could be identified.",
-            "missing_elements": ["Announced total project duration"],
-            "recommendation": "Add an explicit total project duration.",
-        }
-
-    announced_duration = int(duration_match.group(1))
-
-    # Accept both:
-    # S1 à S2
-    # Semaine 1 à semaine 2
-    week_ranges = re.findall(
-        r"(?:S|Semaine\s+)(\d+)\s+à\s+(?:S|semaine\s+)(\d+)",
-        schedule_text,
-        re.IGNORECASE,
-    )
-
-    if not week_ranges:
-        return {
-            "rule_id": "RULE_20",
-            "status": "NON_COMPLIANT",
-            "evidence": None,
-            "reasoning": "No phase week ranges could be identified in the schedule.",
-            "missing_elements": ["Phase week ranges"],
-            "recommendation": (
-                "Specify the start and end weeks for each project phase."
-            ),
-        }
-
-    # The actual schedule duration is determined by the latest
-    # explicitly scheduled week.
-    latest_week = max(int(end_week) for _, end_week in week_ranges)
-
-    if announced_duration != latest_week:
+    if not end_weeks:
         return {
             "rule_id": "RULE_20",
             "status": "NON_COMPLIANT",
             "evidence": (
-                f"Announced duration: {announced_duration} weeks; "
-                f"schedule extends to week {latest_week}."
+                f"Stated total duration: {total_duration} weeks"
             ),
             "reasoning": (
-                "The announced total project duration is inconsistent "
-                "with the latest week shown in the schedule."
+                "The total duration is stated, but the extracted "
+                "planning does not provide enough reliable week-level "
+                "information to verify its consistency."
+            ),
+            "missing_elements": [
+                "Verifiable phase timing in planning"
+            ],
+            "recommendation": (
+                "Ensure phase timing is explicitly represented "
+                "and consistent with the stated total duration."
+            ),
+        }
+
+    planning_end_week = max(end_weeks)
+
+    evidence = {
+        "stated_total_duration_weeks": total_duration,
+        "planning_end_week": planning_end_week,
+    }
+
+    if planning_end_week != total_duration:
+        return {
+            "rule_id": "RULE_20",
+            "status": "NON_COMPLIANT",
+            "evidence": str(evidence),
+            "reasoning": (
+                f"The stated project duration is {total_duration} "
+                f"weeks, while the planning extends to week "
+                f"{planning_end_week}."
             ),
             "missing_elements": [],
             "recommendation": (
-                "Align the announced total duration with the project schedule."
+                "Align the stated total duration with the "
+                "planning timeline."
             ),
         }
 
     return {
         "rule_id": "RULE_20",
         "status": "COMPLIANT",
-        "evidence": (
-            f"Announced duration: {announced_duration} weeks; "
-            f"schedule extends to week {latest_week}."
-        ),
+        "evidence": str(evidence),
         "reasoning": (
-            "The announced total project duration is consistent "
-            "with the project schedule."
+            "The stated total duration is consistent with "
+            "the planning timeline."
         ),
         "missing_elements": [],
         "recommendation": None,
@@ -537,7 +427,83 @@ def check_rule_23(normalized: dict) -> dict:
         "missing_elements": [],
         "recommendation": None,
     }
+def check_rule_25(normalized: dict) -> dict:
+    budget = normalized.get("budget", {})
 
+    project_management_ht = budget.get("project_management_ht")
+    total_project_ht = budget.get("total_project_ht")
+
+    if project_management_ht is None or total_project_ht is None:
+        return {
+            "rule_id": "RULE_25",
+            "status": "NON_COMPLIANT",
+            "evidence": None,
+            "reasoning": (
+                "The project management amount or total project "
+                "amount could not be identified."
+            ),
+            "missing_elements": [
+                "Project management amount and total project amount"
+            ],
+            "recommendation": (
+                "Explicitly state the project management amount "
+                "and total project amount excluding VAT."
+            ),
+        }
+
+    if total_project_ht <= 0:
+        return {
+            "rule_id": "RULE_25",
+            "status": "NON_COMPLIANT",
+            "evidence": str({
+                "project_management_ht": project_management_ht,
+                "total_project_ht": total_project_ht,
+            }),
+            "reasoning": "The total project amount is invalid.",
+            "missing_elements": [],
+            "recommendation": (
+                "Provide a valid total project amount excluding VAT."
+            ),
+        }
+
+    ratio = project_management_ht / total_project_ht
+    percentage = ratio * 100
+
+    evidence = {
+        "project_management_ht": project_management_ht,
+        "total_project_ht": total_project_ht,
+        "percentage": round(percentage, 2),
+    }
+
+    if 8 <= percentage <= 12:
+        return {
+            "rule_id": "RULE_25",
+            "status": "COMPLIANT",
+            "evidence": str(evidence),
+            "reasoning": (
+                f"Project management represents "
+                f"{percentage:.2f}% of the total project amount, "
+                "which is within the required 8–12% range."
+            ),
+            "missing_elements": [],
+            "recommendation": None,
+        }
+
+    return {
+        "rule_id": "RULE_25",
+        "status": "NON_COMPLIANT",
+        "evidence": str(evidence),
+        "reasoning": (
+            f"Project management represents "
+            f"{percentage:.2f}% of the total project amount, "
+            "which is outside the required 8–12% range."
+        ),
+        "missing_elements": [],
+        "recommendation": (
+            "Adjust the project management amount so that it "
+            "represents between 8% and 12% of the total project amount."
+        ),
+    }
 if __name__ == "__main__":
 
     from pathlib import Path

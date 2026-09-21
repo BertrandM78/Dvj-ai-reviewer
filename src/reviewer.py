@@ -191,12 +191,12 @@ def review_proposal(
     review_data = parse_review(raw_review)
 
     deterministic_results = [
-        check_rule_10(proposal_text),
-        check_rule_13(proposal_text),
-        check_rule_19(proposal_text),
-        check_rule_20(proposal_text),
+        check_rule_10(normalized_proposal),
+        check_rule_13(normalized_proposal),
+        check_rule_19(normalized_proposal),
+        check_rule_20(normalized_proposal),
         check_rule_23(normalized_proposal),
-        check_rule_25(proposal_text),
+        check_rule_25(normalized_proposal),
     ]
 
     for deterministic_rule in deterministic_results:
