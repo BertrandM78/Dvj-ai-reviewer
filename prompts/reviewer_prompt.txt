@@ -231,6 +231,13 @@ non-compliance.
 Recommendations must not introduce requirements that do not exist in
 the reference rules.
 
+LANGUAGE:
+
+- Write all human-readable output in French.
+- Keep rule identifiers unchanged (for example: RULE_01, RULE_20).
+- The fields "reason", "evidence" and "recommendation" must always be written in French.
+- Use concise, professional and actionable language.
+
 ==================================================
 OUTPUT FORMAT
 ==================================================
