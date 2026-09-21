@@ -5,6 +5,10 @@ import boto3
 import re
 from src.document_parser import extract_pdf_text
 from src.document_normalizer import normalize_document
+from src.mission_retriever import (
+    retrieve_references,
+    generate_reference_summary,
+)
 from src.deterministic_rules import (
     check_rule_10,
     check_rule_13,
@@ -208,6 +212,77 @@ def review_proposal(
     return review_data
 
 
+def review_file(file_path: Path | str) -> dict:
+    """
+    Run the complete review pipeline on one proposal.
+
+    Returns:
+    - quality review
+    - commercial context
+    - historical reference summary
+    """
+
+    file_path = Path(file_path)
+
+    # 1. Extract proposal text
+    proposal_text = load_proposal(file_path)
+
+    # 2. Normalize document
+    normalized_proposal = normalize_document(proposal_text)
+
+    # 3. Load mandatory rules
+    rules_path = Path(
+        "data/knowledge_base/proposal_review_rules_v0.txt"
+    )
+
+    reference_rules = rules_path.read_text(
+        encoding="utf-8"
+    )
+
+    # 4. Load reviewer prompt
+    prompt_template = PROMPT_PATH.read_text(
+        encoding="utf-8"
+    )
+
+    # 5. Review proposal
+    review_data = review_proposal(
+        proposal_text=proposal_text,
+        normalized_proposal=normalized_proposal,
+        reference_rules=reference_rules,
+        prompt_template=prompt_template,
+    )
+
+    # 6. Extract commercial context
+    commercial_context = normalized_proposal.get(
+        "commercial_context",
+        {}
+    )
+
+    sector = commercial_context.get("sector")
+    mission_type = commercial_context.get("mission_type")
+
+    historical_summary = None
+
+    # 7. Historical retrieval
+    if sector and mission_type:
+        references = retrieve_references(
+            sector=sector,
+            mission_type=mission_type,
+        )
+
+        historical_summary = generate_reference_summary(
+            sector=sector,
+            mission_type=mission_type,
+            references=references,
+        )
+
+    # 8. Return everything Streamlit needs
+    return {
+        "review": review_data,
+        "commercial_context": commercial_context,
+        "historical_summary": historical_summary,
+    }
+
 # ============================================================
 # PROCESS ALL TEST PROPOSALS
 # ============================================================
@@ -303,7 +378,7 @@ def process_proposals() -> None:
         # Save the structured review.
         output_file = (
             OUTPUT_DIR
-            / f"{file_path.stem}_{file_path.suffix[1:]}_review.json"
+            / f"{file_path.stem}_review.json"
         )
 
         with output_file.open(
@@ -321,6 +396,74 @@ def process_proposals() -> None:
             f"Saved: {output_file}"
         )
 
+# ============================================================
+# REVIEW ONE FILE
+# ============================================================
+
+def review_file(file_path: Path | str) -> dict:
+    """
+    Run the complete review pipeline on a single PDF or TXT file.
+
+    Returns the structured review as a Python dictionary.
+    """
+
+    file_path = Path(file_path)
+
+    # 1. Load proposal
+    proposal_text = load_proposal(file_path)
+
+    # 2. Normalize document for deterministic checks
+    normalized_proposal = normalize_document(proposal_text)
+
+    # 3. Load mandatory rules
+    rules_path = Path(
+        "data/knowledge_base/proposal_review_rules_v0.txt"
+    )
+
+    reference_rules = rules_path.read_text(
+        encoding="utf-8"
+    )
+
+    # 4. Load reviewer prompt
+    prompt_template = PROMPT_PATH.read_text(
+        encoding="utf-8"
+    )
+
+    # 5. Run semantic + deterministic review
+    review_data = review_proposal(
+        proposal_text=proposal_text,
+        normalized_proposal=normalized_proposal,
+        reference_rules=reference_rules,
+        prompt_template=prompt_template,
+    )
+
+    commercial_context = normalized_proposal.get(
+        "commercial_context",
+        {}
+    )
+
+    sector = commercial_context.get("sector")
+    mission_type = commercial_context.get("mission_type")
+
+    historical_summary = None
+
+    if sector and mission_type:
+        references = retrieve_references(
+            sector=sector,
+            mission_type=mission_type,
+        )
+
+        historical_summary = generate_reference_summary(
+            sector=sector,
+            mission_type=mission_type,
+            references=references,
+        )
+
+    return {
+        "review": review_data,
+        "commercial_context": commercial_context,
+        "historical_summary": historical_summary,
+    }
 
 # ============================================================
 # ENTRY POINT

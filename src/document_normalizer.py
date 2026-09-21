@@ -72,9 +72,31 @@ methodology Phase 3 jeh = 4
 budget Phase 3 jeh = 3
 Do NOT reconcile them.
 
+COMMERCIAL CONTEXT EXTRACTION RULES:
+
+- sector:
+  Extract the client's main business sector or industry.
+  Examples: Santé, Finance, Éducation, Industrie, Immobilier, Énergie.
+  Use a short and generic sector label.
+  Use information from the entire proposal when necessary.
+  If the client's sector cannot be reliably determined, return null.
+
+- mission_type:
+  Extract the main type of service proposed by DeVinci Junior.
+  Examples: Étude de marché, Application web, Data / IA, Stratégie,
+  Communication, UX/UI.
+  Use a short and generic service category rather than the exact title
+  of the proposal.
+  Use information from the entire proposal when necessary.
+  If the mission type cannot be reliably determined, return null.
+
 Use exactly this structure:
 
 {
+  "commercial_context": {
+    "sector": string | null,
+    "mission_type": string | null
+  },
   "methodology": {
     "phases": [
       {

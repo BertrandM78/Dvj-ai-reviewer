@@ -146,20 +146,16 @@ Rules:
 
     return response["output"]["message"]["content"][0]["text"].strip()
 
+if __name__ == "__main__":
+    references = retrieve_references(
+        sector="Santé",
+        mission_type="Application web",
+    )
 
-references = retrieve_references(
-    sector="Santé",
-    mission_type="Application web",
-)
+    summary = generate_reference_summary(
+        sector="Santé",
+        mission_type="Application web",
+        references=references,
+    )
 
-
-summary = generate_reference_summary(
-    sector="Santé",
-    mission_type="Application web",
-    references=references,
-)
-
-print("\n" + "#" * 80)
-print("GENERATED SUMMARY")
-print("#" * 80)
-print(summary)
+    print(summary)

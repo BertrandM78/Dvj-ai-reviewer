@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-print("1. Démarrage du script...", flush=True)
+
 from src.document_normalizer import normalize_document
 from src.document_parser import extract_pdf_text
 
