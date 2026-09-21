@@ -1,7 +1,11 @@
 import json
 from pathlib import Path
 
-import boto3
+from src.aws_client import get_aws_client
+
+REGION = "us-east-1"
+MODEL_ID = "amazon.nova-pro-v1:0"
+
 import re
 from src.document_parser import extract_pdf_text
 from src.document_normalizer import normalize_document
@@ -36,14 +40,14 @@ PROMPT_PATH = Path("prompts/reviewer_prompt.txt")
 # AWS CLIENTS
 # ============================================================
 
-kb_client = boto3.client(
+kb_client = get_aws_client(
     "bedrock-agent-runtime",
-    region_name=REGION,
+    REGION,
 )
 
-bedrock_client = boto3.client(
+bedrock_client = get_aws_client(
     "bedrock-runtime",
-    region_name=REGION,
+    REGION,
 )
 
 
