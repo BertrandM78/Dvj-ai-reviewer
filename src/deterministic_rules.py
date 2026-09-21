@@ -190,11 +190,15 @@ def check_rule_13(proposal_text: str) -> dict:
 
     return {
         "rule_id": "RULE_13",
-        "status": "COMPLIANT",
+        "status": "COMPLIANT" if checked_phases else "NOT_APPLICABLE",
         "evidence": str(checked_phases) if checked_phases else None,
         "reasoning": (
-            "No explicitly stated validation frequency exceeds "
+            "All explicitly stated validation frequencies are at or below "
             "1.5 iterations per week."
+            if checked_phases
+            else
+            "No phase explicitly states validation iterations or feedback "
+            "round trips, so the rule is not applicable."
         ),
         "missing_elements": [],
         "recommendation": None,
@@ -204,64 +208,128 @@ def check_rule_19(proposal_text: str) -> dict:
     """
     RULE_19:
     The project start date must not fall on a weekend.
+
+    Supports:
+    - normalized synthetic proposals:
+      "Début potentiel : 21 septembre 2026"
+    - extracted real PDFs:
+      "4 mai 2026 14 semaines 13 juillet 2026"
     """
 
     months = {
         "janvier": 1,
         "février": 2,
+        "fevrier": 2,
         "mars": 3,
         "avril": 4,
         "mai": 5,
         "juin": 6,
         "juillet": 7,
         "août": 8,
+        "aout": 8,
         "septembre": 9,
         "octobre": 10,
         "novembre": 11,
         "décembre": 12,
+        "decembre": 12,
     }
 
+    month_pattern = (
+        r"janvier|février|fevrier|mars|avril|mai|juin|juillet|"
+        r"août|aout|septembre|octobre|novembre|décembre|decembre"
+    )
+
+    # ---------------------------------------------------------
+    # Strategy 1 — explicit "Début potentiel"
+    # Used by normalized/synthetic proposals.
+    # ---------------------------------------------------------
+
     date_match = re.search(
-        r"début\s+potentiel\s*:\s*"
-        r"(\d{1,2})\s+"
-        r"(janvier|février|mars|avril|mai|juin|juillet|août|"
-        r"septembre|octobre|novembre|décembre)\s+"
-        r"(\d{4})",
+        rf"début\s+(?:d['’]étude\s+)?potentiel(?:le)?\s*:?\s*"
+        rf"(\d{{1,2}})\s+"
+        rf"({month_pattern})\s+"
+        rf"(\d{{4}})",
         proposal_text,
         re.IGNORECASE,
     )
 
+    # ---------------------------------------------------------
+    # Strategy 2 — real PDF schedule extraction
+    #
+    # Example:
+    # 4 mai 2026 14 semaines 13 juillet 2026
+    # Semaines S1 S2 ...
+    #
+    # The first date immediately preceding the announced
+    # duration is the potential project start date.
+    # ---------------------------------------------------------
+
+    if not date_match:
+        date_match = re.search(
+            rf"(\d{{1,2}})\s+"
+            rf"({month_pattern})\s+"
+            rf"(\d{{4}})"
+            rf"\s+\d+\s+semaines?",
+            proposal_text,
+            re.IGNORECASE,
+        )
+
     if not date_match:
         return {
             "rule_id": "RULE_19",
-            "stadate_matus": "NON_COMPLIANT",
+            "status": "NON_COMPLIANT",
             "evidence": None,
-            "reasoning": "No explicit project start date could be identified.",
-            "missing_elements": ["Explicit project start date"],
-            "recommendation": "Add an explicit project start date.",
+            "reasoning": (
+                "No explicit project start date could be identified."
+            ),
+            "missing_elements": [
+                "Explicit project start date"
+            ],
+            "recommendation": (
+                "Add an explicit project start date."
+            ),
         }
 
     day = int(date_match.group(1))
     month_name = date_match.group(2).lower()
     year = int(date_match.group(3))
 
-    start_date = datetime(
-        year,
-        months[month_name],
-        day,
-    )
+    try:
+        start_date = datetime(
+            year,
+            months[month_name],
+            day,
+        )
+    except ValueError:
+        return {
+            "rule_id": "RULE_19",
+            "status": "NON_COMPLIANT",
+            "evidence": date_match.group(0),
+            "reasoning": (
+                "The detected project start date is invalid."
+            ),
+            "missing_elements": [],
+            "recommendation": (
+                "Provide a valid project start date."
+            ),
+        }
 
     weekday = start_date.strftime("%A")
+
+    evidence = (
+        f"Project start date: "
+        f"{day:02d}/{months[month_name]:02d}/{year} "
+        f"({weekday})"
+    )
 
     if start_date.weekday() >= 5:
         return {
             "rule_id": "RULE_19",
             "status": "NON_COMPLIANT",
-            "evidence": (
-                f"Project start date: {day:02d}/"
-                f"{months[month_name]:02d}/{year} ({weekday})"
+            "evidence": evidence,
+            "reasoning": (
+                "The project start date falls on a weekend."
             ),
-            "reasoning": "The project start date falls on a weekend.",
             "missing_elements": [],
             "recommendation": (
                 "Move the project start date to a weekday."
@@ -271,14 +339,14 @@ def check_rule_19(proposal_text: str) -> dict:
     return {
         "rule_id": "RULE_19",
         "status": "COMPLIANT",
-        "evidence": (
-            f"Project start date: {day:02d}/"
-            f"{months[month_name]:02d}/{year} ({weekday})"
+        "evidence": evidence,
+        "reasoning": (
+            "The project start date falls on a weekday."
         ),
-        "reasoning": "The project start date falls on a weekday.",
         "missing_elements": [],
         "recommendation": None,
     }
+
 def check_rule_20(proposal_text: str) -> dict:
     """
     RULE_20:
@@ -384,264 +452,87 @@ def check_rule_20(proposal_text: str) -> dict:
         "missing_elements": [],
         "recommendation": None,
     }
-def check_rule_23(proposal_text: str) -> dict:
-    """
-    RULE_23:
-    The JEH count for each phase must be consistent between
-    the methodology and the budget.
-    """
+def check_rule_23(normalized: dict) -> dict:
+    methodology_phases = normalized["methodology"]["phases"]
+    budget_phases = normalized["budget"]["phases"]
 
-    # Extract all methodology slides, from the first methodology slide
-    # until the next non-methodology slide.
-    methodology_match = re.search(
-        r"(SLIDE\s+\d+\s+—\s+NOTRE MÉTHODOLOGIE.*?)(?="
-        r"SLIDE\s+\d+\s+—\s+(?!NOTRE MÉTHODOLOGIE)|$)",
-        proposal_text,
-        re.DOTALL | re.IGNORECASE,
+    methodology_jeh = {
+        phase["phase_number"]: phase["jeh"]
+        for phase in methodology_phases
+        if phase.get("phase_number") is not None
+        and phase.get("jeh") is not None
+    }
+
+    budget_jeh = {
+        phase["phase_number"]: phase["jeh"]
+        for phase in budget_phases
+        if phase.get("phase_number") is not None
+        and phase.get("jeh") is not None
+    }
+
+    common_phases = sorted(
+        set(methodology_jeh) & set(budget_jeh)
     )
 
-    # Extract budget section
-    budget_match = re.search(
-        r"(SLIDE\s+\d+\s+—\s+BUDGET.*?)(?=SLIDE\s+\d+\s+—|$)",
-        proposal_text,
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    if not methodology_match or not budget_match:
+    if not common_phases:
         return {
             "rule_id": "RULE_23",
             "status": "NON_COMPLIANT",
             "evidence": None,
             "reasoning": (
-                "The methodology or budget section could not be identified."
+                "No comparable phase-level JEH values were found "
+                "between methodology and budget."
             ),
             "missing_elements": [
-                "Methodology and budget sections with phase JEH counts"
+                "Comparable methodology and budget JEH values"
             ],
             "recommendation": (
-                "Provide explicit JEH counts for each phase in both "
-                "the methodology and the budget."
+                "State the JEH count for each phase consistently "
+                "in methodology and budget."
             ),
         }
 
-    methodology_text = methodology_match.group(1)
-    budget_text = budget_match.group(1)
+    mismatches = []
 
-    def extract_phase_jeh(section_text: str) -> dict:
-        phase_pattern = re.compile(
-            r"PHASE\s+(\d+)\s+—(.*?)(?=PHASE\s+\d+\s+—|"
-            r"SLIDE\s+\d+\s+—|$)",
-            re.DOTALL | re.IGNORECASE,
-        )
+    for phase_number in common_phases:
+        methodology_value = methodology_jeh[phase_number]
+        budget_value = budget_jeh[phase_number]
 
-        phase_jeh = {}
+        if methodology_value != budget_value:
+            mismatches.append({
+                "phase": phase_number,
+                "methodology_jeh": methodology_value,
+                "budget_jeh": budget_value,
+            })
 
-        for phase_number, phase_text in phase_pattern.findall(section_text):
-            jeh_match = re.search(
-                r"(\d+)\s+JEH\b",
-                phase_text,
-                re.IGNORECASE,
-            )
+    evidence = {
+        "methodology_jeh": methodology_jeh,
+        "budget_jeh": budget_jeh,
+        "compared_phases": common_phases,
+    }
 
-            if jeh_match:
-                phase_jeh[phase_number] = int(jeh_match.group(1))
-
-        return phase_jeh
-
-    methodology_jeh = extract_phase_jeh(methodology_text)
-    budget_jeh = extract_phase_jeh(budget_text)
-
-    violations = []
-
-    all_phases = sorted(
-        set(methodology_jeh) | set(budget_jeh),
-        key=int,
-    )
-
-    for phase_number in all_phases:
-        methodology_value = methodology_jeh.get(phase_number)
-        budget_value = budget_jeh.get(phase_number)
-
-        if methodology_value is None or budget_value is None:
-            violations.append(
-                f"Phase {phase_number}: JEH count missing from "
-                f"{'methodology' if methodology_value is None else 'budget'}."
-            )
-        elif methodology_value != budget_value:
-            violations.append(
-                f"Phase {phase_number}: methodology={methodology_value} JEH, "
-                f"budget={budget_value} JEH."
-            )
-
-    if violations:
+    if mismatches:
         return {
             "rule_id": "RULE_23",
             "status": "NON_COMPLIANT",
-            "evidence": "; ".join(violations),
+            "evidence": str(evidence),
             "reasoning": (
-                "At least one phase has inconsistent JEH counts between "
-                "the methodology and the budget."
+                f"JEH inconsistencies detected: {mismatches}"
             ),
             "missing_elements": [],
             "recommendation": (
-                "Align the JEH counts between the methodology and budget "
-                "for every project phase."
+                "Align phase-level JEH counts between methodology "
+                "and budget."
             ),
         }
 
     return {
         "rule_id": "RULE_23",
         "status": "COMPLIANT",
-        "evidence": (
-            f"Methodology JEH: {methodology_jeh}; "
-            f"Budget JEH: {budget_jeh}"
-        ),
+        "evidence": str(evidence),
         "reasoning": (
-            "JEH counts are consistent between the methodology "
-            "and budget for every project phase."
-        ),
-        "missing_elements": [],
-        "recommendation": None,
-    }
-def check_rule_25(proposal_text: str) -> dict:
-    """
-    RULE_25:
-    Project management fees must represent between 8% and 12%
-    of the total project amount excluding VAT.
-    """
-
-    # Isolate budget section
-    budget_match = re.search(
-        r"(SLIDE\s+\d+\s+—\s+BUDGET.*?)(?=SLIDE\s+\d+\s+—|$)",
-        proposal_text,
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    if not budget_match:
-        return {
-            "rule_id": "RULE_25",
-            "status": "NON_COMPLIANT",
-            "evidence": None,
-            "reasoning": "The budget section could not be identified.",
-            "missing_elements": ["Budget section"],
-            "recommendation": (
-                "Add a budget section containing project management "
-                "fees and the total project amount."
-            ),
-        }
-
-    budget_text = budget_match.group(1)
-
-    # Extract project management block
-    management_match = re.search(
-        r"Gestion\s+et\s+suivi\s+de\s+projet"
-        r"(.*?)(?=TOTAL|$)",
-        budget_text,
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    # Extract total block
-    total_match = re.search(
-        r"TOTAL\s*:?.*?([\d\s]+)\s*€\s*HT",
-        budget_text,
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    if not management_match or not total_match:
-        return {
-            "rule_id": "RULE_25",
-            "status": "NON_COMPLIANT",
-            "evidence": None,
-            "reasoning": (
-                "Project management fees or total project amount "
-                "could not be identified."
-            ),
-            "missing_elements": [
-                "Project management amount",
-                "Total project amount",
-            ],
-            "recommendation": (
-                "Explicitly state both the project management amount "
-                "and total project amount."
-            ),
-        }
-
-    management_text = management_match.group(1)
-
-    # The management block contains:
-    # JEH count
-    # unit price
-    # total management amount
-    #
-    # We therefore collect all € HT amounts and take the last one.
-    management_amounts = re.findall(
-        r"([\d\s]+)\s*€\s*HT",
-        management_text,
-        re.IGNORECASE,
-    )
-
-    if not management_amounts:
-        return {
-            "rule_id": "RULE_25",
-            "status": "NON_COMPLIANT",
-            "evidence": None,
-            "reasoning": "Project management amount could not be identified.",
-            "missing_elements": ["Project management amount"],
-            "recommendation": (
-                "Explicitly state the total project management amount."
-            ),
-        }
-
-    def parse_amount(value: str) -> int:
-        return int(re.sub(r"\s+", "", value))
-
-    management_amount = parse_amount(management_amounts[-1])
-    total_amount = parse_amount(total_match.group(1))
-
-    if total_amount == 0:
-        return {
-            "rule_id": "RULE_25",
-            "status": "NON_COMPLIANT",
-            "evidence": "Total project amount: 0 € HT",
-            "reasoning": "The project management ratio cannot be calculated.",
-            "missing_elements": [],
-            "recommendation": "Provide a valid total project amount.",
-        }
-
-    ratio = management_amount / total_amount
-    ratio_percent = ratio * 100
-
-    if not 0.08 <= ratio <= 0.12:
-        return {
-            "rule_id": "RULE_25",
-            "status": "NON_COMPLIANT",
-            "evidence": (
-                f"Project management: {management_amount} € HT; "
-                f"total: {total_amount} € HT; "
-                f"ratio: {ratio_percent:.2f}%."
-            ),
-            "reasoning": (
-                "Project management fees fall outside the permitted "
-                "8% to 12% range."
-            ),
-            "missing_elements": [],
-            "recommendation": (
-                "Adjust project management fees so they represent "
-                "between 8% and 12% of the total project amount."
-            ),
-        }
-
-    return {
-        "rule_id": "RULE_25",
-        "status": "COMPLIANT",
-        "evidence": (
-            f"Project management: {management_amount} € HT; "
-            f"total: {total_amount} € HT; "
-            f"ratio: {ratio_percent:.2f}%."
-        ),
-        "reasoning": (
-            "Project management fees fall within the permitted "
-            "8% to 12% range."
+            "All comparable phase-level JEH counts are consistent "
+            "between methodology and budget."
         ),
         "missing_elements": [],
         "recommendation": None,
@@ -651,8 +542,16 @@ if __name__ == "__main__":
 
     from pathlib import Path
 
-    p1 = Path("data/test_proposals/proposal_001.txt").read_text()
-    p2 = Path("data/test_proposals/proposal_002.txt").read_text()
+    p1 = Path(
+        "data/test_proposals/proposal_001.txt"
+    ).read_text(encoding="utf-8")
 
-    print(check_rule_25(p1))
-    print(check_rule_25(p2))
+    p2 = Path(
+        "data/test_proposals/proposal_002.txt"
+    ).read_text(encoding="utf-8")
+
+    print("P001:")
+    print(check_rule_19(p1))
+
+    print("\nP002:")
+    print(check_rule_19(p2))

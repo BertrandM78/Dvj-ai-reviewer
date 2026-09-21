@@ -3,12 +3,12 @@
     {
       "rule_id": "RULE_01",
       "status": "NON_COMPLIANT",
-      "evidence": null,
-      "reasoning": "The proposal reference format in the file name and on the cover page does not match the required format 'DE-MMYY-XXXX-XXXX-XXXX'. The proposal reference is 'DE -0426 -1002 -1017-1075', which does not follow the correct format.",
+      "evidence": "The proposal reference is present in the proposal file name but not in the expected format on the cover page. The format is DE-0426-1002-1017-1075 instead of DE-MMYY-XXXX-XXXX-XXXX.",
+      "reasoning": "The reference format on the cover page does not match the required format.",
       "missing_elements": [
-        "Correct proposal reference format"
+        "Correct format on the cover page"
       ],
-      "recommendation": "Update the proposal reference to follow the format 'DE-MMYY-XXXX-XXXX-XXXX'."
+      "recommendation": "Update the cover page to include the proposal reference in the correct format DE-MMYY-XXXX-XXXX-XXXX."
     },
     {
       "rule_id": "RULE_02",
@@ -16,51 +16,49 @@
       "evidence": null,
       "reasoning": "The proposal does not explicitly state a validity date.",
       "missing_elements": [
-        "Explicit validity date"
+        "Validity date"
       ],
-      "recommendation": "Add an explicit validity date that falls exactly one calendar month after the proposal date."
+      "recommendation": "Add a validity date that falls exactly one calendar month after the proposal date."
     },
     {
       "rule_id": "RULE_03",
       "status": "COMPLIANT",
       "evidence": "The proposal contains a 'Qui sommes-nous' company presentation section on PAGE 3.",
-      "reasoning": "The company presentation section is present as required.",
+      "reasoning": "The required section is present.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_04",
       "status": "NON_COMPLIANT",
-      "evidence": null,
-      "reasoning": "The context section does not explicitly identify the client's contact name, contact role, and company.",
+      "evidence": "The context section identifies the client's contact name (Steven Collins) and the client's company (MagieDeVie), but not the client's contact role.",
+      "reasoning": "The client's contact role is missing.",
       "missing_elements": [
-        "Client's contact name",
-        "Client's contact role",
-        "Client's company"
+        "Client's contact role"
       ],
-      "recommendation": "Add the client's contact name, contact role, and company to the context section."
+      "recommendation": "Add the client's contact role to the context section."
     },
     {
       "rule_id": "RULE_05",
       "status": "COMPLIANT",
-      "evidence": "The context section on PAGE 2 is structured into approximately 3 to 4 paragraphs and covers the required elements.",
-      "reasoning": "The context section meets the structure and content requirements.",
+      "evidence": "The context section is structured into approximately 3 to 4 paragraphs and covers the required elements: how the contact or commercial relationship was initiated, the client's company and its relevant challenges, and the client's need or problem to be addressed.",
+      "reasoning": "The context section meets the required structure and content.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_06",
       "status": "COMPLIANT",
-      "evidence": "The solution section on PAGE 2 clearly summarizes the proposal's value proposition and explains what DeVinci Junior proposes to do and the expected impact.",
-      "reasoning": "The solution section meets the requirements.",
+      "evidence": "The solution section clearly summarizes the proposal's value proposition, explaining what DeVinci Junior proposes to do and the expected impact, business value, or ROI for the client.",
+      "reasoning": "The solution section meets the required criteria.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_07",
       "status": "NON_COMPLIANT",
-      "evidence": null,
-      "reasoning": "Important keywords in the client understanding and proposed solution sections are not highlighted in bold.",
+      "evidence": "Important keywords in the client understanding and proposed solution sections are not highlighted in bold.",
+      "reasoning": "The required keyword formatting is missing.",
       "missing_elements": [
         "Bold formatting for important keywords"
       ],
@@ -69,16 +67,16 @@
     {
       "rule_id": "RULE_08",
       "status": "COMPLIANT",
-      "evidence": "The proposal contains client references on PAGE 4.",
-      "reasoning": "The proposal includes client references demonstrating relevant past experience.",
+      "evidence": "The proposal contains client or project references demonstrating relevant past experience on PAGE 4.",
+      "reasoning": "The required references are present.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_09",
       "status": "COMPLIANT",
-      "evidence": "At least one presented reference on PAGE 4 is relevant to the proposed mission.",
-      "reasoning": "The reference to the study for Paris La Défense Arena is relevant to the proposed mission.",
+      "evidence": "At least one presented reference is relevant to the proposed mission, as it involves a similar type of project and business problem (refonte complète de site web and étude quantitative).",
+      "reasoning": "The required relevance is established.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -95,19 +93,19 @@
     {
       "rule_id": "RULE_11",
       "status": "NON_COMPLIANT",
-      "evidence": null,
-      "reasoning": "The methodological steps do not begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
+      "evidence": "The methodological steps do not begin with a noun describing the activity or work item, and the first word is not displayed in bold.",
+      "reasoning": "The required format is not followed.",
       "missing_elements": [
-        "Noun-starting methodological steps",
-        "Bold formatting for the first word of each step"
+        "Noun-based step introduction",
+        "Bold formatting for the first word"
       ],
-      "recommendation": "Ensure each methodological step begins with a noun and display the first word in bold."
+      "recommendation": "Update the methodological steps to begin with a noun and display the first word in bold."
     },
     {
       "rule_id": "RULE_12",
       "status": "COMPLIANT",
-      "evidence": "For every methodology phase on PAGE 7, the proposal explicitly states the phase duration in weeks, the total phase price in euros excluding VAT, and the number of JEH allocated to the phase.",
-      "reasoning": "All required elements are present for each phase.",
+      "evidence": "For every methodology phase, the proposal explicitly states the phase duration in weeks, the total phase price in euros excluding VAT (€ HT), and the number of JEH allocated to the phase on PAGE 7.",
+      "reasoning": "All required elements are present.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -123,51 +121,51 @@
       "rule_id": "RULE_14",
       "status": "COMPLIANT",
       "evidence": "The deliverables associated with the mission are explicitly identified on PAGE 7.",
-      "reasoning": "The deliverables are clearly identified as required.",
+      "reasoning": "The required deliverables are present.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_15",
       "status": "COMPLIANT",
-      "evidence": "For every explicitly identified deliverable on PAGE 7, the expected delivery format is stated (.pdf).",
-      "reasoning": "The delivery format is explicitly stated for each deliverable.",
+      "evidence": "For every explicitly identified deliverable, the expected delivery format is stated (.pdf) on PAGE 7.",
+      "reasoning": "The required format is present.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_16",
-      "status": "COMPLIANT",
-      "evidence": "The proposal contains an RSE / CSR section on PAGE 9.",
-      "reasoning": "The RSE / CSR section is present as required.",
-      "missing_elements": [],
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "evidence": "The proposal does not contain an RSE / CSR section.",
+      "reasoning": "The required section is missing.",
+      "missing_elements": [
+        "RSE / CSR section"
+      ],
+      "recommendation": "Add an RSE / CSR section to the proposal."
     },
     {
       "rule_id": "RULE_17",
       "status": "COMPLIANT",
-      "evidence": "The phase names and order in the project planning on PAGE 10 correspond to those in the methodology on PAGE 7.",
-      "reasoning": "The phase names and order are consistent between the methodology and the planning.",
+      "evidence": "The phase names presented in the project planning correspond to the phase names presented in the methodology, and the order of the phases is consistent between the methodology and the planning on PAGE 10.",
+      "reasoning": "The required consistency is present.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_18",
       "status": "COMPLIANT",
-      "evidence": "The duration of each phase shown in the planning on PAGE 10 is consistent with the duration stated for the corresponding methodology phase on PAGE 7.",
-      "reasoning": "The phase durations are consistent between the methodology and the planning.",
+      "evidence": "The duration of each phase shown in the planning is consistent with the duration stated for the corresponding methodology phase on PAGE 10.",
+      "reasoning": "The required consistency is present.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_19",
-      "stadate_matus": "NON_COMPLIANT",
-      "evidence": null,
-      "reasoning": "No explicit project start date could be identified.",
-      "missing_elements": [
-        "Explicit project start date"
-      ],
-      "recommendation": "Add an explicit project start date."
+      "status": "COMPLIANT",
+      "evidence": "Project start date: 04/05/2026 (Monday)",
+      "reasoning": "The project start date falls on a weekday.",
+      "missing_elements": [],
+      "recommendation": null
     },
     {
       "rule_id": "RULE_20",
@@ -183,15 +181,15 @@
       "rule_id": "RULE_21",
       "status": "NOT_APPLICABLE",
       "evidence": null,
-      "reasoning": "The proposal does not indicate that any phases are scheduled in parallel.",
+      "reasoning": "There are no explicitly planned parallel phases in the proposal.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_22",
       "status": "COMPLIANT",
-      "evidence": "The budget on PAGE 11 uses phase names corresponding to those used in the methodology and planning, and the phase order remains consistent.",
-      "reasoning": "The budget phase names and order are consistent with the methodology and planning.",
+      "evidence": "The budget uses phase names corresponding to those used in the methodology and planning, and the phase order remains consistent on PAGE 11.",
+      "reasoning": "The required consistency is present.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -208,8 +206,8 @@
     {
       "rule_id": "RULE_24",
       "status": "COMPLIANT",
-      "evidence": "For each phase, the monetary amount stated in the budget on PAGE 11 is consistent with the amount stated elsewhere in the proposal for the same phase.",
-      "reasoning": "The monetary amounts are consistent between the budget and the methodology.",
+      "evidence": "For each phase, the monetary amount stated in the budget is consistent with the amount stated elsewhere in the proposal for the same phase on PAGE 11.",
+      "reasoning": "The required consistency is present.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -226,8 +224,8 @@
     {
       "rule_id": "RULE_26",
       "status": "COMPLIANT",
-      "evidence": "For each priced phase on PAGE 11, the effective unit price per JEH is between €80 HT and €500 HT.",
-      "reasoning": "The effective unit JEH prices are within the required range.",
+      "evidence": "For each priced phase, the effective unit price per JEH is between €80 HT and €500 HT on PAGE 11.",
+      "reasoning": "The required range is met.",
       "missing_elements": [],
       "recommendation": null
     },
@@ -242,32 +240,36 @@
     {
       "rule_id": "RULE_28",
       "status": "COMPLIANT",
-      "evidence": "The profiles and skills of the proposed project team on PAGE 5 and PAGE 6 are relevant to the technical and business requirements of the mission.",
-      "reasoning": "The team profiles and skills are relevant as required.",
+      "evidence": "The profiles and skills of the proposed project team are relevant to the technical and business requirements of the mission on PAGE 5 and PAGE 6.",
+      "reasoning": "The required relevance is established.",
       "missing_elements": [],
       "recommendation": null
     },
     {
       "rule_id": "RULE_29",
-      "status": "COMPLIANT",
-      "evidence": "The proposal contains the standard closing slide or section 'On poursuit ensemble' on PAGE 13.",
-      "reasoning": "The required closing slide is present.",
-      "missing_elements": [],
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "evidence": "The proposal does not contain the standard closing slide or section 'On poursuit ensemble'.",
+      "reasoning": "The required section is missing.",
+      "missing_elements": [
+        "'On poursuit ensemble' section"
+      ],
+      "recommendation": "Add the standard closing slide or section 'On poursuit ensemble' to the proposal."
     },
     {
       "rule_id": "RULE_30",
-      "status": "COMPLIANT",
-      "evidence": "The proposal contains the standard closing slide or section 'Boostez votre entreprise' on PAGE 14.",
-      "reasoning": "The required closing slide is present.",
-      "missing_elements": [],
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "evidence": "The proposal does not contain the standard closing slide or section 'Boostez votre entreprise'.",
+      "reasoning": "The required section is missing.",
+      "missing_elements": [
+        "'Boostez votre entreprise' section"
+      ],
+      "recommendation": "Add the standard closing slide or section 'Boostez votre entreprise' to the proposal."
     },
     {
       "rule_id": "RULE_31",
       "status": "COMPLIANT",
       "evidence": "The proposal contains the standard contact details slide or section 'Nos coordonnées' on PAGE 14.",
-      "reasoning": "The required contact details slide is present.",
+      "reasoning": "The required section is present.",
       "missing_elements": [],
       "recommendation": null
     }

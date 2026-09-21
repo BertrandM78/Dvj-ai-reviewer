@@ -3,8 +3,16 @@ from pathlib import Path
 
 import boto3
 import re
-from deterministic_rules import check_rule_10, check_rule_13, check_rule_19,check_rule_20,check_rule_23,check_rule_25
-from document_parser import extract_pdf_text
+from src.document_parser import extract_pdf_text
+from src.document_normalizer import normalize_document
+from src.deterministic_rules import (
+    check_rule_10,
+    check_rule_13,
+    check_rule_19,
+    check_rule_20,
+    check_rule_23,
+    check_rule_25,
+)
 
 # ============================================================
 # CONFIGURATION
@@ -162,6 +170,7 @@ def override_rule(
 
 def review_proposal(
     proposal_text: str,
+    normalized_proposal: dict,
     reference_rules: str,
     prompt_template: str,
 ) -> dict:
@@ -181,16 +190,16 @@ def review_proposal(
 
     review_data = parse_review(raw_review)
 
-    deterministic_result = [
+    deterministic_results = [
         check_rule_10(proposal_text),
         check_rule_13(proposal_text),
         check_rule_19(proposal_text),
         check_rule_20(proposal_text),
-        check_rule_23(proposal_text),
+        check_rule_23(normalized_proposal),
         check_rule_25(proposal_text),
     ]
 
-    for deterministic_rule in deterministic_result:
+    for deterministic_rule in deterministic_results:
         override_rule(
             review_data,
             deterministic_rule,
@@ -259,10 +268,12 @@ def process_proposals() -> None:
         )
 
         proposal_text = load_proposal(file_path)
+        normalized_proposal = normalize_document(proposal_text)
 
         try:
             review_data = review_proposal(
                 proposal_text=proposal_text,
+                normalized_proposal=normalized_proposal,
                 reference_rules=reference_rules,
                 prompt_template=prompt_template,
             )
