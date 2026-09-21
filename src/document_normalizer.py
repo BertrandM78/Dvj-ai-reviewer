@@ -1,14 +1,14 @@
 import json
 
-import boto3
-
+from src.aws_client import get_aws_client
 
 REGION = "us-east-1"
 MODEL_ID = "amazon.nova-pro-v1:0"
 
-bedrock_client = boto3.client(
+
+bedrock_client = get_aws_client(
     "bedrock-runtime",
-    region_name=REGION,
+    REGION,
 )
 
 

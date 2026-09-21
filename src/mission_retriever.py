@@ -1,18 +1,20 @@
-import boto3
 import json
 
 REGION = "us-east-1"
 KB_ID = "DJ33HADJNL"
 MODEL_ID = "amazon.nova-pro-v1:0"
 
-client = boto3.client(
+from src.aws_client import get_aws_client
+
+
+client = get_aws_client(
     "bedrock-agent-runtime",
-    region_name=REGION,
+    REGION,
 )
 
-bedrock_runtime = boto3.client(
+bedrock_runtime = get_aws_client(
     "bedrock-runtime",
-    region_name=REGION,
+    REGION,
 )
 
 
