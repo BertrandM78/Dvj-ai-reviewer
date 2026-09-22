@@ -40,11 +40,11 @@ def check_rule_10(normalized: dict) -> dict:
             "rule_id": "RULE_10",
             "status": "NON_COMPLIANT",
             "evidence": None,
-            "reasoning": "No methodology phases were found.",
-            "missing_elements": ["Methodology phases"],
+            "reasoning": "Aucune phase méthodologique n’a été trouvée.",
+            "missing_elements": ["Phases méthodologiques"],
             "recommendation": (
-                "Add a structured methodology with at least "
-                "3 steps per phase."
+                "Ajoutez une méthodologie structurée comportant au moins "
+                "3 étapes par phase."
             ),
         }
 
@@ -75,14 +75,14 @@ def check_rule_10(normalized: dict) -> dict:
             "status": "NON_COMPLIANT",
             "evidence": str(evidence),
             "reasoning": (
-                "At least one methodology phase contains "
-                "fewer than 3 explicit steps: "
+                "Au moins une phase méthodologique comporte "
+                "moins de 3 étapes explicites : "
                 f"{violations}"
             ),
             "missing_elements": [],
             "recommendation": (
-                "Add enough explicit steps so that every "
-                "methodology phase contains at least 3."
+                "Ajoutez suffisamment d’étapes explicites pour que chaque "
+                "phase méthodologique en contienne au moins 3."
             ),
         }
 
@@ -91,8 +91,8 @@ def check_rule_10(normalized: dict) -> dict:
         "status": "COMPLIANT",
         "evidence": str(evidence),
         "reasoning": (
-            "Every methodology phase contains at least "
-            "3 explicit steps."
+            "Chaque phase méthodologique comporte au moins "
+            "3 étapes explicites."
         ),
         "missing_elements": [],
         "recommendation": None,
@@ -143,13 +143,13 @@ def check_rule_13(normalized: dict) -> dict:
             "status": "NON_COMPLIANT",
             "evidence": str(violations),
             "reasoning": (
-                "At least one phase exceeds the maximum "
-                "validation frequency of 1.5 iterations per week."
+                "Au moins une phase dépasse la fréquence maximale "
+                "de validation de 1,5 itération par semaine."
             ),
             "missing_elements": [],
             "recommendation": (
-                "Reduce the number of planned validation iterations "
-                "or increase the phase duration."
+                "Réduisez le nombre d’itérations de validation prévues "
+                "ou augmentez la durée de la phase."
             ),
         }
 
@@ -159,8 +159,8 @@ def check_rule_13(normalized: dict) -> dict:
             "status": "NOT_APPLICABLE",
             "evidence": None,
             "reasoning": (
-                "No phase explicitly states validation iterations "
-                "or feedback round trips."
+                "Aucune phase n’indique explicitement le nombre d’itérations "
+                "de validation ou de boucles de retour."
             ),
             "missing_elements": [],
             "recommendation": None,
@@ -171,8 +171,8 @@ def check_rule_13(normalized: dict) -> dict:
         "status": "COMPLIANT",
         "evidence": str(checked_phases),
         "reasoning": (
-            "All explicitly stated validation frequencies are "
-            "at or below 1.5 iterations per week."
+            "Toutes les fréquences de validation indiquées explicitement "
+            "sont inférieures ou égales à 1,5 itération par semaine."
         ),
         "missing_elements": [],
         "recommendation": None,
@@ -188,9 +188,9 @@ def check_rule_19(normalized: dict) -> dict:
             "rule_id": "RULE_19",
             "status": "NON_COMPLIANT",
             "evidence": None,
-            "reasoning": "No explicit project start date was found.",
-            "missing_elements": ["Project start date"],
-            "recommendation": "Specify an explicit project start date.",
+            "reasoning": "Aucune date explicite de début du projet n’a été trouvée.",
+            "missing_elements": ["Date de début du projet"],
+            "recommendation": "Indiquez une date explicite de début du projet.",
         }
 
     french_months = {
@@ -254,10 +254,10 @@ def check_rule_19(normalized: dict) -> dict:
             "rule_id": "RULE_19",
             "status": "NON_COMPLIANT",
             "evidence": start_date,
-            "reasoning": "The project start date could not be parsed.",
+            "reasoning": "La date de début du projet n’a pas pu être analysée.",
             "missing_elements": [],
             "recommendation": (
-                "Use an explicit and unambiguous project start date."
+                "Utilisez une date de début du projet explicite et non ambiguë."
             ),
         }
 
@@ -276,13 +276,13 @@ def check_rule_19(normalized: dict) -> dict:
             f"({weekday})"
         ),
         "reasoning": (
-            "The project start date falls on a weekend."
+            "La date de début du projet tombe un week-end."
             if is_weekend
-            else "The project start date falls on a weekday."
+            else "La date de début du projet tombe un jour ouvré."
         ),
         "missing_elements": [],
         "recommendation": (
-            "Move the project start date to a weekday."
+            "Déplacez la date de début du projet à un jour ouvré."
             if is_weekend
             else None
         ),
@@ -305,14 +305,14 @@ def check_rule_20(normalized: dict) -> dict:
             "status": "NON_COMPLIANT",
             "evidence": None,
             "reasoning": (
-                "No explicit total project duration was found "
-                "in the planning."
+                "Aucune durée totale explicite du projet n’a été trouvée "
+                "dans le planning."
             ),
             "missing_elements": [
-                "Explicit total project duration"
+                "Durée totale explicite du projet"
             ],
             "recommendation": (
-                "State the total project duration explicitly."
+                "Indiquez explicitement la durée totale du projet."
             ),
         }
 
@@ -321,19 +321,19 @@ def check_rule_20(normalized: dict) -> dict:
             "rule_id": "RULE_20",
             "status": "NON_COMPLIANT",
             "evidence": (
-                f"Stated total duration: {total_duration} weeks"
+                f"Durée totale indiquée : {total_duration} semaines"
             ),
             "reasoning": (
-                "The total duration is stated, but the extracted "
-                "planning does not provide enough reliable week-level "
-                "information to verify its consistency."
+                "La durée totale est indiquée, mais le planning extrait "
+                "ne fournit pas suffisamment d’informations fiables "
+                "au niveau des semaines pour vérifier sa cohérence."
             ),
             "missing_elements": [
-                "Verifiable phase timing in planning"
+                "Calendrier des phases vérifiable dans le planning"
             ],
             "recommendation": (
-                "Ensure phase timing is explicitly represented "
-                "and consistent with the stated total duration."
+                "Assurez-vous que le calendrier des phases est représenté "
+                "explicitement et cohérent avec la durée totale indiquée."
             ),
         }
 
@@ -350,14 +350,14 @@ def check_rule_20(normalized: dict) -> dict:
             "status": "NON_COMPLIANT",
             "evidence": str(evidence),
             "reasoning": (
-                f"The stated project duration is {total_duration} "
-                f"weeks, while the planning extends to week "
+                f"La durée du projet indiquée est de {total_duration} "
+                f"semaines, tandis que le planning s’étend jusqu’à la semaine "
                 f"{planning_end_week}."
             ),
             "missing_elements": [],
             "recommendation": (
-                "Align the stated total duration with the "
-                "planning timeline."
+                "Alignez la durée totale indiquée sur le calendrier "
+                "du planning."
             ),
         }
 
@@ -366,8 +366,8 @@ def check_rule_20(normalized: dict) -> dict:
         "status": "COMPLIANT",
         "evidence": str(evidence),
         "reasoning": (
-            "The stated total duration is consistent with "
-            "the planning timeline."
+            "La durée totale indiquée est cohérente avec "
+            "le calendrier du planning."
         ),
         "missing_elements": [],
         "recommendation": None,
@@ -400,15 +400,15 @@ def check_rule_23(normalized: dict) -> dict:
             "status": "NON_COMPLIANT",
             "evidence": None,
             "reasoning": (
-                "No comparable phase-level JEH values were found "
-                "between methodology and budget."
+                "Aucune valeur de JEH comparable au niveau des phases "
+                "n’a été trouvée entre la méthodologie et le budget."
             ),
             "missing_elements": [
-                "Comparable methodology and budget JEH values"
+                "Valeurs de JEH comparables entre la méthodologie et le budget"
             ],
             "recommendation": (
-                "State the JEH count for each phase consistently "
-                "in methodology and budget."
+                "Indiquez le nombre de JEH de chaque phase de manière cohérente "
+                "dans la méthodologie et le budget."
             ),
         }
 
@@ -437,12 +437,12 @@ def check_rule_23(normalized: dict) -> dict:
             "status": "NON_COMPLIANT",
             "evidence": str(evidence),
             "reasoning": (
-                f"JEH inconsistencies detected: {mismatches}"
+                f"Incohérences de JEH détectées : {mismatches}"
             ),
             "missing_elements": [],
             "recommendation": (
-                "Align phase-level JEH counts between methodology "
-                "and budget."
+                "Alignez les nombres de JEH par phase entre la méthodologie "
+                "et le budget."
             ),
         }
 
@@ -451,8 +451,8 @@ def check_rule_23(normalized: dict) -> dict:
         "status": "COMPLIANT",
         "evidence": str(evidence),
         "reasoning": (
-            "All comparable phase-level JEH counts are consistent "
-            "between methodology and budget."
+            "Tous les nombres de JEH comparables par phase sont cohérents "
+            "entre la méthodologie et le budget."
         ),
         "missing_elements": [],
         "recommendation": None,
@@ -469,15 +469,15 @@ def check_rule_25(normalized: dict) -> dict:
             "status": "NON_COMPLIANT",
             "evidence": None,
             "reasoning": (
-                "The project management amount or total project "
-                "amount could not be identified."
+                "Le montant de la gestion de projet ou le montant total "
+                "du projet n’a pas pu être identifié."
             ),
             "missing_elements": [
-                "Project management amount and total project amount"
+                "Montant de la gestion de projet et montant total du projet"
             ],
             "recommendation": (
-                "Explicitly state the project management amount "
-                "and total project amount excluding VAT."
+                "Indiquez explicitement le montant de la gestion de projet "
+                "et le montant total du projet hors TVA."
             ),
         }
 
@@ -489,10 +489,10 @@ def check_rule_25(normalized: dict) -> dict:
                 "project_management_ht": project_management_ht,
                 "total_project_ht": total_project_ht,
             }),
-            "reasoning": "The total project amount is invalid.",
+            "reasoning": "Le montant total du projet est invalide.",
             "missing_elements": [],
             "recommendation": (
-                "Provide a valid total project amount excluding VAT."
+                "Indiquez un montant total valide pour le projet hors TVA."
             ),
         }
 
@@ -511,29 +511,34 @@ def check_rule_25(normalized: dict) -> dict:
             "status": "COMPLIANT",
             "evidence": str(evidence),
             "reasoning": (
-                f"Project management represents "
-                f"{percentage:.2f}% of the total project amount, "
-                "which is within the required 8–12% range."
+                f"La gestion de projet représente "
+                f"{percentage:.2f}% du montant total du projet, "
+                f"ce qui est dans la plage requise de 8 à 12%."
             ),
             "missing_elements": [],
             "recommendation": None,
         }
 
     return {
+
         "rule_id": "RULE_25",
         "status": "NON_COMPLIANT",
-        "evidence": str(evidence),
-        "reasoning": (
-            f"Project management represents "
-            f"{percentage:.2f}% of the total project amount, "
-            "which is outside the required 8–12% range."
+        "reason": (
+            f"La gestion de projet représente {percentage:.2f}% "
+            "du montant total du projet, ce qui est en dehors "
+            "de la plage requise de 8 à 12%."
         ),
-        "missing_elements": [],
+        "evidence": {
+            "project_management_ht": project_management_ht,
+            "total_project_ht": total_project_ht,
+            "percentage": round(percentage, 2),
+        },
         "recommendation": (
-            "Adjust the project management amount so that it "
-            "represents between 8% and 12% of the total project amount."
+            "Ajuster le montant de la gestion de projet afin "
+            "qu'il représente entre 8% et 12% du montant total du projet."
         ),
     }
+    
 if __name__ == "__main__":
 
     from pathlib import Path
