@@ -1,5 +1,35 @@
 import re
 from datetime import datetime
+
+def to_float(value):
+    """
+    Convert a normalized numeric value to float.
+    Returns None when conversion is impossible.
+    """
+    if value is None:
+        return None
+
+    if isinstance(value, (int, float)):
+        return float(value)
+
+    if isinstance(value, str):
+        cleaned = (
+            value
+            .replace("\u202f", "")
+            .replace("\xa0", "")
+            .replace(" ", "")
+            .replace("€", "")
+            .replace(",", ".")
+            .strip()
+        )
+
+        try:
+            return float(cleaned)
+        except ValueError:
+            return None
+
+    return None
+
 def check_rule_10(normalized: dict) -> dict:
     phases = normalized.get(
         "methodology", {}
@@ -430,8 +460,8 @@ def check_rule_23(normalized: dict) -> dict:
 def check_rule_25(normalized: dict) -> dict:
     budget = normalized.get("budget", {})
 
-    project_management_ht = budget.get("project_management_ht")
-    total_project_ht = budget.get("total_project_ht")
+    project_management_ht = to_float(budget.get("project_management_ht"))
+    total_project_ht = to_float(budget.get("total_project_ht"))
 
     if project_management_ht is None or total_project_ht is None:
         return {
