@@ -7,6 +7,40 @@ from src.reviewer import review_file
 
 import hmac
 
+RULE_TITLES = {
+    "RULE_01": "Référence de la proposition",
+    "RULE_02": "Date de validité",
+    "RULE_03": "Présentation de DeVinci Junior",
+    "RULE_04": "Identification du client",
+    "RULE_05": "Contexte et besoin client",
+    "RULE_06": "Proposition de valeur",
+    "RULE_07": "Mise en valeur des mots-clés",
+    "RULE_08": "Présence de références",
+    "RULE_09": "Pertinence des références",
+    "RULE_10": "Étapes de la méthodologie",
+    "RULE_11": "Format des étapes méthodologiques",
+    "RULE_12": "Durée, prix et JEH",
+    "RULE_13": "Fréquence des validations",
+    "RULE_14": "Livrables de la mission",
+    "RULE_15": "Format des livrables",
+    "RULE_16": "Section RSE",
+    "RULE_17": "Cohérence du planning",
+    "RULE_18": "Durée des phases",
+    "RULE_19": "Démarrage des phases le week-end",
+    "RULE_20": "Durée totale et planning",
+    "RULE_21": "Dépendances entre les phases",
+    "RULE_22": "Cohérence du budget",
+    "RULE_23": "Cohérence des JEH",
+    "RULE_24": "Cohérence des montants",
+    "RULE_25": "Part de la gestion de projet",
+    "RULE_26": "Tarif unitaire du JEH",
+    "RULE_27": "Frais d'appel d'offres",
+    "RULE_28": "Pertinence de l'équipe",
+    "RULE_29": "Section « On poursuit ensemble »",
+    "RULE_30": "Section « Boostez votre entreprise »",
+    "RULE_31": "Section « Nos coordonnées »",
+}
+
 # ============================================================
 # CONFIGURATION
 # ============================================================
@@ -261,6 +295,11 @@ if uploaded_file is not None:
                         "Règle",
                     )
 
+                    rule_title = RULE_TITLES.get(
+                        rule_id,
+                        rule_id,
+                    )
+
                     reasoning = (
                         violation.get("reason")
                         or violation.get("reasoning")
@@ -276,7 +315,7 @@ if uploaded_file is not None:
                     )
 
                     with st.expander(
-                        f"{index}. {rule_id}",
+                        f"{index}. {rule_title} · {rule_id}",
                         expanded=(index <= 3),
                     ):
 
