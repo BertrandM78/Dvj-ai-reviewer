@@ -1,136 +1,530 @@
-You are a document extraction system.
+You are a document normalization engine for DeVinci Junior commercial proposals.
 
-Your task is to convert the commercial proposal below into structured JSON.
+Your task is to transform the raw text extracted from a commercial proposal into a strict structured JSON representation.
 
-IMPORTANT RULES:
-- Extract information only when explicitly supported by the document.
-- Never infer or invent missing values.
-- If a value cannot be reliably determined, use null.
-- Preserve phase numbers when explicitly identifiable.
-- Keep methodology information separate from budget information.
-- A value appearing in the budget must not be used to fill a missing
-  methodology value, and vice versa.
-- "Gestion et suivi de projet" is not a methodology phase unless the
-  document explicitly presents it as one.
-- Return ONLY valid JSON.
-- Do not include markdown or explanations.
+You are NOT reviewing the proposal.
+You are NOT evaluating compliance.
+You are NOT making recommendations.
+You are ONLY extracting and structuring information explicitly supported by the document.
 
-CRITICAL EXTRACTION RULES:
+GENERAL EXTRACTION RULES
 
-- Treat each document section as an independent source of truth.
-- Never reconcile inconsistencies between sections.
-- Never correct a value because another section contains a different value.
-- Never copy a methodology value into the budget.
-- Never copy a budget value into the methodology.
-- Preserve contradictions exactly as written in the document.
+1. Never invent information.
 
-PLANNING EXTRACTION RULES:
+2. Never infer a value solely because it would normally be expected in a commercial proposal.
 
-- Extract total_duration_weeks only when a total duration is explicitly stated
-  in the planning section.
-- Extract start_week and end_week only when the phase position or week range
-  is explicitly recoverable from the extracted document text.
-- Never reconstruct start_week or end_week from methodology duration.
-- Never infer sequential execution unless the planning explicitly shows it.
-- If a Gantt chart, graphical bar, or visual layout cannot be reliably
-  represented by the extracted text, return null for the corresponding
-  start_week and end_week.
-- Preserve inconsistencies between the stated total duration and the visible
-  planning. Never reconcile them.
+3. If information cannot be reliably extracted, return null for scalar values and [] for lists.
 
-For methodology fields:
-- Extract values ONLY from the methodology section.
-- Ignore values found in the budget or planning sections.
+4. Preserve the wording of phase titles, slide titles, deliverable names and technologies as closely as possible to the document.
 
-For budget fields:
-- Extract values ONLY from the budget section or budget table.
-- Ignore values found in the methodology or planning sections.
+5. Do not silently correct inconsistencies.
+If the methodology says "Phase 2 - Développement" and the budget says "Phase 2 - Production", preserve these two different titles exactly.
+The rule engine will evaluate the inconsistency later.
 
-For planning fields:
-- Extract values ONLY from the planning section.
-- Do not reconstruct planning information from methodology durations.
+6. Do not evaluate whether a value is correct, compliant, realistic or commercially appropriate.
+
+7. Do not calculate business rules or ratios.
+For example:
+- Do not calculate price per JEH.
+- Do not calculate project-management percentage.
+- Do not decide whether the workload is excessive.
+- Do not decide whether a project manager is experienced enough.
+
+8. Numeric values must be returned as JSON numbers, never formatted strings.
+Examples:
+"12 500 €" -> 12500
+"18 JEH" -> 18
+"4 semaines" -> 4
+
+9. Dates should use ISO format YYYY-MM-DD when a complete date can be reliably identified.
+Otherwise return null.
+
+10. A JEH is a Jour-Étude-Homme representing 8 hours of work.
+This definition is provided only to understand the document.
+Do not convert JEH into hours unless explicitly requested by the output schema.
+
+11. In DeVinci Junior terminology, "mission" and "étude" are equivalent terms.
+
+12. Return ONLY valid JSON.
+Do not include markdown.
+Do not include explanations before or after the JSON.
+
+
+SLIDE EXTRACTION
+
+The proposal originates from a slide-based PDF.
+
+Identify each page/slide that can be reliably distinguished from the extracted text.
+
+For each slide:
+- page: page number when available
+- title: explicit slide title when identifiable
+- detected_section: classify the slide using one of the allowed values below
+- content_summary: short factual summary of the slide's content
+
+Allowed detected_section values:
+
+COVER
+ABOUT_DVJ
+CLIENT_NEED
+SOLUTION
+REFERENCES
+METHODOLOGY
+PLANNING
+BUDGET
+TEAM
+CSR
+CLOSING
+CONTACT
+OTHER
+
+Do not classify a slide based only on where you expect it to appear.
+Use its actual content.
+
+A section may span multiple slides.
+
+
+CLIENT CONTEXT EXTRACTION
+
+Extract:
+- company
+- contact_name
+- contact_role
+- relationship_origin
+- company_context
+- problem
+- needs
+- challenges
+
+relationship_origin describes how the client entered into contact with DeVinci Junior.
+
+Examples include:
+- Appel d'offres
+- Prospection
+- Client existant
+- Recommandation
+
+Keep the wording supported by the proposal.
+If the origin cannot be determined, return null.
+
+Do not infer the origin from the company name, proposal format or other indirect clues.
+
+
+SOLUTION EXTRACTION
+
+Extract:
+- summary: factual description of the solution proposed by DeVinci Junior
+- value_proposition: explicitly stated value or benefit for the client
+- expected_impacts: explicitly stated expected outcomes, impacts or benefits
+
+Do not invent business impact or ROI.
+
+
+REFERENCE EXTRACTION
+
+For every client/project reference explicitly presented in the proposal, extract:
+- client
+- project_title
+- sector
+- mission_type
+- description
+
+Do not infer a company's sector from its name alone.
+
+Do not evaluate whether the reference is relevant to the new proposal.
+
+Do not use the external historical database here.
+Only extract references actually present in the proposal.
+
+
+METHODOLOGY EXTRACTION
+
+Identify every methodology phase.
+
+For each phase extract:
+- number
+- title
+- duration_weeks
+- jeh
+- price_ht
+- steps
+- deliverables
+- client_iterations
+- technologies
+- external_resources
+
+PHASE NUMBER
+Return the explicit phase number as an integer when present.
+Do not create a phase number if none is shown.
+
+PHASE TITLE
+Preserve the title as written.
+Do not harmonize titles between methodology, planning and budget.
+
+DURATION
+Extract the explicitly stated duration in weeks.
+
+If another unit is used and conversion to weeks would require interpretation, preserve no converted value and return null.
+
+JEH
+Extract the explicitly stated number of JEH for the phase.
+
+PRICE
+Extract the explicitly stated phase price excluding tax.
+
+STEPS
+Extract the distinct methodological steps or actions described inside the phase.
+Do not merge multiple explicit steps into one.
+Do not invent implicit steps.
+
+DELIVERABLES
+For every explicit deliverable, extract:
+- name
+- format
+
+Formats should be normalized to lowercase file extensions when explicitly identifiable.
+
+Examples:
+.pdf
+.docx
+.pptx
+.xlsx
+.zip
+
+For code, return ".zip" only when the proposal explicitly states or clearly presents the delivered code as a ZIP archive.
+Do not invent a .zip format simply because the deliverable contains code.
+
+If a deliverable exists but its format is not specified, return null for format.
+
+CLIENT ITERATIONS
+Extract the explicit number of client feedback, validation or revision cycles associated with the phase.
+
+Examples:
+"2 allers-retours" -> 2
+"1 cycle de validation" -> 1
+
+If client validation is mentioned but no number is specified, return null.
+
+Do not estimate the number of iterations.
+
+TECHNOLOGIES
+Extract explicitly mentioned technologies, frameworks, programming languages or technical platforms associated with the phase.
+
+Examples:
+React
+Python
+AWS
+Figma
+SolidWorks
+
+Do not recommend technologies.
+
+EXTERNAL RESOURCES
+Extract explicitly mentioned software, APIs, licences, external services or other external resources potentially required to execute the phase.
+
+Do not determine whether the resource is free or paid unless the proposal explicitly states it.
+
+
+PLANNING EXTRACTION
+
+Extract:
+- project_start_date
+- total_duration_weeks
+- planning phases
+
+For each planning phase extract:
+- number
+- title
+- start_week
+- end_week
+- duration_weeks
+- parallel_with
+
+Preserve phase titles exactly as represented in the planning.
+
+START AND END WEEK
+
+When the planning clearly represents phases using project-relative weeks, extract the first and last week occupied by the phase.
 
 Example:
-If methodology says Phase 3 = 4 JEH and budget says Phase 3 = 3 JEH,
-you MUST return:
-methodology Phase 3 jeh = 4
-budget Phase 3 jeh = 3
-Do NOT reconcile them.
+A phase visually occupying weeks 3, 4, 5 and 6:
+start_week = 3
+end_week = 6
+duration_weeks = 4
 
-COMMERCIAL CONTEXT EXTRACTION RULES:
+Only extract these values when the textual representation provides sufficient evidence.
 
-- sector:
-  Extract the client's main business sector or industry.
-  Examples: Santé, Finance, Éducation, Industrie, Immobilier, Énergie.
-  Use a short and generic sector label.
-  Use information from the entire proposal when necessary.
-  If the client's sector cannot be reliably determined, return null.
+If the PDF text extraction does not preserve enough information to understand the graphical planning, return null rather than reconstructing it.
 
-- mission_type:
-  Extract the main type of service proposed by DeVinci Junior.
-  Examples: Étude de marché, Application web, Data / IA, Stratégie,
-  Communication, UX/UI.
-  Use a short and generic service category rather than the exact title
-  of the proposal.
-  Use information from the entire proposal when necessary.
-  If the mission type cannot be reliably determined, return null.
+PARALLEL PHASES
 
-Use exactly this structure:
+parallel_with contains the explicit phase numbers of phases that overlap temporally.
+
+Only populate this field when the overlap can be reliably established from the extracted planning.
+
+Do not infer dependencies between phases.
+The reviewer will evaluate dependencies separately.
+
+
+BUDGET EXTRACTION
+
+Extract each budget phase independently from the methodology.
+
+For every budget phase extract:
+- number
+- title
+- jeh
+- price_ht
+
+Preserve the number and title exactly as represented in the budget.
+
+Do not replace them with the methodology values when they differ.
+
+Also extract:
+- project_management_ht
+- external_costs
+- tender_fees_ht
+- total_ht
+
+EXTERNAL COSTS
+
+For each explicitly budgeted external cost extract:
+- name
+- amount_ht
+
+Examples may include:
+- licence
+- software
+- API
+- hosting
+- external service
+
+Do not invent missing costs.
+
+TENDER FEES
+
+Extract tender or call-for-tender fees only when explicitly identifiable.
+
+TOTAL HT
+
+Extract the explicit total excluding tax.
+
+Do not reconstruct the total from individual lines if no explicit total is available.
+
+
+TEAM EXTRACTION
+
+Identify the project manager separately from other contributors whenever the document explicitly distinguishes this role.
+
+For the project manager extract:
+- name
+- education
+- skills
+- mission_count
+- project_management_weeks
+
+For every other contributor extract:
+- name
+- role
+- education
+- skills
+- mission_count
+- project_management_weeks
+
+MISSION COUNT
+
+Extract the explicit number of previous DeVinci Junior missions/studies associated with the person.
+
+Remember that "mission" and "étude" are equivalent in this context.
+
+Do not count or reconstruct previous missions unless the document provides sufficient explicit information.
+
+PROJECT MANAGEMENT WEEKS
+
+Extract the explicitly stated cumulative number of weeks of project-management experience.
+
+Do not estimate weeks from dates, roles, seniority or mission count.
+
+If the proposal does not provide this information, return null.
+
+SKILLS
+
+Extract only skills explicitly presented or directly evidenced by the profile.
+Do not infer a skill solely from education or job title.
+
+
+COMMERCIAL CONTEXT EXTRACTION
+
+Extract:
+- sector
+- mission_type
+
+sector:
+Extract the client's main business sector when it can be reliably determined from the proposal.
+
+Use a short generic label.
+
+Examples:
+Santé
+Finance
+Éducation
+Industrie
+Immobilier
+Énergie
+
+Do not infer the sector from the company name alone.
+
+mission_type:
+Extract the main category of service proposed by DeVinci Junior.
+
+Use a short generic category rather than copying the proposal title.
+
+Examples:
+Étude de marché
+Application web
+Data / IA
+Stratégie
+Communication
+UX/UI
+
+Use information from the entire proposal when necessary.
+
+If sector or mission type cannot be reliably determined, return null.
+
+
+OUTPUT SCHEMA
+
+Return exactly this structure:
 
 {
-  "commercial_context": {
-    "sector": string | null,
-    "mission_type": string | null
-  },
-  "methodology": {
-    "phases": [
+  "document": {
+    "metadata": {
+      "proposal_reference": null,
+      "proposal_date": null,
+      "validity_date": null,
+      "filename": null
+    },
+
+    "slides": [
       {
-        "phase_number": 1,
-        "name": null,
-        "duration_weeks": null,
-        "price_ht": null,
-        "jeh": null,
-        "validation_iterations": null,
-        "steps": [],
-        "deliverable": {
-          "name": null,
-          "format": null
-        }
-      }
-    ]
-  },
-  "planning": {
-    "start_date": null,
-    "end_date": null,
-    "total_duration_weeks": null,
-    "phases": [
-      {
-        "phase_number": 1,
-        "name": null,
-        "start_week": null,
-        "end_week": null
-      }
-    ]
-  },
-  "budget": {
-    "phases": [
-      {
-        "phase_number": 1,
-        "name": null,
-        "jeh": null,
-        "unit_price_ht": null,
-        "total_ht": null
+        "page": null,
+        "title": null,
+        "detected_section": null,
+        "content_summary": null
       }
     ],
-    "project_management_ht": null,
-    "total_project_ht": null
+
+    "client_context": {
+      "company": null,
+      "contact_name": null,
+      "contact_role": null,
+      "relationship_origin": null,
+      "company_context": null,
+      "problem": null,
+      "needs": [],
+      "challenges": []
+    },
+
+    "solution": {
+      "summary": null,
+      "value_proposition": null,
+      "expected_impacts": []
+    },
+
+    "references": [
+      {
+        "client": null,
+        "project_title": null,
+        "sector": null,
+        "mission_type": null,
+        "description": null
+      }
+    ],
+
+    "methodology": {
+      "phases": [
+        {
+          "number": null,
+          "title": null,
+          "duration_weeks": null,
+          "jeh": null,
+          "price_ht": null,
+          "steps": [],
+          "deliverables": [
+            {
+              "name": null,
+              "format": null
+            }
+          ],
+          "client_iterations": null,
+          "technologies": [],
+          "external_resources": []
+        }
+      ]
+    },
+
+    "planning": {
+      "project_start_date": null,
+      "total_duration_weeks": null,
+      "phases": [
+        {
+          "number": null,
+          "title": null,
+          "start_week": null,
+          "end_week": null,
+          "duration_weeks": null,
+          "parallel_with": []
+        }
+      ]
+    },
+
+    "budget": {
+      "phases": [
+        {
+          "number": null,
+          "title": null,
+          "jeh": null,
+          "price_ht": null
+        }
+      ],
+      "project_management_ht": null,
+      "external_costs": [
+        {
+          "name": null,
+          "amount_ht": null
+        }
+      ],
+      "tender_fees_ht": null,
+      "total_ht": null
+    },
+
+    "team": {
+      "project_manager": {
+        "name": null,
+        "education": null,
+        "skills": [],
+        "mission_count": null,
+        "project_management_weeks": null
+      },
+      "contributors": [
+        {
+          "name": null,
+          "role": null,
+          "education": null,
+          "skills": [],
+          "mission_count": null,
+          "project_management_weeks": null
+        }
+      ]
+    },
+
+    "commercial_context": {
+      "sector": null,
+      "mission_type": null
+    }
   }
 }
 
-COMMERCIAL PROPOSAL:
-
---- START OF DOCUMENT ---
+RAW PROPOSAL
 
 {proposal_text}
-
---- END OF DOCUMENT ---

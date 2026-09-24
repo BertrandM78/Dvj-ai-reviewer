@@ -1,0 +1,610 @@
+{
+  "version": "2.0",
+  "rules": [
+    {
+      "id": "RULE_001",
+      "title": "Structure obligatoire de la proposition",
+      "section": "STRUCTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La proposition doit contenir l'ensemble des slides et sections obligatoires du modèle DeVinci Junior.",
+      "required_slides": [
+        {
+          "title": "Page de couverture",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "Qui sommes-nous",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "Notre compréhension de votre besoin",
+          "match": "EXACT_OR_CLOSE"
+        },
+        {
+          "title": "Références",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "Méthodologie",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "Planning",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "Budget",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "Présentation de l'équipe",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "RSE",
+          "match": "SEMANTIC"
+        },
+        {
+          "title": "On poursuit ensemble",
+          "match": "EXACT_OR_CLOSE"
+        },
+        {
+          "title": "Boostez votre entreprise",
+          "match": "EXACT_OR_CLOSE"
+        },
+        {
+          "title": "Nos coordonnées",
+          "match": "EXACT_OR_CLOSE"
+        }
+      ],
+      "required_sections": [
+        {
+          "title": "Solution proposée",
+          "description": "La proposition doit comporter une section présentant explicitement la solution proposée, sans qu'une slide dédiée soit obligatoire."
+        }
+      ]
+    },
+
+    {
+      "id": "REC_001",
+      "title": "Slides complémentaires pertinentes",
+      "section": "STRUCTURE",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "Le contenu ou la complexité de la mission justifie une explication complémentaire.",
+      "description": "Identifier si une slide complémentaire améliorerait significativement la compréhension ou la crédibilité de la proposition.",
+      "examples": [
+        "Focus sur les technologies utilisées pour une mission technique",
+        "Architecture de la solution",
+        "Présentation d'un POC",
+        "Présentation d'une pré-étude",
+        "Explication d'un choix méthodologique important"
+      ]
+    },
+
+    {
+      "id": "RULE_002",
+      "title": "Référence de la proposition",
+      "section": "COUVERTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La proposition doit comporter une référence valide.",
+      "requirements": [
+        "La référence est présente sur la couverture",
+        "La référence respecte le format DE-MMYY-XXXX-XXXX-XXXX",
+        "MMYY correspond au mois et à l'année de la proposition"
+      ]
+    },
+
+    {
+      "id": "RULE_003",
+      "title": "Date de validité",
+      "section": "COUVERTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La proposition doit indiquer une date de validité conforme.",
+      "requirements": [
+        "Une date de validité est explicitement indiquée",
+        "La date de validité correspond exactement à un mois calendaire après la date de proposition"
+      ]
+    },
+
+    {
+      "id": "RULE_004",
+      "title": "Identification du client",
+      "section": "BESOIN_CLIENT",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La proposition doit identifier clairement le client et l'interlocuteur.",
+      "requirements": [
+        "Nom de l'interlocuteur",
+        "Fonction de l'interlocuteur",
+        "Entreprise cliente"
+      ]
+    },
+
+    {
+      "id": "RULE_005",
+      "title": "Compréhension du contexte et du besoin",
+      "section": "BESOIN_CLIENT",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La proposition doit démontrer une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin.",
+      "requirements": [
+        "Le mode de mise en relation avec DeVinci Junior est expliqué lorsqu'il est connu : appel d'offres, prospection, client existant, recommandation ou autre origine commerciale",
+        "Le contexte de l'entreprise cliente est expliqué",
+        "La problématique ou le besoin du client est explicite",
+        "Les principaux enjeux liés à la mission sont identifiés"
+      ]
+    },
+
+    {
+      "id": "RULE_006",
+      "title": "Clarté de la solution proposée",
+      "section": "BESOIN_CLIENT",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La proposition doit expliquer clairement ce que DeVinci Junior propose de réaliser et la valeur attendue pour le client.",
+      "requirements": [
+        "La solution proposée est explicite",
+        "L'impact, la valeur ou le bénéfice attendu pour le client est expliqué"
+      ]
+    },
+
+    {
+      "id": "RULE_007",
+      "title": "Cohérence entre le besoin et la solution",
+      "section": "BESOIN_CLIENT",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La solution proposée doit répondre de manière cohérente aux besoins et enjeux identifiés.",
+      "requirements": [
+        "Les principaux besoins identifiés trouvent une réponse dans la solution proposée",
+        "La solution ne contient pas d'élément majeur sans lien apparent avec le besoin"
+      ]
+    },
+
+    {
+      "id": "RULE_008",
+      "title": "Présence de références",
+      "section": "REFERENCES",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La proposition doit présenter des références permettant d'illustrer l'expérience de DeVinci Junior."
+    },
+
+    {
+      "id": "REC_002",
+      "title": "Pertinence des références présentées",
+      "section": "REFERENCES",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "Des références sont présentées dans la proposition.",
+      "description": "Privilégier au moins une référence ayant un lien pertinent avec la mission proposée.",
+      "relevance_criteria": [
+        "Projet ou prestation similaire",
+        "Problématique similaire",
+        "Client appartenant au même secteur ou à un secteur proche"
+      ],
+      "match_logic": "Un seul critère peut suffire à établir une pertinence utile s'il est explicitement démontré."
+    },
+
+    {
+      "id": "RULE_009",
+      "title": "Niveau de détail de la méthodologie",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "Chaque phase de la méthodologie doit être suffisamment détaillée.",
+      "requirements": [
+        "Chaque phase contient au moins trois étapes méthodologiques explicites"
+      ]
+    },
+
+    {
+      "id": "RULE_010",
+      "title": "Informations obligatoires des phases",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "Chaque phase doit contenir les informations nécessaires à sa compréhension et à son chiffrage.",
+      "requirements": [
+        "Durée en semaines",
+        "Nombre de JEH",
+        "Prix HT de la phase"
+      ]
+    },
+
+    {
+      "id": "RULE_011",
+      "title": "Cohérence entre besoin et méthodologie",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La méthodologie doit couvrir les principaux besoins et objectifs annoncés dans la proposition."
+    },
+
+    {
+      "id": "RULE_012",
+      "title": "Identification des livrables",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "Les livrables associés à chaque phase doivent être explicitement identifiés."
+    },
+
+    {
+      "id": "RULE_013",
+      "title": "Format des livrables",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "engine": "LLM",
+      "severity": "MINOR",
+      "applies_when": "ALWAYS",
+      "description": "Le format des livrables doit être précisé pour chaque phase lorsque celle-ci produit un livrable.",
+      "requirements": [
+        "Vérifier chaque phase individuellement",
+        "Chaque livrable doit préciser son format lorsque cela est applicable"
+      ],
+      "examples": [
+        ".pdf",
+        ".docx",
+        ".pptx",
+        ".xlsx",
+        ".zip"
+      ],
+      "special_cases": [
+        "Pour une livraison de code, utiliser .zip comme format attendu sauf justification contraire"
+      ]
+    },
+
+    {
+      "id": "RULE_014",
+      "title": "Cohérence entre méthodologie et livrables",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "Les livrables annoncés doivent être cohérents avec les travaux décrits dans la méthodologie."
+    },
+
+    {
+      "id": "REC_003",
+      "title": "Précision des allers-retours client",
+      "section": "METHODOLOGIE",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "Une phase nécessite ou bénéficierait de retours, validations ou itérations avec le client.",
+      "description": "Les allers-retours client prévus devraient être explicitement indiqués afin de clarifier le déroulement de la mission.",
+      "recommend_if": [
+        "Aucun aller-retour ou aucune validation client n'est précisé alors que la phase en nécessite vraisemblablement",
+        "Le nombre d'allers-retours prévu dépasse un aller-retour par semaine de phase ; dans ce cas, conseiller de vérifier si ce volume est réellement nécessaire"
+      ],
+      "parameters": {
+        "review_threshold_per_week": 1.0
+      }
+    },
+
+    {
+      "id": "RULE_015",
+      "title": "Cohérence stricte des noms de phases",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "Le numéro et le titre de chaque phase doivent être strictement identiques dans la méthodologie, le planning et le budget.",
+      "requirements": [
+        "Même numéro de phase",
+        "Même titre de phase",
+        "Même ordre des phases"
+      ]
+    },
+
+    {
+      "id": "RULE_016",
+      "title": "Cohérence des durées par phase",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La durée de chaque phase doit être cohérente entre la méthodologie et le planning."
+    },
+
+    {
+      "id": "RULE_017",
+      "title": "Cohérence de la durée totale",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La durée totale annoncée doit être cohérente avec le planning, les durées des phases et leur éventuel parallélisme."
+    },
+
+    {
+      "id": "RULE_018",
+      "title": "Cohérence des dépendances entre phases",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "Deux ou plusieurs phases ont une dépendance fonctionnelle ou sont planifiées en parallèle.",
+      "description": "Le planning doit respecter les dépendances opérationnelles décrites dans la méthodologie."
+    },
+
+    {
+      "id": "RULE_019",
+      "title": "Date de démarrage du projet",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "engine": "DETERMINISTIC",
+      "severity": "MINOR",
+      "applies_when": "Une date de démarrage est explicitement indiquée.",
+      "description": "La date de démarrage prévue ne doit pas tomber un samedi ou un dimanche."
+    },
+
+    {
+      "id": "RULE_020",
+      "title": "Cohérence des JEH",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "Les JEH annoncés doivent être cohérents entre la méthodologie et le budget."
+    },
+
+    {
+      "id": "RULE_021",
+      "title": "Cohérence des montants",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "Les montants annoncés pour chaque phase doivent être cohérents dans l'ensemble de la proposition."
+    },
+
+    {
+      "id": "RULE_022",
+      "title": "Part de la gestion de projet",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La gestion de projet doit représenter une part conforme du budget total HT.",
+      "parameters": {
+        "min_percentage": 8,
+        "max_percentage": 12
+      }
+    },
+
+    {
+      "id": "RULE_023",
+      "title": "Prix unitaire par JEH",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "DETERMINISTIC",
+      "severity": "MAJOR",
+      "applies_when": "Une phase possède un prix HT et un nombre de JEH.",
+      "description": "Le prix unitaire effectif par JEH doit rester dans la plage autorisée.",
+      "parameters": {
+        "min_price_ht": 80,
+        "max_price_ht": 500
+      }
+    },
+
+    {
+      "id": "RULE_024",
+      "title": "Frais d'appel d'offres",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "La proposition répond explicitement à un appel d'offres ou à une procédure équivalente.",
+      "description": "Les frais applicables à l'appel d'offres doivent être intégrés au budget."
+    },
+
+    {
+      "id": "RULE_025",
+      "title": "Cohérence des licences et coûts externes",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "La méthodologie nécessite explicitement un logiciel, une licence, une API, une prestation ou une ressource externe susceptible d'engendrer un coût.",
+      "description": "Les ressources externes nécessaires à la réalisation doivent être cohérentes avec le budget.",
+      "requirements": [
+        "Identifier les ressources externes nécessaires",
+        "Vérifier leur prise en compte dans le budget lorsqu'un coût est applicable",
+        "Vérifier qu'un coût externe budgété correspond à un besoin identifiable dans la méthodologie"
+      ],
+      "constraints": [
+        "Ne jamais inventer le prix d'une licence",
+        "Ne pas supposer qu'un logiciel est payant sans élément explicite ou information fournie au système"
+      ]
+    },
+
+    {
+      "id": "RULE_026",
+      "title": "Cohérence globale de la charge",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "ALWAYS",
+      "description": "La charge en JEH doit être cohérente avec l'ampleur des travaux et livrables annoncés.",
+      "constraints": [
+        "Ne pas juger le positionnement commercial du prix",
+        "Ne pas comparer à des données historiques non fournies",
+        "Signaler uniquement les incohérences suffisamment explicites"
+      ]
+    },
+
+    {
+      "id": "RULE_027",
+      "title": "Adéquation des compétences des intervenants",
+      "section": "EQUIPE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "MAJOR",
+      "applies_when": "Une équipe ou des profils intervenants sont présentés.",
+      "description": "Les compétences explicitement présentées pour les intervenants doivent être cohérentes avec les exigences techniques et métier de la mission."
+    },
+
+    {
+        "id": "RULE_028",
+        "title": "Expérience du chef de projet",
+        "section": "EQUIPE",
+        "type": "OBLIGATION",
+        "dimension": "FOND",
+        "engine": "DETERMINISTIC",
+        "severity": "MAJOR",
+        "applies_when": "Le budget total HT de la proposition est strictement supérieur à 10000 euros.",
+        "description": "Pour une mission de plus de 10 000 euros HT, le chef de projet doit disposer d'une expérience préalable suffisante.",
+        "requirements": [
+            "Le chef de projet est explicitement identifiable",
+            "Le chef de projet a réalisé au moins trois missions"
+        ],
+        "parameters": {
+            "budget_threshold_ht": 10000,
+            "minimum_previous_missions": 3
+        }
+    },
+
+    {
+      "id": "REC_004",
+      "title": "Capacité de l'équipe à tenir la charge",
+      "section": "EQUIPE",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "La proposition permet d'identifier la charge, la durée et les ressources mobilisées.",
+      "description": "Vérifier que la composition de l'équipe paraît compatible avec la charge, les délais et les éventuels travaux parallèles.",
+      "signals": [
+        "Nombre élevé de JEH sur une période courte",
+        "Nombre faible d'intervenants par rapport à la charge",
+        "Plusieurs phases importantes prévues en parallèle"
+      ],
+      "constraints": [
+        "Ne pas supposer la disponibilité réelle des intervenants",
+        "Présenter le résultat comme un point de vigilance et non comme une impossibilité certaine"
+      ]
+    },
+
+    {
+      "id": "REC_005",
+      "title": "Qualité rédactionnelle",
+      "section": "QUALITE_REDACTIONNELLE",
+      "type": "RECOMMENDATION",
+      "dimension": "FORME",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "ALWAYS",
+      "description": "Identifier les erreurs d'orthographe, incohérences terminologiques ou formulations maladroites les plus significatives.",
+      "constraints": [
+        "Ne pas produire une correction exhaustive du document",
+        "Prioriser les erreurs susceptibles de dégrader la perception professionnelle de la proposition"
+      ]
+    },
+
+    {
+      "id": "REC_006",
+      "title": "Opportunité d'une pré-étude",
+      "section": "RECOMMANDATIONS_COMMERCIALES",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "Le besoin, le périmètre ou les hypothèses de la mission présentent une incertitude importante pouvant être réduite avant la mission principale.",
+      "description": "Évaluer si une pré-étude permettrait de mieux cadrer la mission et de réduire le risque."
+    },
+
+    {
+      "id": "REC_007",
+      "title": "Opportunité d'un POC",
+      "section": "RECOMMANDATIONS_COMMERCIALES",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "La mission comporte une incertitude technique importante qui pourrait être testée à petite échelle.",
+      "description": "Évaluer si un Proof of Concept permettrait de valider la faisabilité ou certaines hypothèses avant un développement complet."
+    },
+
+    {
+      "id": "REC_008",
+      "title": "Focus sur les technologies",
+      "section": "RECOMMANDATIONS_COMMERCIALES",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "engine": "LLM",
+      "severity": "INFO",
+      "applies_when": "La mission possède une composante technique importante et les technologies utilisées ne sont pas suffisamment mises en avant.",
+      "description": "Évaluer l'intérêt d'ajouter une slide ou une section dédiée aux technologies utilisées afin de renforcer la compréhension et la crédibilité technique de la proposition."
+    }
+  ]
+}
