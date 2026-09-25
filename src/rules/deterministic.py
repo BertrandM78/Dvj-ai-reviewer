@@ -1463,3 +1463,175 @@ def check_unit_jeh_price(
             "la plage autorisée pour toutes les phases."
         ),
     )
+
+
+@register("REC_003")
+def check_client_iterations(document,rule):
+    phases = get_phases(document, "methodology")
+
+    threshold = (
+        rule.get("parameters", {})
+        .get("review_threshold_per_week")
+    )
+
+    if threshold is None:
+        return make_result(
+            rule,
+            "NOT_EVALUATED",
+            "Le seuil d'allers-retours client n'est pas défini."
+        )
+
+    evaluated = []
+    missing_duration = []
+
+    for phase in phases:
+        iterations = phase.get("client_iterations")
+
+        if iterations is None:
+            continue
+
+        duration = phase.get("duration_weeks")
+
+        if duration is None or duration <= 0:
+            missing_duration.append(phase.get("title"))
+            continue
+
+        ratio = iterations / duration
+
+        evaluated.append({
+            "phase": phase.get("title"),
+            "iterations": iterations,
+            "duration": duration,
+            "ratio": ratio,
+        })
+
+    exceeding = [
+        item
+        for item in evaluated
+        if item["ratio"] > threshold
+    ]
+
+    if exceeding:
+        details = "; ".join(
+            f"{item['phase']}: "
+            f"{item['iterations']} itérations / "
+            f"{item['duration']} semaines = "
+            f"{item['ratio']:.1f}/semaine"
+            for item in exceeding
+        )
+
+        return make_result(
+            rule,
+            "SUGGESTED",
+            (
+                f"Le seuil de {threshold:g} aller-retour client "
+                f"par semaine est dépassé. {details}."
+            ),
+            evidence=details,
+            recommendation=(
+                "Vérifier si ce volume d'allers-retours client "
+                "est réellement nécessaire."
+            ),
+        )
+
+    if missing_duration:
+        return make_result(
+            rule,
+            "NOT_EVALUATED",
+            (
+                "Des itérations client sont renseignées mais la durée "
+                "de certaines phases ne permet pas de calculer leur fréquence."
+            ),
+            evidence=", ".join(
+                phase for phase in missing_duration if phase
+            ) or None,
+        )
+
+    if evaluated:
+        details = "; ".join(
+            f"{item['phase']}: {item['ratio']:.1f}/semaine"
+            for item in evaluated
+        )
+
+        return make_result(
+            rule,
+            "NOT_SUGGESTED",
+            (
+                f"Les fréquences explicites d'allers-retours client "
+                f"ne dépassent pas le seuil de {threshold:g}/semaine."
+            ),
+            evidence=details,
+        )
+
+    return make_result(
+        rule,
+        "NOT_EVALUATED",
+        "Aucun nombre d'allers-retours client n'est explicitement renseigné."
+    )
+
+@register("RULE_025")
+def check_external_costs(document, rule):
+    phases = get_phases(document, "methodology")
+
+    resources = []
+
+    for phase in phases:
+        for resource in phase.get("external_resources") or []:
+            resources.append({
+                "phase": phase.get("title"),
+                "resource": resource,
+            })
+
+    budget = document.get("budget") or {}
+    external_costs = budget.get("external_costs") or []
+
+    if not resources and not external_costs:
+        return make_result(
+            rule,
+            "NOT_APPLICABLE",
+            (
+                "Aucune ressource externe n'est explicitement identifiée "
+                "dans la méthodologie et aucun coût externe n'est budgété."
+            ),
+        )
+
+    if not resources and external_costs:
+        return make_result(
+            rule,
+            "NON_COMPLIANT",
+            (
+                "Le budget contient au moins un coût externe sans besoin "
+                "externe identifiable dans la méthodologie."
+            ),
+            evidence=str(external_costs),
+            recommendation=(
+                "Relier chaque coût externe budgété à un besoin explicite "
+                "dans la méthodologie."
+            ),
+        )
+
+    if resources and not external_costs:
+        return make_result(
+            rule,
+            "NOT_EVALUATED",
+            (
+                "Des ressources externes sont identifiées dans la méthodologie, "
+                "mais aucun coût externe n'est budgété. Les données disponibles "
+                "ne permettent pas de déterminer si ces ressources engendrent "
+                "nécessairement un coût."
+            ),
+            evidence=str(resources),
+        )
+
+    return make_result(
+        rule,
+        "NOT_EVALUATED",
+        (
+            "Des ressources et des coûts externes sont présents, mais leur "
+            "correspondance ne peut pas être vérifiée de manière déterministe."
+        ),
+        evidence=(
+            f"Ressources : {resources}; "
+            f"coûts : {external_costs}"
+        ),
+    )

@@ -47,6 +47,7 @@ def validate_rules(rules: list[dict]) -> None:
     valid_engines = {
         "LLM",
         "DETERMINISTIC",
+        "RAW_TEXT_LLM"
     }
 
     valid_severities = {

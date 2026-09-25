@@ -386,3 +386,160 @@ def test_phase_identity_rejects_paid_phase_missing_from_budget():
     })
 
     assert results["RULE_015"]["status"] == "NON_COMPLIANT"
+
+def test_client_iterations_above_threshold_is_suggested():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Analyse des besoins clients",
+                    "duration_weeks": 2,
+                    "client_iterations": 6,
+                },
+            ]
+        },
+    })
+
+    assert results["REC_003"]["status"] == "SUGGESTED"
+
+
+def test_client_iterations_below_threshold_is_not_suggested():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Analyse des besoins clients",
+                    "duration_weeks": 2,
+                    "client_iterations": 1,
+                },
+            ]
+        },
+    })
+
+    assert results["REC_003"]["status"] == "NOT_SUGGESTED"
+
+
+def test_client_iterations_missing_is_not_evaluated():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Analyse des besoins clients",
+                    "duration_weeks": 2,
+                    "client_iterations": None,
+                },
+            ]
+        },
+    })
+
+    assert results["REC_003"]["status"] == "NOT_EVALUATED"
+
+
+def test_client_iterations_with_missing_duration_is_not_evaluated():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Analyse des besoins clients",
+                    "duration_weeks": None,
+                    "client_iterations": 4,
+                },
+            ]
+        },
+    })
+
+    assert results["REC_003"]["status"] == "NOT_EVALUATED"
+
+
+def test_external_costs_absent_without_resources_is_not_applicable():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Analyse",
+                    "external_resources": [],
+                },
+            ]
+        },
+        "budget": {
+            "external_costs": [],
+        },
+    })
+
+    assert results["RULE_025"]["status"] == "NOT_APPLICABLE"
+
+
+def test_external_cost_without_resource_is_non_compliant():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Analyse",
+                    "external_resources": [],
+                },
+            ]
+        },
+        "budget": {
+            "external_costs": [
+                {
+                    "name": "Licence externe",
+                    "amount_ht": 500,
+                },
+            ],
+        },
+    })
+
+    assert results["RULE_025"]["status"] == "NON_COMPLIANT"
+
+
+def test_external_resource_without_cost_is_not_evaluated():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Développement",
+                    "external_resources": [
+                        "OpenAI API",
+                    ],
+                },
+            ]
+        },
+        "budget": {
+            "external_costs": [],
+        },
+    })
+
+    assert results["RULE_025"]["status"] == "NOT_EVALUATED"
+
+
+def test_external_resource_with_cost_is_not_evaluated():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Développement",
+                    "external_resources": [
+                        "OpenAI API",
+                    ],
+                },
+            ]
+        },
+        "budget": {
+            "external_costs": [
+                {
+                    "name": "API externe",
+                    "amount_ht": 300,
+                },
+            ],
+        },
+    })
+
+    assert results["RULE_025"]["status"] == "NOT_EVALUATED"
