@@ -88,9 +88,15 @@ def main():
         for result in results
     }
 
+    assert "RULE_001" in result_ids
+    assert (
+        rules_by_id["RULE_001"]["engine"]
+        == "DETERMINISTIC"
+    )
+
     assert len(results) == 35
-    assert engine_counts["DETERMINISTIC"] == 15
-    assert engine_counts["LLM"] == 20
+    assert engine_counts["DETERMINISTIC"] == 16
+    assert engine_counts["LLM"] == 19
 
     assert "REC_003" in result_ids
     assert (
@@ -110,9 +116,11 @@ def main():
         == "RAW_TEXT_LLM"
     )
 
+
     print("✓ 35 résultats")
-    print("✓ 15 DETERMINISTIC")
-    print("✓ 20 LLM")
+    print("✓ 16 DETERMINISTIC")
+    print("✓ 19 LLM")
+    print("✓ RULE_001 évaluée par DETERMINISTIC")
     print("✓ REC_003 évaluée par DETERMINISTIC")
     print("✓ RULE_025 évaluée par DETERMINISTIC")
     print("✓ REC_005 exclue du pipeline actuel")

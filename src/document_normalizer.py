@@ -1,20 +1,24 @@
 import json
+from pathlib import Path
 
 from src.aws_client import get_aws_client
-from pathlib import Path
 
 
 REGION = "us-east-1"
 MODEL_ID = "amazon.nova-pro-v1:0"
 
+NORMALIZER_PROMPT_PATH = Path(
+    "prompts/normalizer_prompt.txt"
+)
+
+NORMALIZED_SCHEMA_PATH = Path(
+    "config/normalized_document_schema_v2.json"
+)
+
 
 bedrock_client = get_aws_client(
     "bedrock-runtime",
     REGION,
-)
-
-NORMALIZER_PROMPT_PATH = Path(
-    "prompts/normalizer_prompt.txt"
 )
 
 
@@ -24,12 +28,40 @@ def load_normalizer_prompt() -> str:
     )
 
 
-def normalize_document(proposal_text: str) -> dict:
-    prompt_template = load_normalizer_prompt()
+def load_normalized_schema() -> dict:
+    with NORMALIZED_SCHEMA_PATH.open(
+        "r",
+        encoding="utf-8",
+    ) as file:
+        return json.load(file)
 
-    prompt = prompt_template.replace(
-        "{proposal_text}",
-        proposal_text,
+
+def build_normalizer_prompt(proposal_text: str) -> str:
+    prompt_template = load_normalizer_prompt()
+    schema = load_normalized_schema()
+
+    schema_text = json.dumps(
+        schema,
+        ensure_ascii=False,
+        indent=2,
+    )
+
+    return (
+        prompt_template
+        .replace(
+            "{normalized_document_schema}",
+            schema_text,
+        )
+        .replace(
+            "{proposal_text}",
+            proposal_text,
+        )
+    )
+
+
+def normalize_document(proposal_text: str) -> dict:
+    prompt = build_normalizer_prompt(
+        proposal_text
     )
 
     response = bedrock_client.converse(
@@ -46,7 +78,9 @@ def normalize_document(proposal_text: str) -> dict:
         },
     )
 
-    raw_output = response["output"]["message"]["content"][0]["text"]
+    raw_output = (
+        response["output"]["message"]["content"][0]["text"]
+    )
 
     # Defensive cleanup in case the model still returns a Markdown fence.
     cleaned_output = raw_output.strip()

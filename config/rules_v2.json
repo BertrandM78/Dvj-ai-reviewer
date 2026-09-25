@@ -535,7 +535,7 @@
         "description": "Pour une mission de plus de 10 000 euros HT, le chef de projet doit disposer d'une expérience préalable suffisante.",
         "requirements": [
             "Le chef de projet est explicitement identifiable",
-            "Le chef de projet a réalisé au moins trois missions"
+            "Le chef de projet a réalisé ou supervisé au moins trois missions"
         ],
         "parameters": {
             "budget_threshold_ht": 10000,
