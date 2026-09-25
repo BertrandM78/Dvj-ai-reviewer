@@ -167,3 +167,222 @@ def test_unit_jeh_price():
     })
 
     assert results["RULE_023"]["status"] == "COMPLIANT"
+
+
+def test_reference_without_proposal_date():
+    results = run({
+        "metadata": {
+            "proposal_reference": "DE-0926-1042-1088-1121",
+            "proposal_date": None,
+        }
+    })
+
+    assert results["RULE_002"]["status"] == "NOT_EVALUATED"
+
+def test_jeh_free_methodology_phase_can_be_absent_from_budget():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "jeh": 5,
+                    "price_ht": 2000,
+                },
+                {
+                    "number": 2,
+                    "title": "RSE",
+                    "jeh": 1,
+                    "price_ht": 0,
+                },
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "jeh": 5,
+                    "price_ht": 2000,
+                },
+            ]
+        },
+    })
+
+    assert results["RULE_020"]["status"] == "COMPLIANT"
+
+
+def test_jeh_paid_methodology_phase_cannot_be_absent_from_budget():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "jeh": 5,
+                    "price_ht": 2000,
+                },
+                {
+                    "number": 2,
+                    "title": "Analyse",
+                    "jeh": 4,
+                    "price_ht": 1200,
+                },
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "jeh": 5,
+                    "price_ht": 2000,
+                },
+            ]
+        },
+    })
+
+    assert results["RULE_020"]["status"] == "NON_COMPLIANT"
+
+def test_price_free_methodology_phase_can_be_absent_from_budget():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+                {
+                    "number": 2,
+                    "title": "RSE",
+                    "price_ht": 0,
+                },
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+            ]
+        },
+    })
+
+    assert results["RULE_021"]["status"] == "COMPLIANT"
+
+
+def test_price_paid_methodology_phase_cannot_be_absent_from_budget():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+                {
+                    "number": 2,
+                    "title": "Analyse",
+                    "price_ht": 1200,
+                },
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+            ]
+        },
+    })
+
+    assert results["RULE_021"]["status"] == "NON_COMPLIANT"
+
+
+def test_phase_identity_allows_free_phase_missing_from_budget():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+                {
+                    "number": 2,
+                    "title": "RSE",
+                    "price_ht": 0,
+                },
+            ]
+        },
+        "planning": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                },
+                {
+                    "number": 2,
+                    "title": "RSE",
+                },
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+            ]
+        },
+    })
+
+    assert results["RULE_015"]["status"] == "COMPLIANT"
+
+
+def test_phase_identity_rejects_paid_phase_missing_from_budget():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+                {
+                    "number": 2,
+                    "title": "Analyse",
+                    "price_ht": 1200,
+                },
+            ]
+        },
+        "planning": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                },
+                {
+                    "number": 2,
+                    "title": "Analyse",
+                },
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Cadrage",
+                    "price_ht": 2000,
+                },
+            ]
+        },
+    })
+
+    assert results["RULE_015"]["status"] == "NON_COMPLIANT"

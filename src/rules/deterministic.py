@@ -328,6 +328,7 @@ def check_proposal_reference(
     reference = metadata.get("proposal_reference")
     proposal_date = metadata.get("proposal_date")
 
+    # 1. La référence doit exister
     if not reference:
         return make_result(
             rule=rule,
@@ -339,15 +340,15 @@ def check_proposal_reference(
             ),
         )
 
+    # 2. Nettoyage des espaces issus de l'extraction PDF
     normalized_reference = re.sub(
         r"\s+",
         "",
         reference.upper(),
     )
 
-    pattern = (
-        r"^DE-(\d{4})-\d{4}-\d{4}-\d{4}$"
-    )
+    # 3. Vérification du format
+    pattern = r"^DE-(\d{4})-\d{4}-\d{4}-\d{4}$"
 
     match = re.match(pattern, normalized_reference)
 
@@ -366,39 +367,50 @@ def check_proposal_reference(
 
     reference_mmyy = match.group(1)
 
-    if proposal_date:
-        try:
-            parsed_date = date.fromisoformat(proposal_date)
+    # 4. Sans date de proposition, impossible de vérifier MMYY
+    if not proposal_date:
+        return not_evaluated(
+            rule,
+            (
+                "Le format de la référence est valide, mais "
+                "la date de proposition n'a pas pu être extraite ; "
+                "la cohérence MMYY ne peut donc pas être vérifiée."
+            ),
+        )
 
-            expected_mmyy = (
-                f"{parsed_date.month:02d}"
-                f"{str(parsed_date.year)[-2:]}"
-            )
+    # 5. Vérification MMYY ↔ date de proposition
+    try:
+        parsed_date = date.fromisoformat(proposal_date)
+    except (TypeError, ValueError):
+        return not_evaluated(
+            rule,
+            "La date de proposition n'est pas exploitable.",
+        )
 
-            if reference_mmyy != expected_mmyy:
-                return make_result(
-                    rule=rule,
-                    status="NON_COMPLIANT",
-                    reason=(
-                        "Le mois et l'année de la référence "
-                        "ne correspondent pas à la date "
-                        "de la proposition."
-                    ),
-                    evidence=(
-                        f"Référence : {reference} ; "
-                        f"date : {proposal_date}."
-                    ),
-                    recommendation=(
-                        f"Utiliser MMYY = {expected_mmyy}."
-                    ),
-                )
+    expected_mmyy = (
+        f"{parsed_date.month:02d}"
+        f"{str(parsed_date.year)[-2:]}"
+    )
 
-        except (TypeError, ValueError):
-            return not_evaluated(
-                rule,
-                "La date de proposition n'est pas exploitable.",
-            )
+    if reference_mmyy != expected_mmyy:
+        return make_result(
+            rule=rule,
+            status="NON_COMPLIANT",
+            reason=(
+                "Le mois et l'année de la référence "
+                "ne correspondent pas à la date "
+                "de la proposition."
+            ),
+            evidence=(
+                f"Référence : {reference} ; "
+                f"date : {proposal_date}."
+            ),
+            recommendation=(
+                f"Utiliser MMYY = {expected_mmyy}."
+            ),
+        )
 
+    # 6. Format + cohérence temporelle validés
     return make_result(
         rule=rule,
         status="COMPLIANT",
@@ -406,7 +418,10 @@ def check_proposal_reference(
             "La référence respecte le format attendu "
             "et est cohérente avec la date."
         ),
-        evidence=f"Référence : {reference}",
+        evidence=(
+            f"Référence : {reference} ; "
+            f"date : {proposal_date}."
+        ),
     )
 
 def add_one_calendar_month(value: date) -> date:
@@ -659,7 +674,6 @@ def index_phases_by_number(
         if phase.get("number") is not None
     }
 
-
 @register("RULE_015")
 def check_phase_identity_consistency(
     document: dict,
@@ -673,66 +687,194 @@ def check_phase_identity_consistency(
     if not methodology or not planning or not budget:
         return not_evaluated(
             rule,
-            "Les phases de méthodologie, planning ou budget "
-            "n'ont pas toutes pu être extraites.",
+            (
+                "Les phases de méthodologie, planning ou budget "
+                "n'ont pas toutes pu être extraites."
+            ),
         )
 
-    sections = {
-        "Méthodologie": methodology,
-        "Planning": planning,
-        "Budget": budget,
-    }
+    inconsistencies = []
+    missing_data = []
 
-    evidence_parts = []
+    # ---------------------------------------------------------
+    # 1. Méthodologie ↔ Planning : identité stricte
+    # ---------------------------------------------------------
 
-    # Compare number of phases
-    counts = {
-        name: len(phases)
-        for name, phases in sections.items()
-    }
+    methodology_sequence = [
+        (phase.get("number"), phase.get("title"))
+        for phase in methodology
+    ]
 
-    if len(set(counts.values())) != 1:
-        evidence_parts.append(
-            "Nombre de phases différent : "
-            + ", ".join(
-                f"{name}={count}"
-                for name, count in counts.items()
+    planning_sequence = [
+        (phase.get("number"), phase.get("title"))
+        for phase in planning
+    ]
+
+    if planning_sequence != methodology_sequence:
+        inconsistencies.append(
+            (
+                "Méthodologie et planning ne contiennent pas "
+                "exactement les mêmes phases dans le même ordre. "
+                f"Méthodologie={methodology_sequence} ; "
+                f"Planning={planning_sequence}"
             )
         )
 
-    # Compare phase sequence
-    sequences = {
-        name: [
-            (phase.get("number"), phase.get("title"))
-            for phase in phases
-        ]
-        for name, phases in sections.items()
-    }
+    # ---------------------------------------------------------
+    # 2. Méthodologie ↔ Budget
+    #
+    # Une phase gratuite (price_ht == 0) peut être absente
+    # du budget.
+    # ---------------------------------------------------------
 
-    reference_sequence = sequences["Méthodologie"]
+    methodology_by_number = index_phases_by_number(
+        methodology
+    )
 
-    for name, sequence in sequences.items():
-        if name == "Méthodologie":
+    budget_by_number = index_phases_by_number(
+        budget
+    )
+
+    methodology_numbers = set(methodology_by_number.keys())
+    budget_numbers = set(budget_by_number.keys())
+
+    # Phases de méthodologie absentes du budget
+    for number in sorted(
+        methodology_numbers - budget_numbers
+    ):
+        phase = methodology_by_number[number]
+
+        title = phase.get(
+            "title",
+            f"Phase {number}",
+        )
+
+        price_ht = phase.get("price_ht")
+
+        # Phase explicitement gratuite :
+        # son absence du budget est autorisée.
+        if price_ht == 0:
             continue
 
-        if sequence != reference_sequence:
-            evidence_parts.append(
-                f"{name} : {sequence}"
+        # Prix inconnu :
+        # impossible de déterminer si l'absence est légitime.
+        if price_ht is None:
+            missing_data.append(
+                (
+                    f"Phase {number} « {title} » absente du budget "
+                    "mais son prix HT n'a pas pu être déterminé"
+                )
+            )
+            continue
+
+        # Phase payante absente du budget
+        inconsistencies.append(
+            (
+                f"Phase {number} « {title} » absente du budget "
+                f"alors qu'elle est facturée {price_ht:.2f} € HT"
+            )
+        )
+
+    # Phases présentes au budget mais absentes de la méthodologie
+    for number in sorted(
+        budget_numbers - methodology_numbers
+    ):
+        phase = budget_by_number[number]
+
+        title = phase.get(
+            "title",
+            f"Phase {number}",
+        )
+
+        inconsistencies.append(
+            (
+                f"Phase {number} « {title} » présente dans le budget "
+                "mais absente de la méthodologie"
+            )
+        )
+
+    # ---------------------------------------------------------
+    # 3. Pour les phases présentes dans les deux :
+    # numéro + titre doivent être identiques
+    # ---------------------------------------------------------
+
+    common_numbers = methodology_numbers & budget_numbers
+
+    for number in sorted(common_numbers):
+        methodology_title = methodology_by_number[number].get(
+            "title"
+        )
+
+        budget_title = budget_by_number[number].get(
+            "title"
+        )
+
+        if methodology_title != budget_title:
+            inconsistencies.append(
+                (
+                    f"Phase {number} : titre différent entre "
+                    f"méthodologie « {methodology_title} » "
+                    f"et budget « {budget_title} »"
+                )
             )
 
-    if evidence_parts:
+    # ---------------------------------------------------------
+    # 4. Vérification de l'ordre relatif des phases du budget
+    # ---------------------------------------------------------
+
+    methodology_order = [
+        phase.get("number")
+        for phase in methodology
+    ]
+
+    budget_order = [
+        phase.get("number")
+        for phase in budget
+    ]
+
+    expected_budget_order = [
+        number
+        for number in methodology_order
+        if number in budget_numbers
+    ]
+
+    if budget_order != expected_budget_order:
+        inconsistencies.append(
+            (
+                "L'ordre des phases du budget ne correspond pas "
+                "à celui de la méthodologie. "
+                f"Budget={budget_order} ; "
+                f"ordre attendu={expected_budget_order}"
+            )
+        )
+
+    # ---------------------------------------------------------
+    # 5. Résultat
+    # ---------------------------------------------------------
+
+    if inconsistencies:
         return make_result(
             rule=rule,
             status="NON_COMPLIANT",
             reason=(
-                "Les numéros, titres ou l'ordre des phases "
-                "ne sont pas strictement identiques entre "
+                "Les phases ne sont pas cohérentes entre "
                 "la méthodologie, le planning et le budget."
             ),
-            evidence=" ; ".join(evidence_parts),
+            evidence="; ".join(inconsistencies),
             recommendation=(
-                "Utiliser exactement les mêmes numéros, titres "
-                "et le même ordre de phases dans les trois sections."
+                "Aligner les numéros, titres et l'ordre des phases "
+                "entre les sections. Une phase explicitement "
+                "gratuite peut être absente du budget."
+            ),
+        )
+
+    if missing_data:
+        return not_evaluated(
+            rule,
+            (
+                "La cohérence des phases ne peut pas être "
+                "entièrement vérifiée. "
+                + "; ".join(missing_data)
             ),
         )
 
@@ -740,8 +882,9 @@ def check_phase_identity_consistency(
         rule=rule,
         status="COMPLIANT",
         reason=(
-            "Les phases sont strictement identiques entre "
-            "la méthodologie, le planning et le budget."
+            "Les phases sont cohérentes entre la méthodologie, "
+            "le planning et le budget. Les éventuelles phases "
+            "absentes du budget sont explicitement gratuites."
         ),
     )
 
@@ -925,7 +1068,6 @@ def check_total_duration_consistency(
             f"Durée totale : {declared_duration} semaine(s)."
         ),
     )
-
 @register("RULE_020")
 def check_jeh_consistency(
     document: dict,
@@ -943,52 +1085,117 @@ def check_jeh_consistency(
     if not methodology or not budget:
         return not_evaluated(
             rule,
-            "Les JEH de méthodologie ou de budget "
-            "n'ont pas pu être exploités.",
+            (
+                "Les phases de méthodologie ou de budget "
+                "n'ont pas pu être exploitées."
+            ),
         )
 
-    common_numbers = methodology.keys() & budget.keys()
-
     inconsistencies = []
+    missing_data = []
+
+    methodology_numbers = set(methodology.keys())
+    budget_numbers = set(budget.keys())
+
+    # 1. Phases présentes dans la méthodologie mais absentes du budget
+    for number in sorted(methodology_numbers - budget_numbers):
+        phase = methodology[number]
+
+        price_ht = phase.get("price_ht")
+        title = phase.get("title", f"Phase {number}")
+
+        # Une phase explicitement gratuite peut ne pas apparaître au budget.
+        if price_ht == 0:
+            continue
+
+        # Si le prix n'a pas été extrait, on ne peut pas savoir
+        # si l'absence du budget est légitime.
+        if price_ht is None:
+            missing_data.append(
+                (
+                    f"Phase {number} « {title} » absente du budget "
+                    "et prix HT non disponible dans la méthodologie"
+                )
+            )
+            continue
+
+        # Une phase payante doit apparaître dans le budget.
+        inconsistencies.append(
+            (
+                f"Phase {number} « {title} » absente du budget "
+                f"alors que son prix est de {price_ht} € HT"
+            )
+        )
+
+    # 2. Phases présentes dans le budget mais absentes de la méthodologie
+    for number in sorted(budget_numbers - methodology_numbers):
+        phase = budget[number]
+        title = phase.get("title", f"Phase {number}")
+
+        inconsistencies.append(
+            (
+                f"Phase {number} « {title} » présente dans le budget "
+                "mais absente de la méthodologie"
+            )
+        )
+
+    # 3. Comparaison des JEH pour les phases présentes dans les deux
+    common_numbers = methodology_numbers & budget_numbers
 
     for number in sorted(common_numbers):
         methodology_jeh = methodology[number].get("jeh")
         budget_jeh = budget[number].get("jeh")
 
+        title = methodology[number].get(
+            "title",
+            f"Phase {number}",
+        )
+
         if methodology_jeh is None or budget_jeh is None:
+            missing_data.append(
+                (
+                    f"Phase {number} « {title} » : "
+                    "JEH manquants dans la méthodologie "
+                    "ou le budget"
+                )
+            )
             continue
 
         if methodology_jeh != budget_jeh:
             inconsistencies.append(
                 (
-                    number,
-                    methodology_jeh,
-                    budget_jeh,
+                    f"Phase {number} « {title} » : "
+                    f"méthodologie={methodology_jeh} JEH, "
+                    f"budget={budget_jeh} JEH"
                 )
             )
 
+    # 4. Une incohérence explicite prime sur les données manquantes
     if inconsistencies:
-        evidence = "; ".join(
-            (
-                f"Phase {number} : "
-                f"méthodologie={method_jeh} JEH, "
-                f"budget={budget_jeh} JEH"
-            )
-            for number, method_jeh, budget_jeh
-            in inconsistencies
-        )
-
         return make_result(
             rule=rule,
             status="NON_COMPLIANT",
             reason=(
-                "Le nombre de JEH diffère entre la "
-                "méthodologie et le budget."
+                "Les JEH ne sont pas cohérents entre "
+                "la méthodologie et le budget."
             ),
-            evidence=evidence,
+            evidence="; ".join(inconsistencies),
             recommendation=(
-                "Aligner les JEH du budget avec ceux "
-                "annoncés dans la méthodologie."
+                "Aligner les phases et les JEH du budget "
+                "avec ceux annoncés dans la méthodologie. "
+                "Une phase explicitement gratuite peut être "
+                "absente du budget."
+            ),
+        )
+
+    # 5. Pas d'incohérence prouvée, mais données insuffisantes
+    if missing_data:
+        return not_evaluated(
+            rule,
+            (
+                "La cohérence des JEH ne peut pas être "
+                "entièrement vérifiée. "
+                + "; ".join(missing_data)
             ),
         )
 
@@ -996,11 +1203,11 @@ def check_jeh_consistency(
         rule=rule,
         status="COMPLIANT",
         reason=(
-            "Les JEH sont cohérents entre "
-            "la méthodologie et le budget."
+            "Les JEH sont cohérents entre la méthodologie "
+            "et le budget. Les éventuelles phases absentes "
+            "du budget sont explicitement gratuites."
         ),
     )
-
 @register("RULE_021")
 def check_phase_price_consistency(
     document: dict,
@@ -1018,62 +1225,140 @@ def check_phase_price_consistency(
     if not methodology or not budget:
         return not_evaluated(
             rule,
-            "Les montants de méthodologie ou de budget "
-            "n'ont pas pu être exploités.",
+            (
+                "Les phases de méthodologie ou de budget "
+                "n'ont pas pu être exploitées."
+            ),
         )
-
-    common_numbers = methodology.keys() & budget.keys()
 
     inconsistencies = []
+    missing_data = []
 
-    for number in sorted(common_numbers):
-        methodology_price = (
-            methodology[number]
-            .get("price_ht")
+    methodology_numbers = set(methodology.keys())
+    budget_numbers = set(budget.keys())
+
+    # 1. Phases présentes dans la méthodologie
+    # mais absentes du budget
+    for number in sorted(
+        methodology_numbers - budget_numbers
+    ):
+        phase = methodology[number]
+
+        price_ht = phase.get("price_ht")
+        title = phase.get(
+            "title",
+            f"Phase {number}",
         )
 
-        budget_price = (
-            budget[number]
-            .get("price_ht")
+        # Une phase explicitement gratuite peut
+        # légitimement être absente du budget.
+        if price_ht == 0:
+            continue
+
+        # Sans prix, impossible de savoir si
+        # l'absence du budget est légitime.
+        if price_ht is None:
+            missing_data.append(
+                (
+                    f"Phase {number} « {title} » absente du budget "
+                    "et prix HT non disponible dans la méthodologie"
+                )
+            )
+            continue
+
+        # Une phase payante doit apparaître dans le budget.
+        inconsistencies.append(
+            (
+                f"Phase {number} « {title} » absente du budget "
+                f"alors que son prix est de {price_ht:.2f} € HT"
+            )
+        )
+
+    # 2. Phases présentes dans le budget
+    # mais absentes de la méthodologie
+    for number in sorted(
+        budget_numbers - methodology_numbers
+    ):
+        phase = budget[number]
+
+        title = phase.get(
+            "title",
+            f"Phase {number}",
+        )
+
+        inconsistencies.append(
+            (
+                f"Phase {number} « {title} » présente dans le budget "
+                "mais absente de la méthodologie"
+            )
+        )
+
+    # 3. Comparaison des montants pour les phases communes
+    common_numbers = methodology_numbers & budget_numbers
+
+    for number in sorted(common_numbers):
+        methodology_price = methodology[number].get(
+            "price_ht"
+        )
+
+        budget_price = budget[number].get(
+            "price_ht"
+        )
+
+        title = methodology[number].get(
+            "title",
+            f"Phase {number}",
         )
 
         if (
             methodology_price is None
             or budget_price is None
         ):
+            missing_data.append(
+                (
+                    f"Phase {number} « {title} » : "
+                    "prix HT manquant dans la méthodologie "
+                    "ou le budget"
+                )
+            )
             continue
 
         if methodology_price != budget_price:
             inconsistencies.append(
                 (
-                    number,
-                    methodology_price,
-                    budget_price,
+                    f"Phase {number} « {title} » : "
+                    f"méthodologie={methodology_price:.2f} € HT, "
+                    f"budget={budget_price:.2f} € HT"
                 )
             )
 
+    # 4. Une incohérence explicite prime
     if inconsistencies:
-        evidence = "; ".join(
-            (
-                f"Phase {number} : "
-                f"méthodologie={method_price:.2f} € HT, "
-                f"budget={budget_price:.2f} € HT"
-            )
-            for number, method_price, budget_price
-            in inconsistencies
-        )
-
         return make_result(
             rule=rule,
             status="NON_COMPLIANT",
             reason=(
-                "Certains montants diffèrent entre "
-                "la méthodologie et le budget."
+                "Les montants des phases ne sont pas cohérents "
+                "entre la méthodologie et le budget."
             ),
-            evidence=evidence,
+            evidence="; ".join(inconsistencies),
             recommendation=(
-                "Aligner les montants des phases entre "
-                "la méthodologie et le budget."
+                "Aligner les phases et leurs montants entre "
+                "la méthodologie et le budget. "
+                "Une phase explicitement gratuite peut être "
+                "absente du budget."
+            ),
+        )
+
+    # 5. Pas d'incohérence prouvée,
+    # mais données insuffisantes
+    if missing_data:
+        return not_evaluated(
+            rule,
+            (
+                "La cohérence des montants ne peut pas être "
+                "entièrement vérifiée. "
+                + "; ".join(missing_data)
             ),
         )
 
@@ -1081,8 +1366,9 @@ def check_phase_price_consistency(
         rule=rule,
         status="COMPLIANT",
         reason=(
-            "Les montants des phases sont cohérents "
-            "entre la méthodologie et le budget."
+            "Les montants des phases sont cohérents entre "
+            "la méthodologie et le budget. Les éventuelles "
+            "phases absentes du budget sont explicitement gratuites."
         ),
     )
 @register("RULE_023")
