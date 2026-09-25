@@ -1,45 +1,14 @@
+import hmac
 import tempfile
 from pathlib import Path
 
 import streamlit as st
 
-from src.reviewer import review_file
+from src.document_normalizer import normalize_document
+from src.document_parser import extract_pdf_text
+from src.reviewer_v2 import review_v2
+from src.rules.loader import load_rules
 
-import hmac
-
-RULE_TITLES = {
-    "RULE_01": "Référence de la proposition",
-    "RULE_02": "Date de validité",
-    "RULE_03": "Présentation de DeVinci Junior",
-    "RULE_04": "Identification du client",
-    "RULE_05": "Contexte et besoin client",
-    "RULE_06": "Proposition de valeur",
-    "RULE_07": "Mise en valeur des mots-clés",
-    "RULE_08": "Présence de références",
-    "RULE_09": "Pertinence des références",
-    "RULE_10": "Étapes de la méthodologie",
-    "RULE_11": "Format des étapes méthodologiques",
-    "RULE_12": "Durée, prix et JEH",
-    "RULE_13": "Fréquence des validations",
-    "RULE_14": "Livrables de la mission",
-    "RULE_15": "Format des livrables",
-    "RULE_16": "Section RSE",
-    "RULE_17": "Cohérence du planning",
-    "RULE_18": "Durée des phases",
-    "RULE_19": "Démarrage des phases le week-end",
-    "RULE_20": "Durée totale et planning",
-    "RULE_21": "Dépendances entre les phases",
-    "RULE_22": "Cohérence du budget",
-    "RULE_23": "Cohérence des JEH",
-    "RULE_24": "Cohérence des montants",
-    "RULE_25": "Part de la gestion de projet",
-    "RULE_26": "Tarif unitaire du JEH",
-    "RULE_27": "Frais d'appel d'offres",
-    "RULE_28": "Pertinence de l'équipe",
-    "RULE_29": "Section « On poursuit ensemble »",
-    "RULE_30": "Section « Boostez votre entreprise »",
-    "RULE_31": "Section « Nos coordonnées »",
-}
 
 # ============================================================
 # CONFIGURATION
@@ -51,27 +20,63 @@ st.set_page_config(
     layout="wide",
 )
 
+
+# ============================================================
+# CONSTANTS
+# ============================================================
+
+STATUS_CONFIG = {
+    "COMPLIANT": {
+        "label": "Conforme",
+        "icon": "🟢",
+    },
+    "NON_COMPLIANT": {
+        "label": "À corriger",
+        "icon": "🔴",
+    },
+    "NOT_EVALUATED": {
+        "label": "À vérifier",
+        "icon": "🟠",
+    },
+    "NOT_APPLICABLE": {
+        "label": "Non applicable",
+        "icon": "⚪",
+    },
+    "SUGGESTED": {
+        "label": "Suggestion",
+        "icon": "💡",
+    },
+    "NOT_SUGGESTED": {
+        "label": "Non suggéré",
+        "icon": "⚪",
+    },
+}
+
+
 # ============================================================
 # AUTHENTICATION
 # ============================================================
 
 def check_password() -> bool:
-    """
-    Display a password field and validate access.
-    """
-
     if st.session_state.get("authenticated"):
         return True
 
     st.title("DVJ AI Proposal Reviewer")
+
+    st.caption(
+        "Assistant de relecture des propositions commerciales "
+        "de DeVinci Junior"
+    )
 
     password = st.text_input(
         "Mot de passe",
         type="password",
     )
 
-    if st.button("Se connecter", type="primary"):
-
+    if st.button(
+        "Se connecter",
+        type="primary",
+    ):
         if hmac.compare_digest(
             password,
             st.secrets["APP_PASSWORD"],
@@ -88,6 +93,133 @@ def check_password() -> bool:
 if not check_password():
     st.stop()
 
+
+# ============================================================
+# RULE METADATA
+# ============================================================
+
+rules = load_rules()
+
+rules_by_id = {
+    rule["id"]: rule
+    for rule in rules
+}
+
+
+# ============================================================
+# HELPERS
+# ============================================================
+
+def get_metadata(result: dict) -> dict:
+    return rules_by_id.get(
+        result.get("rule_id"),
+        {},
+    )
+
+
+def get_status_config(status: str) -> dict:
+    return STATUS_CONFIG.get(
+        status,
+        {
+            "label": status,
+            "icon": "⚪",
+        },
+    )
+
+
+def render_result(result: dict) -> None:
+    rule_id = result.get("rule_id", "UNKNOWN")
+    status = result.get("status", "UNKNOWN")
+
+    metadata = get_metadata(result)
+    status_config = get_status_config(status)
+
+    title = metadata.get("title", rule_id)
+    rule_type = metadata.get("type", "—")
+    section = metadata.get("section", "—")
+    dimension = metadata.get("dimension", "—")
+    severity = metadata.get("severity", "—")
+
+    reason = (
+        result.get("reason")
+        or result.get("reasoning")
+        or "Aucune explication disponible."
+    )
+
+    evidence = result.get("evidence")
+    recommendation = result.get("recommendation")
+
+    expander_title = (
+        f"{status_config['icon']} "
+        f"{title} · {status_config['label']}"
+    )
+
+    expanded = status in {
+        "NON_COMPLIANT",
+        "NOT_EVALUATED",
+        "SUGGESTED",
+    }
+
+    with st.expander(
+        expander_title,
+        expanded=expanded,
+    ):
+        st.caption(
+            f"{rule_id} · "
+            f"{rule_type} · "
+            f"{section} · "
+            f"{dimension} · "
+            f"{severity}"
+        )
+
+        st.markdown("**Pourquoi ce point est signalé**")
+        st.write(reason)
+
+        if evidence:
+            st.markdown("**Élément détecté**")
+
+            if isinstance(
+                evidence,
+                (dict, list),
+            ):
+                st.json(
+                    evidence,
+                    expanded=False,
+                )
+            else:
+                st.write(evidence)
+
+        if recommendation:
+            st.markdown("**Action recommandée**")
+            st.info(recommendation)
+
+
+def apply_view(
+    results: list[dict],
+    view: str,
+) -> list[dict]:
+
+    if view == "À corriger":
+        return [
+            result
+            for result in results
+            if result.get("status")
+            in {
+                "NON_COMPLIANT",
+                "NOT_EVALUATED",
+            }
+        ]
+
+    if view == "Recommandations":
+        return [
+            result
+            for result in results
+            if result.get("status") == "SUGGESTED"
+        ]
+
+    return results
+
+
 # ============================================================
 # HEADER
 # ============================================================
@@ -95,13 +227,12 @@ if not check_password():
 st.title("DVJ AI Proposal Reviewer")
 
 st.caption(
-    "Assistant de relecture des propositions commerciales "
-    "de DeVinci Junior"
+    "Vérifiez votre proposition commerciale avant validation."
 )
 
 st.write(
-    "Déposez une proposition commerciale pour vérifier automatiquement "
-    "sa conformité aux 31 règles qualité."
+    "Le reviewer contrôle automatiquement les obligations qualité "
+    "et identifie les recommandations pertinentes."
 )
 
 st.divider()
@@ -113,17 +244,21 @@ st.divider()
 
 uploaded_file = st.file_uploader(
     "Proposition commerciale",
-    type=["pdf", "txt"],
-    help="Formats acceptés : PDF et TXT",
+    type=["pdf"],
+    help="Format accepté : PDF",
 )
 
 
 if uploaded_file is not None:
 
-    file_size_mb = len(uploaded_file.getvalue()) / (1024 * 1024)
+    file_size_mb = (
+        len(uploaded_file.getvalue())
+        / (1024 * 1024)
+    )
 
     st.caption(
-        f"{uploaded_file.name} — {file_size_mb:.1f} Mo"
+        f"{uploaded_file.name} — "
+        f"{file_size_mb:.1f} Mo"
     )
 
     analyze = st.button(
@@ -134,11 +269,9 @@ if uploaded_file is not None:
 
     if analyze:
 
-        suffix = Path(uploaded_file.name).suffix
-
         with tempfile.NamedTemporaryFile(
             delete=False,
-            suffix=suffix,
+            suffix=".pdf",
         ) as temporary_file:
 
             temporary_file.write(
@@ -151,319 +284,263 @@ if uploaded_file is not None:
 
         try:
 
-            # ====================================================
-            # ANALYSIS
-            # ====================================================
-
             with st.spinner(
-                "Analyse des 31 règles qualité en cours..."
+                "Lecture et structuration de la proposition..."
             ):
-                result = review_file(
+                proposal_text = extract_pdf_text(
                     temporary_path
                 )
 
-            review = result["review"]
-
-            commercial_context = result.get(
-                "commercial_context",
-                {},
-            )
-
-            historical_summary = result.get(
-                "historical_summary"
-            )
-
-            results = review.get(
-                "results",
-                [],
-            )
-
-
-            # ====================================================
-            # COUNTS
-            # ====================================================
-
-            compliant = sum(
-                r.get("status") == "COMPLIANT"
-                for r in results
-            )
-
-            violations = [
-                r
-                for r in results
-                if r.get("status") == "NON_COMPLIANT"
-            ]
-
-            non_compliant = len(violations)
-
-            not_applicable = sum(
-                r.get("status") == "NOT_APPLICABLE"
-                for r in results
-            )
-
-
-            # ====================================================
-            # RESULT HEADER
-            # ====================================================
-
-            st.divider()
-
-            st.header("Résultat de l'analyse")
-
-            if non_compliant == 0:
-
-                st.success(
-                    "Aucun point de non-conformité détecté "
-                    "sur les 31 contrôles."
+                normalized_document = normalize_document(
+                    proposal_text
                 )
 
-            else:
-
-                st.warning(
-                    f"{non_compliant} point"
-                    f"{'s' if non_compliant > 1 else ''} "
-                    f"à corriger sur {len(results)} contrôles."
-                )
-
-
-            # ====================================================
-            # METRICS
-            # ====================================================
-
-            col1, col2, col3 = st.columns(3)
-
-            col1.metric(
-                "Conformes",
-                compliant,
-            )
-
-            col2.metric(
-                "À corriger",
-                non_compliant,
-            )
-
-            col3.metric(
-                "Non applicables",
-                not_applicable,
-            )
-
-
-            # ====================================================
-            # COMMERCIAL CONTEXT
-            # ====================================================
-
-            st.subheader("Contexte identifié")
-
-            context_col1, context_col2 = st.columns(2)
-
-            context_col1.metric(
-                "Secteur",
-                commercial_context.get("sector")
-                or "Non identifié",
-            )
-
-            context_col2.metric(
-                "Type de mission",
-                commercial_context.get("mission_type")
-                or "Non identifié",
-            )
-
-
-            # ====================================================
-            # VIOLATIONS
-            # ====================================================
-
-            st.divider()
-
-            st.header("Points à corriger")
-
-            if not violations:
-
-                st.success(
-                    "Aucune non-conformité détectée."
-                )
-
-            else:
-
-                for index, violation in enumerate(
-                    violations,
-                    start=1,
-                ):
-
-                    rule_id = violation.get(
-                        "rule_id",
-                        "Règle",
-                    )
-
-                    rule_title = RULE_TITLES.get(
-                        rule_id,
-                        rule_id,
-                    )
-
-                    reasoning = (
-                        violation.get("reason")
-                        or violation.get("reasoning")
-                        or "Aucune explication disponible."
-                    )
-
-                    evidence = violation.get(
-                        "evidence"
-                    )
-
-                    recommendation = violation.get(
-                        "recommendation"
-                    )
-
-                    with st.expander(
-                        f"{index}. {rule_title} · {rule_id}",
-                        expanded=(index <= 3),
-                    ):
-
-                        st.markdown(
-                            "**Pourquoi ce point est signalé**"
-                        )
-
-                        st.write(
-                            reasoning
-                        )
-
-                        if evidence:
-
-                            st.markdown(
-                                "**Élément détecté**"
-                            )
-
-                            if isinstance(
-                                evidence,
-                                (dict, list),
-                            ):
-                                st.json(
-                                    evidence,
-                                    expanded=False,
-                                )
-                            else:
-                                st.write(
-                                    evidence
-                                )
-
-                        if recommendation:
-
-                            st.markdown(
-                                "**Action recommandée**"
-                            )
-
-                            st.info(
-                                recommendation
-                            )
-
-
-            # ====================================================
-            # HISTORICAL REFERENCES
-            # ====================================================
-
-            st.divider()
-
-            st.header(
-                "Références commerciales"
-            )
-
-            sector = commercial_context.get(
-                "sector"
-            )
-
-            mission_type = commercial_context.get(
-                "mission_type"
-            )
-
-            if sector and mission_type:
-
-                st.caption(
-                    f"Recherche effectuée pour : "
-                    f"{sector} × {mission_type}"
-                )
-
-            if historical_summary:
-
-                st.write(
-                    historical_summary
-                )
-
-            else:
-
-                st.info(
-                    "Aucune référence historique exploitable "
-                    "n'a été identifiée."
-                )
-
-
-            # ====================================================
-            # ALL RULES
-            # ====================================================
-
-            st.divider()
-
-            with st.expander(
-                "Voir le détail des 31 contrôles"
+            with st.spinner(
+                "Vérification des règles qualité..."
             ):
+                results = review_v2(
+                    normalized_document
+                )
 
-                for rule_result in results:
+            st.session_state["review_results"] = results
+            st.session_state[
+                "normalized_document"
+            ] = normalized_document
 
-                    rule_id = rule_result.get(
-                        "rule_id",
-                        "Règle",
-                    )
+            st.session_state[
+                "reviewed_filename"
+            ] = uploaded_file.name
 
-                    status = rule_result.get(
-                        "status",
-                        "UNKNOWN",
-                    )
-
-                    status_labels = {
-                        "COMPLIANT": "Conforme",
-                        "NON_COMPLIANT": "À corriger",
-                        "NOT_APPLICABLE": "Non applicable",
-                    }
-
-                    status_label = status_labels.get(
-                        status,
-                        status,
-                    )
-
-                    st.markdown(
-                        f"**{rule_id} — {status_label}**"
-                    )
-
-                    reasoning = (
-                        rule_result.get("reason")
-                        or rule_result.get("reasoning")
-                    )
-
-                    if reasoning:
-                        st.caption(
-                            reasoning
-                        )
-
-                    st.divider()
-
-
-        # ========================================================
-        # ERROR HANDLING
-        # ========================================================
-
-        except Exception as error:
-
+        except Exception:
             st.error(
                 "L'analyse n'a pas pu être terminée."
             )
 
-            # Keep during local development.
+            # À retirer / masquer avant pilote large.
             st.exception(
-                error
+                st.session_state.get(
+                    "_last_exception",
+                    Exception(
+                        "Consultez les logs pour plus de détails."
+                    ),
+                )
             )
 
-
         finally:
-
             temporary_path.unlink(
                 missing_ok=True
             )
+
+
+# ============================================================
+# RESULTS
+# ============================================================
+
+results = st.session_state.get(
+    "review_results"
+)
+
+if results:
+
+    st.divider()
+
+    st.header("Résultat de l'analyse")
+
+    reviewed_filename = st.session_state.get(
+        "reviewed_filename"
+    )
+
+    if reviewed_filename:
+        st.caption(reviewed_filename)
+
+    non_compliant = sum(
+        result.get("status") == "NON_COMPLIANT"
+        for result in results
+    )
+
+    not_evaluated = sum(
+        result.get("status") == "NOT_EVALUATED"
+        for result in results
+    )
+
+    suggested = sum(
+        result.get("status") == "SUGGESTED"
+        for result in results
+    )
+
+    compliant = sum(
+        result.get("status") == "COMPLIANT"
+        for result in results
+    )
+
+    not_applicable = sum(
+        result.get("status") == "NOT_APPLICABLE"
+        for result in results
+    )
+
+    # ========================================================
+    # SUMMARY
+    # ========================================================
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric(
+        "À corriger",
+        non_compliant,
+    )
+
+    col2.metric(
+        "À vérifier",
+        not_evaluated,
+    )
+
+    col3.metric(
+        "Suggestions",
+        suggested,
+    )
+
+    col4.metric(
+        "Conformes",
+        compliant,
+    )
+
+    if non_compliant:
+        st.warning(
+            f"{non_compliant} point"
+            f"{'s' if non_compliant > 1 else ''} "
+            "à corriger avant validation."
+        )
+    else:
+        st.success(
+            "Aucune non-conformité détectée."
+        )
+
+    st.caption(
+        f"{not_applicable} contrôle"
+        f"{'s' if not_applicable != 1 else ''} "
+        "non applicable"
+    )
+
+    # ========================================================
+    # VIEW
+    # ========================================================
+
+    st.subheader("Relecture")
+
+    view = st.radio(
+        "Vue",
+        options=[
+            "À corriger",
+            "Recommandations",
+            "Tout",
+        ],
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+
+    visible_results = apply_view(
+        results,
+        view,
+    )
+
+    # ========================================================
+    # FILTERS
+    # ========================================================
+
+    filter_col1, filter_col2, filter_col3 = (
+        st.columns(3)
+    )
+
+    available_sections = sorted({
+        get_metadata(result).get("section")
+        for result in visible_results
+        if get_metadata(result).get("section")
+    })
+
+    available_severities = sorted({
+        get_metadata(result).get("severity")
+        for result in visible_results
+        if get_metadata(result).get("severity")
+    })
+
+    available_dimensions = sorted({
+        get_metadata(result).get("dimension")
+        for result in visible_results
+        if get_metadata(result).get("dimension")
+    })
+
+    selected_sections = filter_col1.multiselect(
+        "Section",
+        available_sections,
+    )
+
+    selected_severities = filter_col2.multiselect(
+        "Sévérité",
+        available_severities,
+    )
+
+    selected_dimensions = filter_col3.multiselect(
+        "Dimension",
+        available_dimensions,
+    )
+
+    # ========================================================
+    # APPLY FILTERS
+    # ========================================================
+
+    filtered_results = []
+
+    for result in visible_results:
+
+        metadata = get_metadata(result)
+
+        if (
+            selected_sections
+            and metadata.get("section")
+            not in selected_sections
+        ):
+            continue
+
+        if (
+            selected_severities
+            and metadata.get("severity")
+            not in selected_severities
+        ):
+            continue
+
+        if (
+            selected_dimensions
+            and metadata.get("dimension")
+            not in selected_dimensions
+        ):
+            continue
+
+        filtered_results.append(result)
+
+    # ========================================================
+    # DISPLAY
+    # ========================================================
+
+    st.caption(
+        f"{len(filtered_results)} résultat"
+        f"{'s' if len(filtered_results) != 1 else ''}"
+    )
+
+    if not filtered_results:
+
+        if view == "Recommandations":
+            st.success(
+                "Aucune recommandation particulière "
+                "n'est suggérée."
+            )
+
+        else:
+            st.info(
+                "Aucun résultat ne correspond "
+                "aux filtres sélectionnés."
+            )
+
+    else:
+
+        for result in filtered_results:
+            render_result(result)
