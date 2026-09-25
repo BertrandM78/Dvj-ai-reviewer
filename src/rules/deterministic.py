@@ -2,10 +2,78 @@ from typing import Callable
 from src.rules.loader import load_rules, get_rules_by_engine
 import re
 import calendar
+import unicodedata
+from difflib import SequenceMatcher
 
 RuleResult = dict
 RuleFunction = Callable[[dict, dict], RuleResult]
 
+def normalize_title(value: str | None) -> str:
+    if not value:
+        return ""
+
+    value = unicodedata.normalize(
+        "NFKD",
+        value,
+    )
+
+    value = "".join(
+        char
+        for char in value
+        if not unicodedata.combining(char)
+    )
+
+    value = value.lower()
+
+    value = re.sub(
+        r"[^a-z0-9]+",
+        " ",
+        value,
+    )
+
+    return " ".join(value.split())
+
+
+def titles_are_close(
+    actual: str | None,
+    expected: str | None,
+    threshold: float = 0.80,
+) -> bool:
+    actual_normalized = normalize_title(actual)
+    expected_normalized = normalize_title(expected)
+
+    if not actual_normalized or not expected_normalized:
+        return False
+
+    if actual_normalized == expected_normalized:
+        return True
+
+    similarity = SequenceMatcher(
+        None,
+        actual_normalized,
+        expected_normalized,
+    ).ratio()
+
+    return similarity >= threshold
+
+
+def has_content(value) -> bool:
+    if value is None:
+        return False
+
+    if isinstance(value, str):
+        return bool(value.strip())
+
+    if isinstance(value, list):
+        return len(value) > 0
+
+    if isinstance(value, dict):
+        return any(
+            has_content(item)
+            for item in value.values()
+        )
+
+    return True
 
 def make_result(
     rule: dict,
@@ -55,6 +123,121 @@ def register(rule_id: str):
 
 from datetime import date
 
+@register("RULE_001")
+def check_required_structure(document, rule):
+    slides = document.get("slides", [])
+
+    missing_items = []
+    found_items = []
+
+    # Required slides
+    for requirement in rule.get(
+        "required_slides",
+        [],
+    ):
+        expected_title = requirement["title"]
+        match_type = requirement["match"]
+
+        found = False
+
+        if match_type == "SEMANTIC":
+            expected_section = requirement.get(
+                "detected_section"
+            )
+
+            if expected_section:
+                found = any(
+                    slide.get("detected_section")
+                    == expected_section
+                    for slide in slides
+                )
+
+        elif match_type == "EXACT_OR_CLOSE":
+            found = any(
+                titles_are_close(
+                    slide.get("title"),
+                    expected_title,
+                )
+                for slide in slides
+            )
+
+        else:
+            return not_evaluated(
+                rule,
+                (
+                    "Mode de correspondance inconnu "
+                    f"pour « {expected_title} » : "
+                    f"{match_type}"
+                ),
+            )
+
+        if found:
+            found_items.append(expected_title)
+        else:
+            missing_items.append(expected_title)
+
+    # Required semantic sections
+    for requirement in rule.get(
+        "required_sections",
+        [],
+    ):
+        title = requirement["title"]
+        normalized_field = requirement.get(
+            "normalized_field"
+        )
+
+        if not normalized_field:
+            return not_evaluated(
+                rule,
+                (
+                    "Impossible d'évaluer la section "
+                    f"« {title} » : normalized_field absent."
+                ),
+            )
+
+        value = document.get(
+            normalized_field
+        )
+
+        if has_content(value):
+            found_items.append(title)
+        else:
+            missing_items.append(title)
+
+    if missing_items:
+        return make_result(
+            rule,
+            "NON_COMPLIANT",
+            (
+                "Certaines slides ou sections "
+                "obligatoires sont absentes."
+            ),
+            evidence=(
+                "Éléments manquants : "
+                + "; ".join(missing_items)
+                + ". Éléments détectés : "
+                + "; ".join(found_items)
+                + "."
+            ),
+            recommendation=(
+                "Ajouter ou renommer les éléments "
+                "obligatoires manquants."
+            ),
+        )
+
+    return make_result(
+        rule,
+        "COMPLIANT",
+        (
+            "Toutes les slides et sections "
+            "obligatoires sont présentes."
+        ),
+        evidence=(
+            "Éléments détectés : "
+            + "; ".join(found_items)
+            + "."
+        ),
+    )
 
 @register("RULE_019")
 def check_project_start_date(

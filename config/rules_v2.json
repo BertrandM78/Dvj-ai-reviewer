@@ -7,18 +7,20 @@
       "section": "STRUCTURE",
       "type": "OBLIGATION",
       "dimension": "FORME",
-      "engine": "LLM",
+      "engine": "DETERMINISTIC",
       "severity": "MAJOR",
       "applies_when": "ALWAYS",
       "description": "La proposition doit contenir l'ensemble des slides et sections obligatoires du modèle DeVinci Junior.",
       "required_slides": [
         {
           "title": "Page de couverture",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "COVER"
         },
         {
           "title": "Qui sommes-nous",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "ABOUT_DVJ"
         },
         {
           "title": "Notre compréhension de votre besoin",
@@ -26,27 +28,33 @@
         },
         {
           "title": "Références",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "REFERENCES"
         },
         {
           "title": "Méthodologie",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "METHODOLOGY"
         },
         {
           "title": "Planning",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "PLANNING"
         },
         {
           "title": "Budget",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "BUDGET"
         },
         {
           "title": "Présentation de l'équipe",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "TEAM"
         },
         {
           "title": "RSE",
-          "match": "SEMANTIC"
+          "match": "SEMANTIC",
+          "detected_section": "RSE"
         },
         {
           "title": "On poursuit ensemble",
@@ -64,6 +72,7 @@
       "required_sections": [
         {
           "title": "Solution proposée",
+          "normalized_field": "solution",
           "description": "La proposition doit comporter une section présentant explicitement la solution proposée, sans qu'une slide dédiée soit obligatoire."
         }
       ]

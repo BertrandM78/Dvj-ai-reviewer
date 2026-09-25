@@ -543,3 +543,143 @@ def test_external_resource_with_cost_is_not_evaluated():
     })
 
     assert results["RULE_025"]["status"] == "NOT_EVALUATED"
+
+def test_rule_001_compliant_when_all_structure_present():
+    rule = next(
+        rule
+        for rule in load_rules()
+        if rule["id"] == "RULE_001"
+    )
+
+    document = {
+        "slides": [
+            {
+                "title": "Étude client",
+                "detected_section": "COVER",
+            },
+            {
+                "title": "Présentation DVJ",
+                "detected_section": "ABOUT_DVJ",
+            },
+            {
+                "title": "Notre compréhension de votre besoin",
+                "detected_section": "CLIENT_NEED",
+            },
+            {
+                "title": "Nos références",
+                "detected_section": "REFERENCES",
+            },
+            {
+                "title": "Notre méthodologie",
+                "detected_section": "METHODOLOGY",
+            },
+            {
+                "title": "Planning",
+                "detected_section": "PLANNING",
+            },
+            {
+                "title": "Budget",
+                "detected_section": "BUDGET",
+            },
+            {
+                "title": "L'équipe",
+                "detected_section": "TEAM",
+            },
+            {
+                "title": "Notre démarche responsable",
+                "detected_section": "RSE",
+            },
+            {
+                "title": "On poursuit ensemble",
+                "detected_section": "OTHER",
+            },
+            {
+                "title": "Boostez votre entreprise",
+                "detected_section": "OTHER",
+            },
+            {
+                "title": "Nos coordonnées",
+                "detected_section": "CONTACT",
+            },
+        ],
+        "solution": {
+            "summary": "Solution proposée au client."
+        },
+    }
+
+    results = run_deterministic_rules(
+        document,
+        rules=[rule],
+    )
+
+    assert results[0]["status"] == "COMPLIANT"
+
+
+def test_rule_001_detects_missing_required_items():
+    rule = next(
+        rule
+        for rule in load_rules()
+        if rule["id"] == "RULE_001"
+    )
+
+    document = {
+        "slides": [
+            {
+                "title": "Étude client",
+                "detected_section": "COVER",
+            },
+            {
+                "title": "Méthodologie",
+                "detected_section": "METHODOLOGY",
+            },
+            {
+                "title": "Budget",
+                "detected_section": "BUDGET",
+            },
+        ],
+        "solution": {
+            "summary": "Solution."
+        },
+    }
+
+    results = run_deterministic_rules(
+        document,
+        rules=[rule],
+    )
+
+    result = results[0]
+
+    assert result["status"] == "NON_COMPLIANT"
+    assert "Qui sommes-nous" in result["evidence"]
+    assert "RSE" in result["evidence"]
+
+def test_rule_001_exact_or_close_does_not_accept_semantic_section_only():
+    rule = next(
+        rule
+        for rule in load_rules()
+        if rule["id"] == "RULE_001"
+    )
+
+    document = {
+        "slides": [
+            {
+                "title": "Présentation des besoins du projet",
+                "detected_section": "CLIENT_NEED",
+            },
+        ],
+        "solution": {},
+    }
+
+    results = run_deterministic_rules(
+        document,
+        rules=[rule],
+    )
+
+    result = results[0]
+
+    assert result["status"] == "NON_COMPLIANT"
+
+    assert (
+        "Notre compréhension de votre besoin"
+        in result["evidence"]
+    )

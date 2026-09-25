@@ -112,10 +112,16 @@
         }
       ],
 
+      "other_fees": [
+        {
+          "name": null,
+          "amount_ht": null
+        }
+      ],
+
       "tender_fees_ht": null,
       "total_ht": null
     },
-
     "team": {
       "project_manager": {
         "name": null,

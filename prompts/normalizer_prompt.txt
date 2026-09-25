@@ -391,6 +391,26 @@ Use information from the entire proposal when necessary.
 
 If sector or mission type cannot be reliably determined, return null.
 
+BUDGET COST CLASSIFICATION
+
+Classify budget costs carefully:
+
+- external_costs contains only costs linked to an external third-party
+  resource required by the mission, such as a software license, paid API,
+  external service provider, purchased dataset, subcontractor, or other
+  third-party expense.
+
+- Internal administrative, management or miscellaneous fees such as
+  "frais de gestion" must NOT be classified as external_costs.
+  Store them in other_fees.
+
+- tender_fees_ht is reserved exclusively for fees explicitly related to
+  a tender, RFP, appel d'offres, or equivalent procurement procedure.
+
+- Do not infer that a cost is external simply because it appears separately
+  from methodology phase prices.
+
+- Preserve the amount exactly as stated in the proposal.
 
 OUTPUT SCHEMA
 
