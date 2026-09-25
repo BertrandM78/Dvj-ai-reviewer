@@ -15,7 +15,7 @@ from src.rules.loader import load_rules
 # ============================================================
 
 st.set_page_config(
-    page_title="DVJ AI Proposal Reviewer",
+    page_title="DVJ Proposal Reviewer",
     page_icon="📄",
     layout="wide",
 )
@@ -61,7 +61,7 @@ def check_password() -> bool:
     if st.session_state.get("authenticated"):
         return True
 
-    st.title("DVJ AI Proposal Reviewer")
+    st.title("DVJ Proposal Reviewer")
 
     st.caption(
         "Assistant de relecture des propositions commerciales "
@@ -127,7 +127,33 @@ def get_status_config(status: str) -> dict:
     )
 
 
-def render_result(result: dict) -> None:
+SEVERITY_ORDER = {
+    "CRITICAL": 0,
+    "MAJOR": 1,
+    "MINOR": 2,
+    "INFO": 3,
+}
+
+
+def sort_by_priority(results: list[dict]) -> list[dict]:
+    """
+    Sort results by business severity while preserving
+    the original rule order within the same severity.
+    """
+    return sorted(
+        results,
+        key=lambda result: SEVERITY_ORDER.get(
+            get_metadata(result).get("severity", "INFO"),
+            99,
+        ),
+    )
+
+
+def render_result(
+    result: dict,
+    *,
+    expanded: bool = False,
+) -> None:
     rule_id = result.get("rule_id", "UNKNOWN")
     status = result.get("status", "UNKNOWN")
 
@@ -135,10 +161,8 @@ def render_result(result: dict) -> None:
     status_config = get_status_config(status)
 
     title = metadata.get("title", rule_id)
-    rule_type = metadata.get("type", "—")
     section = metadata.get("section", "—")
     dimension = metadata.get("dimension", "—")
-    severity = metadata.get("severity", "—")
 
     reason = (
         result.get("reason")
@@ -151,88 +175,52 @@ def render_result(result: dict) -> None:
 
     expander_title = (
         f"{status_config['icon']} "
-        f"{title} · {status_config['label']}"
+        f"{title}"
     )
-
-    expanded = status in {
-        "NON_COMPLIANT",
-        "NOT_EVALUATED",
-        "SUGGESTED",
-    }
 
     with st.expander(
         expander_title,
         expanded=expanded,
     ):
+        # Essential information first
         st.caption(
-            f"{rule_id} · "
-            f"{rule_type} · "
-            f"{section} · "
-            f"{dimension} · "
-            f"{severity}"
+            f"{status_config['label']} · {section}"
         )
 
-        st.markdown("**Pourquoi ce point est signalé**")
         st.write(reason)
-
-        if evidence:
-            st.markdown("**Élément détecté**")
-
-            if isinstance(
-                evidence,
-                (dict, list),
-            ):
-                st.json(
-                    evidence,
-                    expanded=False,
-                )
-            else:
-                st.write(evidence)
 
         if recommendation:
             st.markdown("**Action recommandée**")
             st.info(recommendation)
 
+        # Evidence is useful, but secondary.
+        if evidence:
+            with st.expander("Voir la preuve"):
+                if isinstance(
+                    evidence,
+                    (dict, list),
+                ):
+                    st.json(
+                        evidence,
+                        expanded=False,
+                    )
+                else:
+                    st.write(evidence)
 
-def apply_view(
-    results: list[dict],
-    view: str,
-) -> list[dict]:
-
-    if view == "À corriger":
-        return [
-            result
-            for result in results
-            if result.get("status")
-            in {
-                "NON_COMPLIANT",
-                "NOT_EVALUATED",
-            }
-        ]
-
-    if view == "Recommandations":
-        return [
-            result
-            for result in results
-            if result.get("status") == "SUGGESTED"
-        ]
-
-    return results
+        # Technical metadata: deliberately discreet.
+        st.caption(
+            f"{rule_id} · {dimension}"
+        )
 
 
 # ============================================================
 # HEADER
 # ============================================================
 
-st.title("DVJ AI Proposal Reviewer")
+st.title("DVJ Proposal Reviewer")
 
 st.caption(
     "Vérifiez votre proposition commerciale avant validation."
-)
-
-st.write(
-    "Le reviewer contrôle automatiquement les obligations qualité "
-    "et identifie les recommandations pertinentes."
 )
 
 st.divider()
@@ -344,14 +332,13 @@ if results:
 
     st.divider()
 
-    st.header("Résultat de l'analyse")
-
     reviewed_filename = st.session_state.get(
         "reviewed_filename"
     )
 
-    if reviewed_filename:
-        st.caption(reviewed_filename)
+    # ========================================================
+    # COUNTS
+    # ========================================================
 
     non_compliant = sum(
         result.get("status") == "NON_COMPLIANT"
@@ -368,21 +355,16 @@ if results:
         for result in results
     )
 
-    compliant = sum(
-        result.get("status") == "COMPLIANT"
-        for result in results
-    )
-
-    not_applicable = sum(
-        result.get("status") == "NOT_APPLICABLE"
-        for result in results
-    )
-
     # ========================================================
-    # SUMMARY
+    # HEADER
     # ========================================================
 
-    col1, col2, col3, col4 = st.columns(4)
+    st.header("Résultat de l'analyse")
+
+    if reviewed_filename:
+        st.caption(reviewed_filename)
+
+    col1, col2, col3 = st.columns(3)
 
     col1.metric(
         "À corriger",
@@ -399,98 +381,77 @@ if results:
         suggested,
     )
 
-    col4.metric(
-        "Conformes",
-        compliant,
+    # ========================================================
+    # ITEMS TO HANDLE
+    # ========================================================
+
+    st.divider()
+
+    st.subheader("Points à traiter")
+
+    actionable_results = [
+        result
+        for result in results
+        if result.get("status")
+        in {
+            "NON_COMPLIANT",
+            "NOT_EVALUATED",
+        }
+    ]
+
+    # ========================================================
+    # MINIMAL CONTROLS
+    # ========================================================
+
+    control_col1, control_col2 = st.columns(
+        [3, 1],
+        vertical_alignment="bottom"
     )
 
-    if non_compliant:
-        st.warning(
-            f"{non_compliant} point"
-            f"{'s' if non_compliant > 1 else ''} "
-            "à corriger avant validation."
+    with control_col1:
+        sort_mode = st.selectbox(
+            "Trier par",
+            options=[
+                "Priorité",
+                "Ordre du document",
+            ],
         )
-    else:
-        st.success(
-            "Aucune non-conformité détectée."
-        )
 
-    st.caption(
-        f"{not_applicable} contrôle"
-        f"{'s' if not_applicable != 1 else ''} "
-        "non applicable"
-    )
+    with control_col2:
+        with st.popover(
+            "Filtrer",
+            use_container_width=True,
+        ):
 
-    # ========================================================
-    # VIEW
-    # ========================================================
+            available_sections = sorted({
+                get_metadata(result).get("section")
+                for result in actionable_results
+                if get_metadata(result).get("section")
+            })
 
-    st.subheader("Relecture")
+            selected_sections = st.multiselect(
+                "Section",
+                available_sections,
+                placeholder="Toutes",
+            )
 
-    view = st.radio(
-        "Vue",
-        options=[
-            "À corriger",
-            "Recommandations",
-            "Tout",
-        ],
-        horizontal=True,
-        label_visibility="collapsed",
-    )
-
-    visible_results = apply_view(
-        results,
-        view,
-    )
+            dimension = st.radio(
+                "Dimension",
+                options=[
+                    "Toutes",
+                    "Fond",
+                    "Forme",
+                ],
+                horizontal=True,
+            )
 
     # ========================================================
-    # FILTERS
-    # ========================================================
-
-    filter_col1, filter_col2, filter_col3 = (
-        st.columns(3)
-    )
-
-    available_sections = sorted({
-        get_metadata(result).get("section")
-        for result in visible_results
-        if get_metadata(result).get("section")
-    })
-
-    available_severities = sorted({
-        get_metadata(result).get("severity")
-        for result in visible_results
-        if get_metadata(result).get("severity")
-    })
-
-    available_dimensions = sorted({
-        get_metadata(result).get("dimension")
-        for result in visible_results
-        if get_metadata(result).get("dimension")
-    })
-
-    selected_sections = filter_col1.multiselect(
-        "Section",
-        available_sections,
-    )
-
-    selected_severities = filter_col2.multiselect(
-        "Sévérité",
-        available_severities,
-    )
-
-    selected_dimensions = filter_col3.multiselect(
-        "Dimension",
-        available_dimensions,
-    )
-
-    # ========================================================
-    # APPLY FILTERS
+    # FILTER
     # ========================================================
 
     filtered_results = []
 
-    for result in visible_results:
+    for result in actionable_results:
 
         metadata = get_metadata(result)
 
@@ -502,45 +463,92 @@ if results:
             continue
 
         if (
-            selected_severities
-            and metadata.get("severity")
-            not in selected_severities
-        ):
-            continue
-
-        if (
-            selected_dimensions
-            and metadata.get("dimension")
-            not in selected_dimensions
+            dimension != "Toutes"
+            and metadata.get("dimension", "").upper()
+            != dimension.upper()
         ):
             continue
 
         filtered_results.append(result)
 
     # ========================================================
-    # DISPLAY
+    # SORT
     # ========================================================
 
-    st.caption(
-        f"{len(filtered_results)} résultat"
-        f"{'s' if len(filtered_results) != 1 else ''}"
-    )
+    if sort_mode == "Priorité":
+        filtered_results = sort_by_priority(
+            filtered_results
+        )
 
-    if not filtered_results:
+    # "Ordre du document" intentionally keeps
+    # the original reviewer/rule order.
 
-        if view == "Recommandations":
-            st.success(
-                "Aucune recommandation particulière "
-                "n'est suggérée."
-            )
+    # ========================================================
+    # DISPLAY ACTIONABLE RESULTS
+    # ========================================================
 
-        else:
-            st.info(
-                "Aucun résultat ne correspond "
-                "aux filtres sélectionnés."
-            )
+    if not actionable_results:
+
+        st.success(
+            "Aucun point à corriger ou à vérifier."
+        )
+
+    elif not filtered_results:
+
+        st.info(
+            "Aucun point ne correspond aux filtres sélectionnés."
+        )
 
     else:
 
-        for result in filtered_results:
+        for index, result in enumerate(
+            filtered_results
+        ):
+            render_result(
+                result,
+                expanded=(index == 0),
+            )
+
+    # ========================================================
+    # SUGGESTIONS
+    # ========================================================
+
+    suggestions = [
+        result
+        for result in results
+        if result.get("status") == "SUGGESTED"
+    ]
+
+    if suggestions:
+
+        st.divider()
+
+        st.subheader(
+            f"💡 Suggestion"
+            f"{'s' if len(suggestions) > 1 else ''}"
+        )
+
+        st.caption(
+            "Améliorations facultatives identifiées "
+            "dans la proposition."
+        )
+
+        for result in suggestions:
+            render_result(result)
+
+    # ========================================================
+    # FULL AUDIT
+    # ========================================================
+
+    st.divider()
+
+    with st.expander(
+        f"Voir les {len(results)} contrôles"
+    ):
+
+        st.caption(
+            "Vue exhaustive de l'ensemble des règles évaluées."
+        )
+
+        for result in results:
             render_result(result)
