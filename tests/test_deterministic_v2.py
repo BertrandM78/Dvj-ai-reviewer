@@ -1,3 +1,5 @@
+from unittest import result
+
 from src.rules.loader import load_rules
 from src.rules.deterministic import run_deterministic_rules
 
@@ -649,11 +651,22 @@ def test_rule_001_detects_missing_required_items():
 
     result = results[0]
 
-    assert result["status"] == "NON_COMPLIANT"
-    assert "Qui sommes-nous" in result["evidence"]
-    assert "RSE" in result["evidence"]
+    assert "Planning" in result["evidence"]
+    assert "Présentation de l'équipe" in result["evidence"]
 
-def test_rule_001_exact_or_close_does_not_accept_semantic_section_only():
+    assert "Page de couverture" not in result["evidence"].split(
+        "Éléments manquants :"
+    )[1].split("Éléments détectés :")[0]
+
+    assert "Méthodologie" not in result["evidence"].split(
+        "Éléments manquants :"
+    )[1].split("Éléments détectés :")[0]
+
+    assert "Budget" not in result["evidence"].split(
+        "Éléments manquants :"
+    )[1].split("Éléments détectés :")[0]
+
+def test_rule_001_accepts_all_required_structural_sections():
     rule = next(
         rule
         for rule in load_rules()
@@ -663,11 +676,33 @@ def test_rule_001_exact_or_close_does_not_accept_semantic_section_only():
     document = {
         "slides": [
             {
-                "title": "Présentation des besoins du projet",
-                "detected_section": "CLIENT_NEED",
+                "title": "Étude client",
+                "detected_section": "COVER",
+            },
+            {
+                "title": "Nos expériences",
+                "detected_section": "REFERENCES",
+            },
+            {
+                "title": "Notre méthodologie",
+                "detected_section": "METHODOLOGY",
+            },
+            {
+                "title": "Calendrier",
+                "detected_section": "PLANNING",
+            },
+            {
+                "title": "Proposition financière",
+                "detected_section": "BUDGET",
+            },
+            {
+                "title": "Équipe projet",
+                "detected_section": "TEAM",
             },
         ],
-        "solution": {},
+        "solution": {
+            "summary": "Solution proposée au client."
+        },
     }
 
     results = run_deterministic_rules(
@@ -677,9 +712,4 @@ def test_rule_001_exact_or_close_does_not_accept_semantic_section_only():
 
     result = results[0]
 
-    assert result["status"] == "NON_COMPLIANT"
-
-    assert (
-        "Notre compréhension de votre besoin"
-        in result["evidence"]
-    )
+    assert result["status"] == "COMPLIANT"

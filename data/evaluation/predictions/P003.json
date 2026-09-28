@@ -11,16 +11,16 @@
       "type": "OBLIGATION",
       "dimension": "FORME",
       "severity": "MAJOR",
-      "status": "NON_COMPLIANT",
-      "reason": "Certaines slides ou sections obligatoires sont absentes.",
-      "evidence": "Éléments manquants : Qui sommes-nous; Notre compréhension de votre besoin; Références; RSE; On poursuit ensemble; Boostez votre entreprise; Nos coordonnées. Éléments détectés : Page de couverture; Méthodologie; Planning; Budget; Présentation de l'équipe; Solution proposée.",
-      "recommendation": "Ajouter ou renommer les éléments obligatoires manquants."
+      "status": "COMPLIANT",
+      "reason": "Toutes les slides et sections obligatoires sont présentes.",
+      "evidence": "Éléments détectés : Page de couverture; Méthodologie; Planning; Budget; Présentation de l'équipe; Solution proposée.",
+      "recommendation": null
     },
     {
       "rule_id": "REC_001",
       "status": "NOT_SUGGESTED",
       "reason": "Le contenu et la complexité de la mission ne justifient pas d'explications complémentaires.",
-      "evidence": "Le document normalisé ne montre pas de complexité ou de contenu nécessitant des slides complémentaires.",
+      "evidence": "Le document ne montre pas de complexité ou de contenu nécessitant des slides complémentaires.",
       "recommendation": null
     },
     {
@@ -50,43 +50,43 @@
     {
       "rule_id": "RULE_004",
       "status": "NON_COMPLIANT",
-      "reason": "Le nom de l'interlocuteur et la fonction de l'interlocuteur ne sont pas identifiés.",
-      "evidence": "contact_name = 'Charline Blin', contact_role = null, company = null",
-      "recommendation": "Identifier clairement le nom et la fonction de l'interlocuteur ainsi que l'entreprise cliente."
+      "reason": "Le nom et la fonction de l'interlocuteur ne sont pas identifiés.",
+      "evidence": "contact_name = 'Tifenn LE MASSON', contact_role = null",
+      "recommendation": "Identifier clairement le nom et la fonction de l'interlocuteur."
     },
     {
       "rule_id": "RULE_005",
       "status": "NON_COMPLIANT",
-      "reason": "Le mode de mise en relation avec DeVinci Junior, le contexte de l'entreprise cliente, la problématique ou le besoin du client, et les principaux enjeux liés à la mission ne sont pas explicités.",
-      "evidence": "relationship_origin = null, company_context = null, problem = null, needs = [], challenges = []",
+      "reason": "Le contexte de l'entreprise cliente, la problématique ou le besoin du client, et les principaux enjeux liés à la mission ne sont pas explicités.",
+      "evidence": "company_context = null, problem = null, needs = [], challenges = []",
       "recommendation": "Démontrer une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin."
     },
     {
       "rule_id": "RULE_006",
-      "status": "NON_COMPLIANT",
-      "reason": "L'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué.",
-      "evidence": "value_proposition = null, expected_impacts = []",
-      "recommendation": "Expliquer clairement l'impact, la valeur ou le bénéfice attendu pour le client."
+      "status": "COMPLIANT",
+      "reason": "La solution proposée est explicite et l'impact attendu pour le client est expliqué.",
+      "evidence": "La solution proposée est une enquête terrain à Paris, avec une collecte et un contrôle des réponses, et une restitution des principaux constats.",
+      "recommendation": null
     },
     {
       "rule_id": "RULE_007",
       "status": "NON_COMPLIANT",
       "reason": "Les principaux besoins identifiés ne trouvent pas de réponse dans la solution proposée.",
-      "evidence": "needs = [], solution = { 'summary': 'DeVinci Junior réalisera une enquête terrain à Paris, à partir de vos questionnaires et selon les quotas définis.' }",
+      "evidence": "needs = [], solution = 'Enquête terrain à Paris'",
       "recommendation": "S'assurer que la solution proposée répond de manière cohérente aux besoins et enjeux identifiés."
     },
     {
       "rule_id": "RULE_008",
-      "status": "NON_COMPLIANT",
-      "reason": "Aucune référence n'est présentée dans la proposition.",
-      "evidence": "references = []",
-      "recommendation": "Présenter des références permettant d'illustrer l'expérience de DeVinci Junior."
+      "status": "COMPLIANT",
+      "reason": "Des références sont présentées pour illustrer l'expérience de DeVinci Junior.",
+      "evidence": "references = [{client: 'TM56', project_title: 'Étude de Marché pour TM56'}, {client: 'Paris La Défense Arena', project_title: 'Étude Quantitative sur la Consommation de Musique'}]",
+      "recommendation": null
     },
     {
       "rule_id": "REC_002",
       "status": "NOT_SUGGESTED",
-      "reason": "Aucune référence n'est présentée dans la proposition.",
-      "evidence": "references = []",
+      "reason": "Les références présentées sont pertinentes par rapport à la mission proposée.",
+      "evidence": "Les références sont des études de marché similaires.",
       "recommendation": null
     },
     {
@@ -96,10 +96,10 @@
       "type": "OBLIGATION",
       "dimension": "FOND",
       "severity": "MAJOR",
-      "status": "COMPLIANT",
-      "reason": "Toutes les phases contiennent au moins 3 étapes.",
-      "evidence": null,
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "reason": "Certaines phases ne contiennent pas au moins 3 étapes.",
+      "evidence": "Phase 1 « Cadrage et phase pilote » : 2 étape(s)",
+      "recommendation": "Détailler chaque phase avec au moins 3 étapes méthodologiques."
     },
     {
       "rule_id": "RULE_010",
@@ -115,30 +115,30 @@
     },
     {
       "rule_id": "RULE_011",
-      "status": "NON_COMPLIANT",
-      "reason": "La méthodologie ne couvre pas les principaux besoins et objectifs annoncés dans la proposition.",
-      "evidence": "needs = [], methodology = { 'phases': [...] }",
-      "recommendation": "S'assurer que la méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition."
+      "status": "COMPLIANT",
+      "reason": "La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition.",
+      "evidence": "La méthodologie décrit les phases de l'enquête terrain, la collecte et le contrôle des réponses, et la restitution des résultats.",
+      "recommendation": null
     },
     {
       "rule_id": "RULE_012",
       "status": "COMPLIANT",
       "reason": "Les livrables associés à chaque phase sont explicitement identifiés.",
-      "evidence": "methodology.phases[].deliverables",
+      "evidence": "Les livrables incluent la base numérique grand public, la base numérique des établissements interrogés, et une synthèse des principaux constats.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_013",
       "status": "NON_COMPLIANT",
       "reason": "Le format des livrables n'est pas précisé pour chaque phase lorsque celle-ci produit un livrable.",
-      "evidence": "methodology.phases[].deliverables[].format",
-      "recommendation": "Préciser le format des livrables pour chaque phase lorsque celle-ci produit un livrable."
+      "evidence": "Certains livrables n'ont pas de format spécifié.",
+      "recommendation": "Préciser le format de chaque livrable lorsque cela est applicable."
     },
     {
       "rule_id": "RULE_014",
       "status": "COMPLIANT",
       "reason": "Les livrables annoncés sont cohérents avec les travaux décrits dans la méthodologie.",
-      "evidence": "methodology.phases[].deliverables, methodology.phases[].steps",
+      "evidence": "Les livrables correspondent aux phases décrites dans la méthodologie.",
       "recommendation": null
     },
     {
@@ -162,7 +162,7 @@
       "severity": "MAJOR",
       "status": "NON_COMPLIANT",
       "reason": "Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget.",
-      "evidence": "Phase 1 : titre différent entre méthodologie « Cadrage et phase pilote » et budget « Phase 1 : Cadrage et pilote »; Phase 2 : titre différent entre méthodologie « Enquête terrain auprès du grand public » et budget « Phase 2 : Enquête terrain auprès du grand public »; Phase 3 : titre différent entre méthodologie « Enquête auprès des établissements » et budget « Phase 3 : Enquête auprès des établissements »; Phase 4 : titre différent entre méthodologie « Contrôle qualité et restitution » et budget « Phase 4 : Contrôle qualité et restitution »",
+      "evidence": "Méthodologie et planning ne contiennent pas exactement les mêmes phases dans le même ordre. Méthodologie=[(1, 'Cadrage et phase pilote'), (2, 'Enquête terrain auprès du grand public'), (3, 'Enquête auprès des établissements'), (4, 'Contrôle qualité et restitution'), (None, \"Analyse de l'impact du projet\")] ; Planning=[(1, 'Cadrage et phase pilote'), (2, 'Enquête terrain auprès du grand public'), (3, 'Enquête auprès des établissements'), (4, 'Contrôle qualité et restitution')]; Phase 1 : titre différent entre méthodologie « Cadrage et phase pilote » et budget « Phase 1 : Cadrage et pilote »; Phase 2 : titre différent entre méthodologie « Enquête terrain auprès du grand public » et budget « Phase 2 : Enquête terrain auprès du grand public »; Phase 3 : titre différent entre méthodologie « Enquête auprès des établissements » et budget « Phase 3 : Enquête auprès des établissements »; Phase 4 : titre différent entre méthodologie « Contrôle qualité et restitution » et budget « Phase 4 : Contrôle qualité et restitution »",
       "recommendation": "Aligner les numéros, titres et l'ordre des phases entre les sections. Une phase explicitement gratuite peut être absente du budget."
     },
     {
@@ -193,7 +193,7 @@
       "rule_id": "RULE_018",
       "status": "COMPLIANT",
       "reason": "Le planning respecte les dépendances opérationnelles décrites dans la méthodologie.",
-      "evidence": "planning.phases[].parallel_with",
+      "evidence": "Les phases sont planifiées de manière séquentielle sans chevauchement.",
       "recommendation": null
     },
     {
@@ -205,7 +205,7 @@
       "severity": "MINOR",
       "status": "COMPLIANT",
       "reason": "La date de début du projet est un jour de semaine.",
-      "evidence": "Date de début : 2026-11-12",
+      "evidence": "Date de début : 2026-10-01",
       "recommendation": null
     },
     {
@@ -260,7 +260,7 @@
       "rule_id": "RULE_024",
       "status": "NON_COMPLIANT",
       "reason": "Les frais applicables à l'appel d'offres ne sont pas intégrés au budget.",
-      "evidence": "budget.tender_fees_ht = null",
+      "evidence": "tender_fees_ht = null",
       "recommendation": "Intégrer les frais applicables à l'appel d'offres dans le budget."
     },
     {
@@ -272,21 +272,21 @@
       "severity": "MAJOR",
       "status": "NON_COMPLIANT",
       "reason": "Le budget contient au moins un coût externe sans besoin externe identifiable dans la méthodologie.",
-      "evidence": "[{'name': \"Frais liés à la plateforme d'appels d'offres\", 'amount_ht': 130}]",
+      "evidence": "[{'name': \"Frais liés à la plateforme d'appels d'o\\ue007res\", 'amount_ht': 130}]",
       "recommendation": "Relier chaque coût externe budgété à un besoin explicite dans la méthodologie."
     },
     {
       "rule_id": "RULE_026",
       "status": "COMPLIANT",
       "reason": "La charge en JEH est cohérente avec l'ampleur des travaux et livrables annoncés.",
-      "evidence": "budget.phases[].jeh, methodology.phases[].jeh",
+      "evidence": "La charge totale en JEH est de 10, cohérente avec les phases décrites.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_027",
       "status": "COMPLIANT",
       "reason": "Les compétences explicitement présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission.",
-      "evidence": "team.contributors[].skills",
+      "evidence": "Les compétences des intervenants incluent le développement commercial, le marketing, la gestion de projet, et l'analyse financière.",
       "recommendation": null
     },
     {
@@ -303,30 +303,30 @@
     },
     {
       "rule_id": "REC_004",
-      "status": "SUGGESTED",
-      "reason": "La composition de l'équipe semble compatible avec la charge, les délais et les éventuels travaux parallèles.",
-      "evidence": "budget.phases[].jeh, methodology.phases[].duration_weeks, team.contributors[].name",
-      "recommendation": "Vérifier que la composition de l'équipe est compatible avec la charge, les délais et les éventuels travaux parallèles."
+      "status": "NOT_SUGGESTED",
+      "reason": "La composition de l'équipe paraît compatible avec la charge, les délais et les éventuels travaux parallèles.",
+      "evidence": "La charge totale est de 10 JEH sur 6 semaines, avec deux intervenants principaux.",
+      "recommendation": null
     },
     {
       "rule_id": "REC_006",
       "status": "NOT_SUGGESTED",
-      "reason": "Le besoin, le périmètre ou les hypothèses de la mission ne présentent pas d'incertitude importante pouvant être réduite avant la mission principale.",
-      "evidence": "problem = null, needs = []",
+      "reason": "Le besoin, le périmètre ou les hypothèses de la mission ne présentent pas d'incertitude importante.",
+      "evidence": "La mission est une enquête terrain bien définie.",
       "recommendation": null
     },
     {
       "rule_id": "REC_007",
       "status": "NOT_SUGGESTED",
       "reason": "La mission ne comporte pas d'incertitude technique importante qui pourrait être testée à petite échelle.",
-      "evidence": "methodology.phases[].technologies = []",
+      "evidence": "La mission est une enquête terrain standard.",
       "recommendation": null
     },
     {
       "rule_id": "REC_008",
       "status": "NOT_SUGGESTED",
-      "reason": "La mission ne possède pas de composante technique importante et les technologies utilisées sont suffisamment mises en avant.",
-      "evidence": "methodology.phases[].technologies = []",
+      "reason": "La mission ne possède pas de composante technique importante nécessitant une mise en avant des technologies utilisées.",
+      "evidence": "La mission est une enquête terrain utilisant des outils standard.",
       "recommendation": null
     }
   ]

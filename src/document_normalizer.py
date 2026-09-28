@@ -15,7 +15,6 @@ NORMALIZED_SCHEMA_PATH = Path(
     "config/normalized_document_schema_v2.json"
 )
 
-
 bedrock_client = get_aws_client(
     "bedrock-runtime",
     REGION,
@@ -97,7 +96,8 @@ def normalize_document(proposal_text: str) -> dict:
     cleaned_output = cleaned_output.strip()
 
     try:
-        return json.loads(cleaned_output)
+        normalized_document = json.loads(cleaned_output)
+        return normalized_document
 
     except json.JSONDecodeError as exc:
         raise ValueError(

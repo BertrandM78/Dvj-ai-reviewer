@@ -13,15 +13,15 @@
       "severity": "MAJOR",
       "status": "NON_COMPLIANT",
       "reason": "Certaines slides ou sections obligatoires sont absentes.",
-      "evidence": "Éléments manquants : Qui sommes-nous; Notre compréhension de votre besoin; Références; Présentation de l'équipe; RSE; On poursuit ensemble; Boostez votre entreprise; Nos coordonnées. Éléments détectés : Page de couverture; Méthodologie; Planning; Budget; Solution proposée.",
+      "evidence": "Éléments manquants : Références; Présentation de l'équipe. Éléments détectés : Page de couverture; Méthodologie; Planning; Budget; Solution proposée.",
       "recommendation": "Ajouter ou renommer les éléments obligatoires manquants."
     },
     {
       "rule_id": "REC_001",
       "status": "SUGGESTED",
-      "reason": "Le contenu de la mission, en particulier la méthodologie sur-mesure et l'évaluation RSE, justifie une explication complémentaire.",
-      "evidence": "La méthodologie comprend des phases détaillées et une évaluation RSE, ce qui pourrait bénéficier d'une clarification supplémentaire.",
-      "recommendation": "Ajouter une slide expliquant en détail la méthodologie sur-mesure et l'évaluation RSE pour renforcer la compréhension et la crédibilité de la proposition."
+      "reason": "Le contenu de la mission, en particulier la méthodologie et les livrables, pourrait bénéficier d'une explication complémentaire pour améliorer la compréhension et la crédibilité de la proposition.",
+      "evidence": "La méthodologie inclut des phases détaillées et des livrables spécifiques qui pourraient être mieux expliqués avec des slides complémentaires.",
+      "recommendation": "Ajouter des slides complémentaires pour expliquer en détail la méthodologie et les livrables, ainsi que l'évaluation RSE du projet."
     },
     {
       "rule_id": "RULE_002",
@@ -50,9 +50,9 @@
     {
       "rule_id": "RULE_004",
       "status": "NON_COMPLIANT",
-      "reason": "Le nom de l'interlocuteur et sa fonction ne sont pas identifiés.",
-      "evidence": "contact_name = 'Aymeric SAMPOL', contact_role = null",
-      "recommendation": "Identifier clairement le nom et la fonction de l'interlocuteur dans la proposition."
+      "reason": "La fonction de l'interlocuteur n'est pas identifiée.",
+      "evidence": "Le nom de l'interlocuteur est 'Aymeric SAMPOL', l'entreprise cliente est 'ESILV', mais la fonction de l'interlocuteur est null.",
+      "recommendation": "Identifier clairement la fonction de l'interlocuteur dans la proposition."
     },
     {
       "rule_id": "RULE_005",
@@ -63,30 +63,30 @@
     },
     {
       "rule_id": "RULE_006",
-      "status": "NON_COMPLIANT",
-      "reason": "L'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué.",
-      "evidence": "value_proposition = null, expected_impacts = []",
-      "recommendation": "Expliquer clairement l'impact, la valeur ou le bénéfice attendu pour le client dans la proposition."
+      "status": "COMPLIANT",
+      "reason": "La proposition explique clairement ce que DeVinci Junior propose de réaliser et la valeur attendue pour le client.",
+      "evidence": "La solution proposée est explicite et l'impact, la valeur ou le bénéfice attendu pour le client est expliqué.",
+      "recommendation": null
     },
     {
       "rule_id": "RULE_007",
       "status": "COMPLIANT",
       "reason": "La solution proposée répond de manière cohérente aux besoins et enjeux identifiés.",
-      "evidence": "Les principaux besoins identifiés trouvent une réponse dans la solution proposée, et la solution ne contient pas d'élément majeur sans lien apparent avec le besoin.",
+      "evidence": "Les principaux besoins identifiés trouvent une réponse dans la solution proposée et la solution ne contient pas d'élément majeur sans lien apparent avec le besoin.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_008",
       "status": "NON_COMPLIANT",
-      "reason": "Aucune référence n'est présentée dans la proposition.",
-      "evidence": "references = []",
-      "recommendation": "Présenter des références permettant d'illustrer l'expérience de DeVinci Junior."
+      "reason": "La proposition ne présente pas de références.",
+      "evidence": "La section'references' est vide.",
+      "recommendation": "Ajouter des références pour illustrer l'expérience de DeVinci Junior."
     },
     {
       "rule_id": "REC_002",
       "status": "NOT_SUGGESTED",
       "reason": "Aucune référence n'est présentée dans la proposition.",
-      "evidence": "references = []",
+      "evidence": "La section'references' est vide.",
       "recommendation": null
     },
     {
@@ -117,7 +117,7 @@
       "rule_id": "RULE_011",
       "status": "COMPLIANT",
       "reason": "La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition.",
-      "evidence": "La méthodologie comprend des phases détaillées répondant aux besoins identifiés.",
+      "evidence": "La méthodologie inclut des phases détaillées qui répondent aux besoins et objectifs annoncés.",
       "recommendation": null
     },
     {
@@ -130,8 +130,8 @@
     {
       "rule_id": "RULE_013",
       "status": "COMPLIANT",
-      "reason": "Le format des livrables est précisé pour chaque phase.",
-      "evidence": "Les formats .pdf et.docx sont précisés pour les livrables.",
+      "reason": "Le format des livrables est précisé pour chaque phase lorsque celle-ci produit un livrable.",
+      "evidence": "Les formats des livrables sont précisés (.pdf,.docx).",
       "recommendation": null
     },
     {
@@ -162,7 +162,7 @@
       "severity": "MAJOR",
       "status": "NON_COMPLIANT",
       "reason": "Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget.",
-      "evidence": "Méthodologie et planning ne contiennent pas exactement les mêmes phases dans le même ordre. Méthodologie=[(1, 'Recueil terrain du processus de suivi'), (2, 'Analyse des retours'), (None, 'Evaluation RSE du projet')] ; Planning=[(1, 'Recueil terrain du processus de suivi'), (2, 'Analyse des retours')]; Phase 2 : titre différent entre méthodologie « Analyse des retours » et budget « Analyse des résultats »",
+      "evidence": "Méthodologie et planning ne contiennent pas exactement les mêmes phases dans le même ordre. Méthodologie=[(1, 'Recueil terrain du processus de suivi'), (2, 'Analyse des retours'), (None, 'Evaluation RSE du projet')] ; Planning=[(1, 'Recueil terrain du processus de suivi'), (2, 'Analyse concurrentielle'), (None, 'Bonus : Evaluation RSE du projet')]; Phase 2 : titre différent entre méthodologie « Analyse des retours » et budget « Analyse des résultats »; L'ordre des phases du budget ne correspond pas à celui de la méthodologie. Budget=[1, 2, None] ; ordre attendu=[1, 2]",
       "recommendation": "Aligner les numéros, titres et l'ordre des phases entre les sections. Une phase explicitement gratuite peut être absente du budget."
     },
     {
@@ -172,8 +172,8 @@
       "type": "OBLIGATION",
       "dimension": "FOND",
       "severity": "MAJOR",
-      "status": "COMPLIANT",
-      "reason": "Les durées des phases sont cohérentes entre la méthodologie et le planning.",
+      "status": "NOT_EVALUATED",
+      "reason": "Certaines durées nécessaires à la comparaison sont absentes : phases [2].",
       "evidence": null,
       "recommendation": null
     },
@@ -184,16 +184,16 @@
       "type": "OBLIGATION",
       "dimension": "FOND",
       "severity": "MAJOR",
-      "status": "COMPLIANT",
-      "reason": "La durée totale est cohérente avec le planning.",
-      "evidence": "Durée totale : 13 semaine(s).",
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "reason": "La durée totale annoncée ne correspond pas à la durée représentée dans le planning.",
+      "evidence": "Durée annoncée : 13 semaine(s) ; planning : 12 semaine(s).",
+      "recommendation": "Aligner la durée totale annoncée avec le planning détaillé."
     },
     {
       "rule_id": "RULE_018",
       "status": "COMPLIANT",
       "reason": "Le planning respecte les dépendances opérationnelles décrites dans la méthodologie.",
-      "evidence": "Les phases sont planifiées de manière séquentielle sans chevauchement.",
+      "evidence": "Les phases sont planifiées de manière cohérente avec les dépendances décrites.",
       "recommendation": null
     },
     {
@@ -239,10 +239,10 @@
       "type": "OBLIGATION",
       "dimension": "FOND",
       "severity": "MAJOR",
-      "status": "NON_COMPLIANT",
-      "reason": "La part de gestion de projet est en dehors de la plage attendue.",
-      "evidence": "Gestion de projet : 200.00 € HT ; total : 1000.00 € HT ; part : 20.0 %.",
-      "recommendation": "Vérifier que la gestion de projet représente entre 8 % et 12 % du total HT."
+      "status": "NOT_EVALUATED",
+      "reason": "Les montants nécessaires au calcul sont absents.",
+      "evidence": null,
+      "recommendation": null
     },
     {
       "rule_id": "RULE_023",
@@ -279,14 +279,14 @@
       "rule_id": "RULE_026",
       "status": "COMPLIANT",
       "reason": "La charge en JEH est cohérente avec l'ampleur des travaux et livrables annoncés.",
-      "evidence": "La charge totale en JEH (8) est cohérente avec les phases et livrables décrits.",
+      "evidence": "Les JEH sont répartis de manière cohérente entre les phases.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_027",
       "status": "NON_COMPLIANT",
       "reason": "Les compétences des intervenants ne sont pas explicitement présentées.",
-      "evidence": "team.contributors = []",
+      "evidence": "La section 'team' ne contient pas d'informations sur les compétences des intervenants.",
       "recommendation": "Présenter les compétences des intervenants pour assurer leur adéquation avec les exigences techniques et métier de la mission."
     },
     {
@@ -304,29 +304,29 @@
     {
       "rule_id": "REC_004",
       "status": "SUGGESTED",
-      "reason": "La charge et la durée sont identifiées, mais les ressources mobilisées ne sont pas clairement définies.",
-      "evidence": "La charge totale en JEH est de 8, répartie sur 13 semaines, mais les intervenants ne sont pas détaillés.",
-      "recommendation": "Vérifier que la composition de l'équipe est compatible avec la charge et les délais, et présenter les ressources mobilisées de manière claire."
+      "reason": "La composition de l'équipe semble compatible avec la charge et les délais, mais un point de vigilance est soulevé en raison du nombre limité d'intervenants.",
+      "evidence": "La charge totale est de 9 JEH pour une durée de 13 semaines, avec un nombre limité d'intervenants.",
+      "recommendation": "Vérifier que la composition de l'équipe est suffisante pour tenir la charge et les délais, et considérer l'ajout de ressources si nécessaire."
     },
     {
       "rule_id": "REC_006",
       "status": "SUGGESTED",
       "reason": "Le besoin et le périmètre de la mission présentent une incertitude importante qui pourrait être réduite avant la mission principale.",
-      "evidence": "La mission comporte une composante technique importante et des incertitudes sur le processus de suivi AESH.",
-      "recommendation": "Évaluer la possibilité d'une pré-étude pour mieux cadrer la mission et réduire le risque."
+      "evidence": "La mission vise à structurer et homogénéiser un processus complexe avec des besoins spécifiques.",
+      "recommendation": "Évaluer la possibilité de mener une pré-étude pour mieux cadrer la mission et réduire le risque."
     },
     {
       "rule_id": "REC_007",
       "status": "NOT_SUGGESTED",
       "reason": "La mission ne comporte pas d'incertitude technique importante qui pourrait être testée à petite échelle.",
-      "evidence": "Les technologies utilisées ne sont pas complexes et ne nécessitent pas de validation à petite échelle.",
+      "evidence": "La méthodologie est clairement définie et ne mentionne pas d'incertitudes techniques majeures.",
       "recommendation": null
     },
     {
       "rule_id": "REC_008",
       "status": "NOT_SUGGESTED",
       "reason": "La mission ne possède pas de composante technique importante nécessitant une mise en avant des technologies utilisées.",
-      "evidence": "Les technologies utilisées ne sont pas détaillées et ne semblent pas critiques pour la compréhension de la proposition.",
+      "evidence": "La méthodologie ne mentionne pas l'utilisation de technologies spécifiques.",
       "recommendation": null
     }
   ]

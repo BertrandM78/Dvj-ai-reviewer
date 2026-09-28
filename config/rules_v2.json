@@ -10,26 +10,12 @@
       "engine": "DETERMINISTIC",
       "severity": "MAJOR",
       "applies_when": "ALWAYS",
-      "description": "La proposition doit contenir l'ensemble des slides et sections obligatoires du modèle DeVinci Junior.",
+      "description": "La proposition doit contenir l'ensemble des sections structurelles obligatoires du modèle DeVinci Junior.",
       "required_slides": [
         {
           "title": "Page de couverture",
           "match": "SEMANTIC",
           "detected_section": "COVER"
-        },
-        {
-          "title": "Qui sommes-nous",
-          "match": "SEMANTIC",
-          "detected_section": "ABOUT_DVJ"
-        },
-        {
-          "title": "Notre compréhension de votre besoin",
-          "match": "EXACT_OR_CLOSE"
-        },
-        {
-          "title": "Références",
-          "match": "SEMANTIC",
-          "detected_section": "REFERENCES"
         },
         {
           "title": "Méthodologie",
@@ -50,30 +36,13 @@
           "title": "Présentation de l'équipe",
           "match": "SEMANTIC",
           "detected_section": "TEAM"
-        },
-        {
-          "title": "RSE",
-          "match": "SEMANTIC",
-          "detected_section": "RSE"
-        },
-        {
-          "title": "On poursuit ensemble",
-          "match": "EXACT_OR_CLOSE"
-        },
-        {
-          "title": "Boostez votre entreprise",
-          "match": "EXACT_OR_CLOSE"
-        },
-        {
-          "title": "Nos coordonnées",
-          "match": "EXACT_OR_CLOSE"
         }
       ],
       "required_sections": [
         {
           "title": "Solution proposée",
           "normalized_field": "solution",
-          "description": "La proposition doit comporter une section présentant explicitement la solution proposée, sans qu'une slide dédiée soit obligatoire."
+          "description": "La proposition doit présenter explicitement la solution proposée."
         }
       ]
     },

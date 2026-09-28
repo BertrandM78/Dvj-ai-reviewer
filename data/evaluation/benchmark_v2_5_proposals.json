@@ -42,8 +42,8 @@
   ],
   "global_metrics": {
     "total_decisions": 140,
-    "correct_decisions": 101,
-    "accuracy": 0.7214285714285714,
+    "correct_decisions": 108,
+    "accuracy": 0.7714285714285715,
     "ground_truth_distribution": {
       "COMPLIANT": 88,
       "NON_COMPLIANT": 30,
@@ -51,27 +51,27 @@
       "NOT_APPLICABLE": 10
     },
     "prediction_distribution": {
-      "COMPLIANT": 79,
-      "NON_COMPLIANT": 38,
-      "NOT_EVALUATED": 12,
-      "NOT_APPLICABLE": 11
+      "COMPLIANT": 85,
+      "NON_COMPLIANT": 29,
+      "NOT_EVALUATED": 14,
+      "NOT_APPLICABLE": 12
     },
     "confusion_matrix": {
       "COMPLIANT": {
-        "COMPLIANT": 67,
-        "NON_COMPLIANT": 15,
+        "COMPLIANT": 74,
+        "NON_COMPLIANT": 7,
         "NOT_EVALUATED": 6,
-        "NOT_APPLICABLE": 0
+        "NOT_APPLICABLE": 1
       },
       "NON_COMPLIANT": {
-        "COMPLIANT": 11,
+        "COMPLIANT": 9,
         "NON_COMPLIANT": 19,
-        "NOT_EVALUATED": 0,
+        "NOT_EVALUATED": 2,
         "NOT_APPLICABLE": 0
       },
       "NOT_EVALUATED": {
-        "COMPLIANT": 1,
-        "NON_COMPLIANT": 3,
+        "COMPLIANT": 2,
+        "NON_COMPLIANT": 2,
         "NOT_EVALUATED": 6,
         "NOT_APPLICABLE": 2
       },
@@ -85,18 +85,18 @@
     "binary_violation_detection": {
       "evaluated_decisions": 118,
       "tp": 19,
-      "fp": 15,
+      "fp": 7,
       "fn": 11,
-      "tn": 67,
-      "precision": 0.5588235294117647,
+      "tn": 74,
+      "precision": 0.7307692307692307,
       "recall": 0.6333333333333333,
-      "f1": 0.59375
+      "f1": 0.6785714285714285
     },
     "abstention": {
-      "count": 12,
-      "rate": 0.08571428571428572,
-      "binary_count": 6,
-      "binary_rate": 0.05084745762711865
+      "count": 14,
+      "rate": 0.1,
+      "binary_count": 8,
+      "binary_rate": 0.06779661016949153
     },
     "not_applicable": {
       "count": 10,
@@ -112,8 +112,8 @@
   "per_proposal": {
     "P001": {
       "total_decisions": 28,
-      "correct_decisions": 24,
-      "accuracy": 0.8571428571428571,
+      "correct_decisions": 23,
+      "accuracy": 0.8214285714285714,
       "ground_truth_distribution": {
         "COMPLIANT": 16,
         "NON_COMPLIANT": 7,
@@ -121,9 +121,9 @@
         "NOT_APPLICABLE": 3
       },
       "prediction_distribution": {
-        "COMPLIANT": 15,
-        "NON_COMPLIANT": 8,
-        "NOT_EVALUATED": 2,
+        "COMPLIANT": 14,
+        "NON_COMPLIANT": 7,
+        "NOT_EVALUATED": 4,
         "NOT_APPLICABLE": 3
       },
       "confusion_matrix": {
@@ -134,9 +134,9 @@
           "NOT_APPLICABLE": 0
         },
         "NON_COMPLIANT": {
-          "COMPLIANT": 1,
-          "NON_COMPLIANT": 6,
-          "NOT_EVALUATED": 0,
+          "COMPLIANT": 0,
+          "NON_COMPLIANT": 5,
+          "NOT_EVALUATED": 2,
           "NOT_APPLICABLE": 0
         },
         "NOT_EVALUATED": {
@@ -154,19 +154,19 @@
       },
       "binary_violation_detection": {
         "evaluated_decisions": 23,
-        "tp": 6,
+        "tp": 5,
         "fp": 1,
-        "fn": 1,
+        "fn": 2,
         "tn": 14,
-        "precision": 0.8571428571428571,
-        "recall": 0.8571428571428571,
-        "f1": 0.8571428571428571
+        "precision": 0.8333333333333334,
+        "recall": 0.7142857142857143,
+        "f1": 0.7692307692307692
       },
       "abstention": {
-        "count": 2,
-        "rate": 0.07142857142857142,
-        "binary_count": 1,
-        "binary_rate": 0.043478260869565216
+        "count": 4,
+        "rate": 0.14285714285714285,
+        "binary_count": 3,
+        "binary_rate": 0.13043478260869565
       },
       "not_applicable": {
         "count": 3,
@@ -181,8 +181,8 @@
     },
     "P002": {
       "total_decisions": 28,
-      "correct_decisions": 20,
-      "accuracy": 0.7142857142857143,
+      "correct_decisions": 21,
+      "accuracy": 0.75,
       "ground_truth_distribution": {
         "COMPLIANT": 20,
         "NON_COMPLIANT": 5,
@@ -190,17 +190,17 @@
         "NOT_APPLICABLE": 2
       },
       "prediction_distribution": {
-        "COMPLIANT": 19,
-        "NON_COMPLIANT": 6,
+        "COMPLIANT": 20,
+        "NON_COMPLIANT": 4,
         "NOT_EVALUATED": 2,
-        "NOT_APPLICABLE": 1
+        "NOT_APPLICABLE": 2
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 16,
-          "NON_COMPLIANT": 3,
+          "COMPLIANT": 17,
+          "NON_COMPLIANT": 1,
           "NOT_EVALUATED": 1,
-          "NOT_APPLICABLE": 0
+          "NOT_APPLICABLE": 1
         },
         "NON_COMPLIANT": {
           "COMPLIANT": 3,
@@ -224,12 +224,12 @@
       "binary_violation_detection": {
         "evaluated_decisions": 25,
         "tp": 2,
-        "fp": 3,
+        "fp": 1,
         "fn": 3,
-        "tn": 16,
-        "precision": 0.4,
+        "tn": 17,
+        "precision": 0.6666666666666666,
         "recall": 0.4,
-        "f1": 0.4000000000000001
+        "f1": 0.5
       },
       "abstention": {
         "count": 2,
@@ -250,8 +250,8 @@
     },
     "P003": {
       "total_decisions": 28,
-      "correct_decisions": 18,
-      "accuracy": 0.6428571428571429,
+      "correct_decisions": 22,
+      "accuracy": 0.7857142857142857,
       "ground_truth_distribution": {
         "COMPLIANT": 16,
         "NON_COMPLIANT": 7,
@@ -259,27 +259,27 @@
         "NOT_APPLICABLE": 1
       },
       "prediction_distribution": {
-        "COMPLIANT": 12,
-        "NON_COMPLIANT": 12,
+        "COMPLIANT": 15,
+        "NON_COMPLIANT": 9,
         "NOT_EVALUATED": 3,
         "NOT_APPLICABLE": 1
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 10,
-          "NON_COMPLIANT": 5,
+          "COMPLIANT": 13,
+          "NON_COMPLIANT": 2,
           "NOT_EVALUATED": 1,
           "NOT_APPLICABLE": 0
         },
         "NON_COMPLIANT": {
-          "COMPLIANT": 2,
-          "NON_COMPLIANT": 5,
+          "COMPLIANT": 1,
+          "NON_COMPLIANT": 6,
           "NOT_EVALUATED": 0,
           "NOT_APPLICABLE": 0
         },
         "NOT_EVALUATED": {
-          "COMPLIANT": 0,
-          "NON_COMPLIANT": 2,
+          "COMPLIANT": 1,
+          "NON_COMPLIANT": 1,
           "NOT_EVALUATED": 2,
           "NOT_APPLICABLE": 0
         },
@@ -292,13 +292,13 @@
       },
       "binary_violation_detection": {
         "evaluated_decisions": 23,
-        "tp": 5,
-        "fp": 5,
-        "fn": 2,
-        "tn": 10,
-        "precision": 0.5,
-        "recall": 0.7142857142857143,
-        "f1": 0.588235294117647
+        "tp": 6,
+        "fp": 2,
+        "fn": 1,
+        "tn": 13,
+        "precision": 0.75,
+        "recall": 0.8571428571428571,
+        "f1": 0.7999999999999999
       },
       "abstention": {
         "count": 3,
@@ -319,8 +319,8 @@
     },
     "P004": {
       "total_decisions": 28,
-      "correct_decisions": 22,
-      "accuracy": 0.7857142857142857,
+      "correct_decisions": 23,
+      "accuracy": 0.8214285714285714,
       "ground_truth_distribution": {
         "COMPLIANT": 20,
         "NON_COMPLIANT": 4,
@@ -328,15 +328,15 @@
         "NOT_APPLICABLE": 2
       },
       "prediction_distribution": {
-        "COMPLIANT": 15,
-        "NON_COMPLIANT": 7,
+        "COMPLIANT": 16,
+        "NON_COMPLIANT": 6,
         "NOT_EVALUATED": 3,
         "NOT_APPLICABLE": 3
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 15,
-          "NON_COMPLIANT": 3,
+          "COMPLIANT": 16,
+          "NON_COMPLIANT": 2,
           "NOT_EVALUATED": 2,
           "NOT_APPLICABLE": 0
         },
@@ -362,12 +362,12 @@
       "binary_violation_detection": {
         "evaluated_decisions": 24,
         "tp": 4,
-        "fp": 3,
+        "fp": 2,
         "fn": 0,
-        "tn": 15,
-        "precision": 0.5714285714285714,
+        "tn": 16,
+        "precision": 0.6666666666666666,
         "recall": 1.0,
-        "f1": 0.7272727272727273
+        "f1": 0.8
       },
       "abstention": {
         "count": 3,
@@ -388,8 +388,8 @@
     },
     "P005": {
       "total_decisions": 28,
-      "correct_decisions": 17,
-      "accuracy": 0.6071428571428571,
+      "correct_decisions": 19,
+      "accuracy": 0.6785714285714286,
       "ground_truth_distribution": {
         "COMPLIANT": 16,
         "NON_COMPLIANT": 7,
@@ -397,15 +397,15 @@
         "NOT_APPLICABLE": 2
       },
       "prediction_distribution": {
-        "COMPLIANT": 18,
-        "NON_COMPLIANT": 5,
+        "COMPLIANT": 20,
+        "NON_COMPLIANT": 3,
         "NOT_EVALUATED": 2,
         "NOT_APPLICABLE": 3
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 12,
-          "NON_COMPLIANT": 3,
+          "COMPLIANT": 14,
+          "NON_COMPLIANT": 1,
           "NOT_EVALUATED": 1,
           "NOT_APPLICABLE": 0
         },
@@ -431,12 +431,12 @@
       "binary_violation_detection": {
         "evaluated_decisions": 23,
         "tp": 2,
-        "fp": 3,
+        "fp": 1,
         "fn": 5,
-        "tn": 12,
-        "precision": 0.4,
+        "tn": 14,
+        "precision": 0.6666666666666666,
         "recall": 0.2857142857142857,
-        "f1": 0.3333333333333333
+        "f1": 0.4
       },
       "abstention": {
         "count": 2,
@@ -470,20 +470,29 @@
     {
       "proposal_id": "P001",
       "proposal_reference": "DE-0926-1044-1068-1102",
-      "rule_id": "RULE_006",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "La solution proposée est explicitement décrite.",
-      "prediction_explanation": "L'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué."
+      "rule_id": "RULE_016",
+      "ground_truth": "NON_COMPLIANT",
+      "prediction": "NOT_EVALUATED",
+      "ground_truth_reason": "La répartition temporelle du planning n'est pas cohérente avec les durées annoncées dans la méthodologie.",
+      "prediction_explanation": "Certaines durées nécessaires à la comparaison sont absentes : phases [2]."
     },
     {
       "proposal_id": "P001",
       "proposal_reference": "DE-0926-1044-1068-1102",
-      "rule_id": "RULE_016",
+      "rule_id": "RULE_017",
+      "ground_truth": "COMPLIANT",
+      "prediction": "NON_COMPLIANT",
+      "ground_truth_reason": "La durée globale annoncée est cohérente avec les durées des phases.",
+      "prediction_explanation": "La durée totale annoncée ne correspond pas à la durée représentée dans le planning."
+    },
+    {
+      "proposal_id": "P001",
+      "proposal_reference": "DE-0926-1044-1068-1102",
+      "rule_id": "RULE_022",
       "ground_truth": "NON_COMPLIANT",
-      "prediction": "COMPLIANT",
-      "ground_truth_reason": "La répartition temporelle du planning n'est pas cohérente avec les durées annoncées dans la méthodologie.",
-      "prediction_explanation": "Les durées des phases sont cohérentes entre la méthodologie et le planning."
+      "prediction": "NOT_EVALUATED",
+      "ground_truth_reason": "La gestion de projet représente 200 EUR sur 1000 EUR HT, soit 20 %, au-dessus de la fourchette de 8 à 12 %.",
+      "prediction_explanation": "Les montants nécessaires au calcul sont absents."
     },
     {
       "proposal_id": "P001",
@@ -493,15 +502,6 @@
       "prediction": "NON_COMPLIANT",
       "ground_truth_reason": "Les informations disponibles ne permettent pas d'évaluer suffisamment les compétences des contributeurs.",
       "prediction_explanation": "Les compétences des intervenants ne sont pas explicitement présentées."
-    },
-    {
-      "proposal_id": "P002",
-      "proposal_reference": "DE-0926-1045-1069-1103",
-      "rule_id": "RULE_001",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Les principales sections obligatoires de la proposition sont présentes.",
-      "prediction_explanation": "Certaines slides ou sections obligatoires sont absentes."
     },
     {
       "proposal_id": "P002",
@@ -519,7 +519,7 @@
       "ground_truth": "NON_COMPLIANT",
       "prediction": "COMPLIANT",
       "ground_truth_reason": "La section solution reste générique et indique seulement un accompagnement pour répondre à la problématique sans expliciter la solution proposée.",
-      "prediction_explanation": "La proposition explique clairement ce que DeVinci Junior propose de réaliser et la valeur attendue pour le client."
+      "prediction_explanation": "La solution proposée est explicite et l'impact attendu pour le client est expliqué."
     },
     {
       "proposal_id": "P002",
@@ -544,9 +544,9 @@
       "proposal_reference": "DE-0926-1045-1069-1103",
       "rule_id": "RULE_024",
       "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
+      "prediction": "NOT_APPLICABLE",
       "ground_truth_reason": "Les frais liés à la plateforme d'appels d'offres sont explicitement budgétés à 130 EUR.",
-      "prediction_explanation": "Les frais applicables à l'appel d'offres ne sont pas intégrés au budget."
+      "prediction_explanation": "La proposition ne répond pas explicitement à un appel d'offres ou à une procédure équivalente."
     },
     {
       "proposal_id": "P002",
@@ -564,16 +564,7 @@
       "ground_truth": "NON_COMPLIANT",
       "prediction": "COMPLIANT",
       "ground_truth_reason": "Les profils présentés ne démontrent pas suffisamment une adéquation avec les compétences attendues pour une mission de structuration organisationnelle.",
-      "prediction_explanation": "Les compétences explicitement présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission."
-    },
-    {
-      "proposal_id": "P003",
-      "proposal_reference": "DE-0926-1046-1070-1104",
-      "rule_id": "RULE_001",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Les principales sections obligatoires de la proposition sont présentes.",
-      "prediction_explanation": "Certaines slides ou sections obligatoires sont absentes."
+      "prediction_explanation": "Les compétences présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission."
     },
     {
       "proposal_id": "P003",
@@ -587,38 +578,11 @@
     {
       "proposal_id": "P003",
       "proposal_reference": "DE-0926-1046-1070-1104",
-      "rule_id": "RULE_006",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "La solution décrit concrètement une enquête terrain, la collecte et le contrôle des réponses ainsi que la remise de bases structurées et d'une synthèse.",
-      "prediction_explanation": "L'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué."
-    },
-    {
-      "proposal_id": "P003",
-      "proposal_reference": "DE-0926-1046-1070-1104",
-      "rule_id": "RULE_008",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Deux références de missions sont présentées.",
-      "prediction_explanation": "Aucune référence n'est présentée dans la proposition."
-    },
-    {
-      "proposal_id": "P003",
-      "proposal_reference": "DE-0926-1046-1070-1104",
-      "rule_id": "RULE_009",
-      "ground_truth": "NON_COMPLIANT",
-      "prediction": "COMPLIANT",
-      "ground_truth_reason": "La phase 1 ne comporte que deux actions méthodologiques explicites.",
-      "prediction_explanation": "Toutes les phases contiennent au moins 3 étapes."
-    },
-    {
-      "proposal_id": "P003",
-      "proposal_reference": "DE-0926-1046-1070-1104",
       "rule_id": "RULE_011",
       "ground_truth": "NOT_EVALUATED",
-      "prediction": "NON_COMPLIANT",
+      "prediction": "COMPLIANT",
       "ground_truth_reason": "L'absence de besoin explicite empêche d'évaluer proprement la cohérence entre le besoin et la méthodologie.",
-      "prediction_explanation": "La méthodologie ne couvre pas les principaux besoins et objectifs annoncés dans la proposition."
+      "prediction_explanation": "La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition."
     },
     {
       "proposal_id": "P003",
@@ -655,15 +619,6 @@
       "prediction": "COMPLIANT",
       "ground_truth_reason": "La phase d'enquête terrain prévoit 400 répondants en face-à-face avec contraintes de quotas, lieux et suivi quotidien pour seulement 4 JEH, ce qui rend la charge annoncée incohérente avec le périmètre.",
       "prediction_explanation": "La charge en JEH est cohérente avec l'ampleur des travaux et livrables annoncés."
-    },
-    {
-      "proposal_id": "P004",
-      "proposal_reference": "DE-0926-1047-1071-1105",
-      "rule_id": "RULE_001",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Les principales sections obligatoires de la proposition sont présentes.",
-      "prediction_explanation": "Certaines slides ou sections obligatoires sont absentes."
     },
     {
       "proposal_id": "P004",
@@ -713,15 +668,6 @@
     {
       "proposal_id": "P005",
       "proposal_reference": "DE-0926-1048-1072-1106",
-      "rule_id": "RULE_001",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Les principales sections obligatoires de la proposition sont présentes.",
-      "prediction_explanation": "Certaines slides ou sections obligatoires sont absentes."
-    },
-    {
-      "proposal_id": "P005",
-      "proposal_reference": "DE-0926-1048-1072-1106",
       "rule_id": "RULE_002",
       "ground_truth": "COMPLIANT",
       "prediction": "NOT_EVALUATED",
@@ -745,15 +691,6 @@
       "prediction": "COMPLIANT",
       "ground_truth_reason": "Les livrables explicitement identifiés ont généralement un format, mais certaines phases n'identifient pas suffisamment leur livrable pour permettre d'en contrôler le format.",
       "prediction_explanation": "Le format des livrables est précisé pour chaque phase lorsque celle-ci produit un livrable."
-    },
-    {
-      "proposal_id": "P005",
-      "proposal_reference": "DE-0926-1048-1072-1106",
-      "rule_id": "RULE_015",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Pour chacun des blocs de prestation, les intitulés et l'ordre des phases sont cohérents entre méthodologie, planning et budget.",
-      "prediction_explanation": "Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget."
     },
     {
       "proposal_id": "P005",
