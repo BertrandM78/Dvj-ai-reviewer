@@ -143,10 +143,10 @@
       "engine": "LLM",
       "severity": "MAJOR",
       "applies_when": "ALWAYS",
-      "description": "La proposition doit expliquer clairement ce que DeVinci Junior propose de réaliser et la valeur attendue pour le client.",
+      "description": "La proposition doit expliquer clairement ce que DeVinci Junior propose de réaliser pour répondre au besoin du client.",
       "requirements": [
-        "La solution proposée est explicite",
-        "L'impact, la valeur ou le bénéfice attendu pour le client est expliqué"
+        "La solution ou prestation proposée est explicitement décrite",
+        "Le lecteur peut comprendre concrètement ce que DeVinci Junior propose de réaliser"
       ]
     },
 

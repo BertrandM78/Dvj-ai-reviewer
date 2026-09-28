@@ -139,13 +139,15 @@ def get_budget_page_numbers(
         if slide.get("detected_section") == "BUDGET"
         and slide.get("page") is not None
     }
-
 def enrich_tender_fees(
     normalized_document: dict,
 ) -> None:
     """
     Populate tender_fees_ht when an explicitly identified
     tender-related external cost has already been extracted.
+
+    Handles minor text-extraction corruption by accepting
+    tender platform costs even when the word "offre" is malformed.
     """
     budget = (
         normalized_document
@@ -162,15 +164,20 @@ def enrich_tender_fees(
         name = str(cost.get("name") or "").casefold()
         amount = cost.get("amount_ht")
 
-        if (
+        is_tender_cost = (
             "appel" in name
-            and "offre" in name
-            and amount is not None
-        ):
+            and (
+                "offre" in name
+                or "plateforme" in name
+            )
+        )
+
+        if is_tender_cost and amount is not None:
             tender_costs.append(amount)
 
     if tender_costs:
         budget["tender_fees_ht"] = sum(tender_costs)
+
 def normalize_document(proposal_text: str) -> dict:
     # Pass 1:
     # Normalize the complete proposal.

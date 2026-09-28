@@ -4,10 +4,10 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 
 ## Résultats globaux
 
-- Accuracy 4 classes : **80.71%** (113/140)
-- Violation precision : **69.70%**
-- Violation recall : **82.14%**
-- Violation F1 : **75.41%**
+- Accuracy 4 classes : **81.43%** (114/140)
+- Violation precision : **73.33%**
+- Violation recall : **78.57%**
+- Violation F1 : **75.86%**
 - Abstention rate : **7.86%** (11/140)
 - NOT_APPLICABLE accuracy : **90.00%** (9/10)
 - NOT_EVALUATED accuracy : **50.00%** (6/12)
@@ -16,14 +16,14 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 
 | TP | FP | FN | TN | Décisions C/NC |
 |---:|---:|---:|---:|---:|
-| 23 | 10 | 5 | 75 | 118 |
+| 22 | 8 | 6 | 77 | 118 |
 
 ## Distribution des statuts
 
 | Statut | Ground truth | Prédiction |
 |---|---:|---:|
-| COMPLIANT | 90 | 83 |
-| NON_COMPLIANT | 28 | 35 |
+| COMPLIANT | 90 | 86 |
+| NON_COMPLIANT | 28 | 32 |
 | NOT_EVALUATED | 12 | 11 |
 | NOT_APPLICABLE | 10 | 11 |
 
@@ -31,8 +31,8 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 
 | GT \ Pred | COMPLIANT | NON_COMPLIANT | NOT_EVALUATED | NOT_APPLICABLE |
 |---|---:|---:|---:|---:|
-| COMPLIANT | 75 | 10 | 5 | 0 |
-| NON_COMPLIANT | 5 | 23 | 0 | 0 |
+| COMPLIANT | 77 | 8 | 5 | 0 |
+| NON_COMPLIANT | 6 | 22 | 0 | 0 |
 | NOT_EVALUATED | 3 | 1 | 6 | 2 |
 | NOT_APPLICABLE | 0 | 1 | 0 | 9 |
 
@@ -42,7 +42,7 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 |---|---:|---:|---:|---:|---:|
 | P001 | 92.86% | 100.00% | 85.71% | 92.31% | 2 |
 | P002 | 78.57% | 50.00% | 50.00% | 50.00% | 6 |
-| P003 | 71.43% | 66.67% | 85.71% | 75.00% | 8 |
+| P003 | 75.00% | 83.33% | 71.43% | 76.92% | 7 |
 | P004 | 85.71% | 66.67% | 100.00% | 80.00% | 4 |
 | P005 | 75.00% | 62.50% | 83.33% | 71.43% | 7 |
 
@@ -111,12 +111,12 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : La référence DE-0926-1046-1070-1104 est présente.
 - Explication modèle : Le format de la référence est valide, mais la date de proposition n'a pas pu être extraite ; la cohérence MMYY ne peut donc pas être vérifiée.
 
-### P003 — RULE_006
+### P003 — RULE_007
 
-- Ground truth : `COMPLIANT`
-- Prédiction : `NON_COMPLIANT`
-- Raison GT : La solution décrit concrètement une enquête terrain, la collecte et le contrôle des réponses ainsi que la remise de bases structurées et d'une synthèse.
-- Explication modèle : La solution proposée n'est pas explicite et l'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué.
+- Ground truth : `NON_COMPLIANT`
+- Prédiction : `COMPLIANT`
+- Raison GT : Le besoin n'étant pas explicité, la proposition ne permet pas d'établir explicitement la cohérence entre besoin et solution.
+- Explication modèle : La solution proposée répond de manière cohérente aux besoins et enjeux identifiés.
 
 ### P003 — RULE_008
 
@@ -138,13 +138,6 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Prédiction : `COMPLIANT`
 - Raison GT : La durée de la phase 3 étant absente de la méthodologie, sa cohérence avec le planning ne peut pas être vérifiée complètement.
 - Explication modèle : Les durées des phases sont cohérentes entre la méthodologie et le planning.
-
-### P003 — RULE_024
-
-- Ground truth : `COMPLIANT`
-- Prédiction : `NON_COMPLIANT`
-- Raison GT : Les frais liés à la plateforme d'appels d'offres sont explicitement budgétés à 130 EUR.
-- Explication modèle : Les frais applicables à l'appel d'offres ne sont pas intégrés au budget.
 
 ### P003 — RULE_025
 

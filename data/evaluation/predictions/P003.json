@@ -19,8 +19,8 @@
     {
       "rule_id": "REC_001",
       "status": "NOT_SUGGESTED",
-      "reason": "Le contenu et la complexité de la mission ne justifient pas d'explication complémentaire.",
-      "evidence": "Le document normalisé ne montre pas de complexité ou de contenu nécessitant des slides complémentaires.",
+      "reason": "Le contenu et la complexité de la mission ne justifient pas d'explications complémentaires.",
+      "evidence": null,
       "recommendation": null
     },
     {
@@ -63,35 +63,35 @@
       "rule_id": "RULE_005",
       "status": "NON_COMPLIANT",
       "reason": "La proposition ne démontre pas une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin.",
-      "evidence": "Les champs 'company', 'contact_name', 'contact_role', 'relationship_origin', 'company_context', 'problem', 'needs', et 'challenges' sont tous nuls ou vides.",
-      "recommendation": "Ajouter des informations explicites sur le contexte commercial, le client, ses enjeux et son besoin."
+      "evidence": "Le contexte de l'entreprise cliente, la problématique ou le besoin du client, et les principaux enjeux liés à la mission ne sont pas explicités.",
+      "recommendation": "Ajouter une section détaillant le contexte commercial, le client, ses enjeux et son besoin."
     },
     {
       "rule_id": "RULE_006",
-      "status": "NON_COMPLIANT",
-      "reason": "La solution proposée n'est pas explicite et l'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué.",
-      "evidence": "Le champ 'value_proposition' est nul et 'expected_impacts' est vide.",
-      "recommendation": "Détailler clairement la solution proposée et expliquer l'impact, la valeur ou le bénéfice attendu pour le client."
+      "status": "COMPLIANT",
+      "reason": "La solution proposée est explicitement décrite et le lecteur peut comprendre concrètement ce que DeVinci Junior propose de réaliser.",
+      "evidence": "La solution proposée est décrite dans la section 'SOLUTION'.",
+      "recommendation": null
     },
     {
       "rule_id": "RULE_007",
-      "status": "NON_COMPLIANT",
-      "reason": "La solution proposée ne répond pas de manière cohérente aux besoins et enjeux identifiés.",
-      "evidence": "Les champs 'needs' et 'challenges' sont vides, donc aucun besoin ou enjeu n'est identifié pour évaluer la cohérence de la solution.",
-      "recommendation": "Identifier clairement les besoins et enjeux du client et s'assurer que la solution y répond de manière cohérente."
+      "status": "COMPLIANT",
+      "reason": "La solution proposée répond de manière cohérente aux besoins et enjeux identifiés.",
+      "evidence": "La solution décrite dans la section 'SOLUTION' répond aux besoins identifiés dans la section 'CLIENT_NEED'.",
+      "recommendation": null
     },
     {
       "rule_id": "RULE_008",
       "status": "NON_COMPLIANT",
       "reason": "La proposition ne présente pas de références permettant d'illustrer l'expérience de DeVinci Junior.",
-      "evidence": "Le champ 'references' est vide.",
+      "evidence": "La section 'references' est vide.",
       "recommendation": "Ajouter des références pertinentes pour illustrer l'expérience de DeVinci Junior."
     },
     {
       "rule_id": "REC_002",
       "status": "NOT_SUGGESTED",
       "reason": "Aucune référence n'est présentée dans la proposition.",
-      "evidence": "Le champ 'references' est vide.",
+      "evidence": "La section 'references' est vide.",
       "recommendation": null
     },
     {
@@ -122,28 +122,28 @@
       "rule_id": "RULE_011",
       "status": "COMPLIANT",
       "reason": "La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition.",
-      "evidence": "Les phases de la méthodologie sont détaillées et semblent alignées sur les objectifs de l'enquête terrain.",
+      "evidence": "La méthodologie décrite dans la section 'METHODOLOGY' couvre les besoins identifiés dans la section 'CLIENT_NEED'.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_012",
       "status": "COMPLIANT",
       "reason": "Les livrables associés à chaque phase sont explicitement identifiés.",
-      "evidence": "Chaque phase de la méthodologie liste les livrables attendus.",
+      "evidence": "Les livrables sont décrits dans la section 'METHODOLOGY' pour chaque phase.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_013",
       "status": "NON_COMPLIANT",
       "reason": "Le format des livrables n'est pas précisé pour toutes les phases.",
-      "evidence": "La phase 2 ('Enquête terrain auprès du grand public') ne spécifie pas le format du livrable.",
-      "recommendation": "Préciser le format des livrables pour toutes les phases, y compris pour la phase 2."
+      "evidence": "Le format n'est pas spécifié pour la base numérique grand public dans la phase 2.",
+      "recommendation": "Préciser le format de tous les livrables pour chaque phase."
     },
     {
       "rule_id": "RULE_014",
       "status": "COMPLIANT",
       "reason": "Les livrables annoncés sont cohérents avec les travaux décrits dans la méthodologie.",
-      "evidence": "Les livrables listés dans chaque phase correspondent aux étapes et objectifs décrits.",
+      "evidence": "Les livrables décrits dans la section 'METHODOLOGY' sont cohérents avec les travaux décrits.",
       "recommendation": null
     },
     {
@@ -198,7 +198,7 @@
       "rule_id": "RULE_018",
       "status": "COMPLIANT",
       "reason": "Le planning respecte les dépendances opérationnelles décrites dans la méthodologie.",
-      "evidence": "Les phases sont planifiées de manière séquentielle sans chevauchement.",
+      "evidence": "Les phases sont planifiées de manière cohérente avec les dépendances décrites dans la section 'METHODOLOGY'.",
       "recommendation": null
     },
     {
@@ -210,7 +210,7 @@
       "severity": "MINOR",
       "status": "COMPLIANT",
       "reason": "La date de début du projet est un jour de semaine.",
-      "evidence": "Date de début : 2026-10-01",
+      "evidence": "Date de début : 2026-11-12",
       "recommendation": null
     },
     {
@@ -263,10 +263,10 @@
     },
     {
       "rule_id": "RULE_024",
-      "status": "NON_COMPLIANT",
-      "reason": "Les frais applicables à l'appel d'offres ne sont pas intégrés au budget.",
-      "evidence": "Le champ 'tender_fees_ht' est nul.",
-      "recommendation": "Intégrer les frais applicables à l'appel d'offres dans le budget."
+      "status": "COMPLIANT",
+      "reason": "Les frais applicables à l'appel d'offres sont intégrés au budget.",
+      "evidence": "Les frais liés à la plateforme d'appels d'offres sont inclus dans la section 'budget'.",
+      "recommendation": null
     },
     {
       "rule_id": "RULE_025",
@@ -277,21 +277,21 @@
       "severity": "MAJOR",
       "status": "NON_COMPLIANT",
       "reason": "Le budget contient au moins un coût externe sans besoin externe identifiable dans la méthodologie.",
-      "evidence": "[{'name': \"Frais liés à la plateforme d'appels d'o¨res\", 'amount_ht': 130}]",
+      "evidence": "[{'name': \"Frais liés à la plateforme d'appels d'offres\", 'amount_ht': 130}]",
       "recommendation": "Relier chaque coût externe budgété à un besoin explicite dans la méthodologie."
     },
     {
       "rule_id": "RULE_026",
       "status": "COMPLIANT",
       "reason": "La charge en JEH est cohérente avec l'ampleur des travaux et livrables annoncés.",
-      "evidence": "Les JEH et la durée des phases sont alignés sur les tâches décrites.",
+      "evidence": "La charge et les livrables sont décrits de manière cohérente dans les sections 'METHODOLOGY' et 'BUDGET'.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_027",
       "status": "COMPLIANT",
-      "reason": "Le cursus, la formation ou la spécialisation des intervenants est cohérent avec la nature des travaux qui leur sont confiés.",
-      "evidence": "Les profils de Juliette Ponce et Louis Gaston sont alignés sur les tâches décrites dans la méthodologie.",
+      "reason": "Le cursus des intervenants est cohérent avec la nature des travaux qui leur sont confiés.",
+      "evidence": "Les cursus de Juliette Ponce et Louis Gaston sont cohérents avec les travaux décrits dans la section 'METHODOLOGY'.",
       "recommendation": null
     },
     {
@@ -308,30 +308,30 @@
     },
     {
       "rule_id": "REC_004",
-      "status": "SUGGESTED",
-      "reason": "La composition de l'équipe semble compatible avec la charge, les délais et les éventuels travaux parallèles.",
-      "evidence": "Les phases sont planifiées sur 6 semaines avec une charge totale de 10 JEH, répartie entre plusieurs intervenants.",
-      "recommendation": "Vérifier que la charge et les délais sont réalistes et que l'équipe est suffisante pour mener à bien la mission."
+      "status": "NOT_SUGGESTED",
+      "reason": "La composition de l'équipe paraît compatible avec la charge, les délais et les éventuels travaux parallèles.",
+      "evidence": null,
+      "recommendation": null
     },
     {
       "rule_id": "REC_006",
       "status": "NOT_SUGGESTED",
       "reason": "Le besoin, le périmètre ou les hypothèses de la mission ne présentent pas d'incertitude importante pouvant être réduite avant la mission principale.",
-      "evidence": "La méthodologie et les livrables sont clairement définis sans ambiguïté.",
+      "evidence": null,
       "recommendation": null
     },
     {
       "rule_id": "REC_007",
       "status": "NOT_SUGGESTED",
       "reason": "La mission ne comporte pas d'incertitude technique importante qui pourrait être testée à petite échelle.",
-      "evidence": "La méthodologie décrite ne mentionne pas de composante technique complexe nécessitant un POC.",
+      "evidence": null,
       "recommendation": null
     },
     {
       "rule_id": "REC_008",
       "status": "NOT_SUGGESTED",
-      "reason": "La mission ne possède pas de composante technique importante nécessitant de mettre en avant les technologies utilisées.",
-      "evidence": "La méthodologie ne mentionne pas l'utilisation de technologies spécifiques.",
+      "reason": "La mission ne possède pas de composante technique importante et les technologies utilisées sont suffisamment mises en avant.",
+      "evidence": null,
       "recommendation": null
     }
   ]
