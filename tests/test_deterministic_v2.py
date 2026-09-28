@@ -1,8 +1,12 @@
 from unittest import result
 
 from src.rules.loader import load_rules
-from src.rules.deterministic import run_deterministic_rules
 
+from src.rules.deterministic import (
+    check_phase_price_consistency,
+    check_unit_jeh_price,
+    run_deterministic_rules,
+)
 
 def run(document: dict) -> dict:
     results = run_deterministic_rules(
@@ -213,6 +217,36 @@ def test_jeh_free_methodology_phase_can_be_absent_from_budget():
 
     assert results["RULE_020"]["status"] == "COMPLIANT"
 
+def test_jeh_mismatch_between_methodology_and_budget():
+    results = run({
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Mise en place des réseaux sociaux",
+                    "jeh": 3,
+                    "price_ht": 420,
+                },
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Mise en place des réseaux sociaux",
+                    "jeh": 5,
+                    "unit_price_ht": 70,
+                    "price_ht": 420,
+                },
+            ]
+        },
+    })
+
+    result = results["RULE_020"]
+
+    assert result["status"] == "NON_COMPLIANT"
+    assert "méthodologie=3 JEH" in result["evidence"]
+    assert "budget=5 JEH" in result["evidence"]
 
 def test_jeh_paid_methodology_phase_cannot_be_absent_from_budget():
     results = run({
@@ -713,3 +747,77 @@ def test_rule_001_accepts_all_required_structural_sections():
     result = results[0]
 
     assert result["status"] == "COMPLIANT"
+
+def test_rule_021_detects_internal_budget_arithmetic_error():
+    document = {
+        "methodology": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Animation des réseaux sociaux",
+                    "jeh": 5,
+                    "price_ht": 420,
+                }
+            ]
+        },
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Animation des réseaux sociaux",
+                    "jeh": 5,
+                    "unit_price_ht": 70,
+                    "price_ht": 420,
+                }
+            ]
+        },
+    }
+
+    rule = {
+        "id": "RULE_021",
+        "title": "Cohérence des montants",
+        "section": "budget",
+        "type": "OBLIGATION",
+        "dimension": "FOND",
+        "severity": "MAJOR",
+    }
+
+    result = check_phase_price_consistency(document, rule)
+
+    assert result["status"] == "NON_COMPLIANT"
+    assert "350.00" in result["evidence"]
+    assert "420.00" in result["evidence"]
+
+
+def test_rule_023_uses_explicit_unit_price_when_available():
+    document = {
+        "budget": {
+            "phases": [
+                {
+                    "number": 1,
+                    "title": "Animation des réseaux sociaux",
+                    "jeh": 5,
+                    "unit_price_ht": 70,
+                    "price_ht": 420,
+                }
+            ]
+        }
+    }
+
+    rule = {
+        "id": "RULE_023",
+        "title": "Prix unitaire JEH",
+        "section": "budget",
+        "type": "OBLIGATION",
+        "dimension": "FOND",
+        "severity": "MAJOR",
+        "parameters": {
+            "min_price_ht": 80,
+            "max_price_ht": 500,
+        },
+    }
+
+    result = check_unit_jeh_price(document, rule)
+
+    assert result["status"] == "NON_COMPLIANT"
+    assert "70.00" in result["evidence"]

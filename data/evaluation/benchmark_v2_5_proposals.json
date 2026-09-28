@@ -42,36 +42,36 @@
   ],
   "global_metrics": {
     "total_decisions": 140,
-    "correct_decisions": 108,
-    "accuracy": 0.7714285714285715,
+    "correct_decisions": 113,
+    "accuracy": 0.8071428571428572,
     "ground_truth_distribution": {
-      "COMPLIANT": 88,
-      "NON_COMPLIANT": 30,
+      "COMPLIANT": 90,
+      "NON_COMPLIANT": 28,
       "NOT_EVALUATED": 12,
       "NOT_APPLICABLE": 10
     },
     "prediction_distribution": {
-      "COMPLIANT": 85,
-      "NON_COMPLIANT": 29,
-      "NOT_EVALUATED": 14,
-      "NOT_APPLICABLE": 12
+      "COMPLIANT": 83,
+      "NON_COMPLIANT": 35,
+      "NOT_EVALUATED": 11,
+      "NOT_APPLICABLE": 11
     },
     "confusion_matrix": {
       "COMPLIANT": {
-        "COMPLIANT": 74,
-        "NON_COMPLIANT": 7,
-        "NOT_EVALUATED": 6,
-        "NOT_APPLICABLE": 1
+        "COMPLIANT": 75,
+        "NON_COMPLIANT": 10,
+        "NOT_EVALUATED": 5,
+        "NOT_APPLICABLE": 0
       },
       "NON_COMPLIANT": {
-        "COMPLIANT": 9,
-        "NON_COMPLIANT": 19,
-        "NOT_EVALUATED": 2,
+        "COMPLIANT": 5,
+        "NON_COMPLIANT": 23,
+        "NOT_EVALUATED": 0,
         "NOT_APPLICABLE": 0
       },
       "NOT_EVALUATED": {
-        "COMPLIANT": 2,
-        "NON_COMPLIANT": 2,
+        "COMPLIANT": 3,
+        "NON_COMPLIANT": 1,
         "NOT_EVALUATED": 6,
         "NOT_APPLICABLE": 2
       },
@@ -84,19 +84,19 @@
     },
     "binary_violation_detection": {
       "evaluated_decisions": 118,
-      "tp": 19,
-      "fp": 7,
-      "fn": 11,
-      "tn": 74,
-      "precision": 0.7307692307692307,
-      "recall": 0.6333333333333333,
-      "f1": 0.6785714285714285
+      "tp": 23,
+      "fp": 10,
+      "fn": 5,
+      "tn": 75,
+      "precision": 0.696969696969697,
+      "recall": 0.8214285714285714,
+      "f1": 0.7540983606557378
     },
     "abstention": {
-      "count": 14,
-      "rate": 0.1,
-      "binary_count": 8,
-      "binary_rate": 0.06779661016949153
+      "count": 11,
+      "rate": 0.07857142857142857,
+      "binary_count": 5,
+      "binary_rate": 0.0423728813559322
     },
     "not_applicable": {
       "count": 10,
@@ -112,8 +112,8 @@
   "per_proposal": {
     "P001": {
       "total_decisions": 28,
-      "correct_decisions": 23,
-      "accuracy": 0.8214285714285714,
+      "correct_decisions": 26,
+      "accuracy": 0.9285714285714286,
       "ground_truth_distribution": {
         "COMPLIANT": 16,
         "NON_COMPLIANT": 7,
@@ -121,28 +121,28 @@
         "NOT_APPLICABLE": 3
       },
       "prediction_distribution": {
-        "COMPLIANT": 14,
-        "NON_COMPLIANT": 7,
-        "NOT_EVALUATED": 4,
+        "COMPLIANT": 16,
+        "NON_COMPLIANT": 6,
+        "NOT_EVALUATED": 3,
         "NOT_APPLICABLE": 3
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 14,
-          "NON_COMPLIANT": 1,
+          "COMPLIANT": 15,
+          "NON_COMPLIANT": 0,
           "NOT_EVALUATED": 1,
           "NOT_APPLICABLE": 0
         },
         "NON_COMPLIANT": {
-          "COMPLIANT": 0,
-          "NON_COMPLIANT": 5,
-          "NOT_EVALUATED": 2,
+          "COMPLIANT": 1,
+          "NON_COMPLIANT": 6,
+          "NOT_EVALUATED": 0,
           "NOT_APPLICABLE": 0
         },
         "NOT_EVALUATED": {
           "COMPLIANT": 0,
-          "NON_COMPLIANT": 1,
-          "NOT_EVALUATED": 1,
+          "NON_COMPLIANT": 0,
+          "NOT_EVALUATED": 2,
           "NOT_APPLICABLE": 0
         },
         "NOT_APPLICABLE": {
@@ -154,19 +154,19 @@
       },
       "binary_violation_detection": {
         "evaluated_decisions": 23,
-        "tp": 5,
-        "fp": 1,
-        "fn": 2,
-        "tn": 14,
-        "precision": 0.8333333333333334,
-        "recall": 0.7142857142857143,
-        "f1": 0.7692307692307692
+        "tp": 6,
+        "fp": 0,
+        "fn": 1,
+        "tn": 15,
+        "precision": 1.0,
+        "recall": 0.8571428571428571,
+        "f1": 0.923076923076923
       },
       "abstention": {
-        "count": 4,
-        "rate": 0.14285714285714285,
-        "binary_count": 3,
-        "binary_rate": 0.13043478260869565
+        "count": 3,
+        "rate": 0.10714285714285714,
+        "binary_count": 1,
+        "binary_rate": 0.043478260869565216
       },
       "not_applicable": {
         "count": 3,
@@ -175,35 +175,35 @@
       },
       "not_evaluated": {
         "count": 2,
-        "correct": 1,
-        "accuracy": 0.5
+        "correct": 2,
+        "accuracy": 1.0
       }
     },
     "P002": {
       "total_decisions": 28,
-      "correct_decisions": 21,
-      "accuracy": 0.75,
+      "correct_decisions": 22,
+      "accuracy": 0.7857142857142857,
       "ground_truth_distribution": {
-        "COMPLIANT": 20,
-        "NON_COMPLIANT": 5,
+        "COMPLIANT": 21,
+        "NON_COMPLIANT": 4,
         "NOT_EVALUATED": 1,
         "NOT_APPLICABLE": 2
       },
       "prediction_distribution": {
         "COMPLIANT": 20,
-        "NON_COMPLIANT": 4,
+        "NON_COMPLIANT": 5,
         "NOT_EVALUATED": 2,
-        "NOT_APPLICABLE": 2
+        "NOT_APPLICABLE": 1
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 17,
-          "NON_COMPLIANT": 1,
+          "COMPLIANT": 18,
+          "NON_COMPLIANT": 2,
           "NOT_EVALUATED": 1,
-          "NOT_APPLICABLE": 1
+          "NOT_APPLICABLE": 0
         },
         "NON_COMPLIANT": {
-          "COMPLIANT": 3,
+          "COMPLIANT": 2,
           "NON_COMPLIANT": 2,
           "NOT_EVALUATED": 0,
           "NOT_APPLICABLE": 0
@@ -224,11 +224,11 @@
       "binary_violation_detection": {
         "evaluated_decisions": 25,
         "tp": 2,
-        "fp": 1,
-        "fn": 3,
-        "tn": 17,
-        "precision": 0.6666666666666666,
-        "recall": 0.4,
+        "fp": 2,
+        "fn": 2,
+        "tn": 18,
+        "precision": 0.5,
+        "recall": 0.5,
         "f1": 0.5
       },
       "abstention": {
@@ -250,8 +250,8 @@
     },
     "P003": {
       "total_decisions": 28,
-      "correct_decisions": 22,
-      "accuracy": 0.7857142857142857,
+      "correct_decisions": 20,
+      "accuracy": 0.7142857142857143,
       "ground_truth_distribution": {
         "COMPLIANT": 16,
         "NON_COMPLIANT": 7,
@@ -260,14 +260,14 @@
       },
       "prediction_distribution": {
         "COMPLIANT": 15,
-        "NON_COMPLIANT": 9,
-        "NOT_EVALUATED": 3,
+        "NON_COMPLIANT": 10,
+        "NOT_EVALUATED": 2,
         "NOT_APPLICABLE": 1
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 13,
-          "NON_COMPLIANT": 2,
+          "COMPLIANT": 12,
+          "NON_COMPLIANT": 3,
           "NOT_EVALUATED": 1,
           "NOT_APPLICABLE": 0
         },
@@ -278,9 +278,9 @@
           "NOT_APPLICABLE": 0
         },
         "NOT_EVALUATED": {
-          "COMPLIANT": 1,
+          "COMPLIANT": 2,
           "NON_COMPLIANT": 1,
-          "NOT_EVALUATED": 2,
+          "NOT_EVALUATED": 1,
           "NOT_APPLICABLE": 0
         },
         "NOT_APPLICABLE": {
@@ -293,16 +293,16 @@
       "binary_violation_detection": {
         "evaluated_decisions": 23,
         "tp": 6,
-        "fp": 2,
+        "fp": 3,
         "fn": 1,
-        "tn": 13,
-        "precision": 0.75,
+        "tn": 12,
+        "precision": 0.6666666666666666,
         "recall": 0.8571428571428571,
-        "f1": 0.7999999999999999
+        "f1": 0.75
       },
       "abstention": {
-        "count": 3,
-        "rate": 0.10714285714285714,
+        "count": 2,
+        "rate": 0.07142857142857142,
         "binary_count": 1,
         "binary_rate": 0.043478260869565216
       },
@@ -313,14 +313,14 @@
       },
       "not_evaluated": {
         "count": 4,
-        "correct": 2,
-        "accuracy": 0.5
+        "correct": 1,
+        "accuracy": 0.25
       }
     },
     "P004": {
       "total_decisions": 28,
-      "correct_decisions": 23,
-      "accuracy": 0.8214285714285714,
+      "correct_decisions": 24,
+      "accuracy": 0.8571428571428571,
       "ground_truth_distribution": {
         "COMPLIANT": 20,
         "NON_COMPLIANT": 4,
@@ -328,16 +328,16 @@
         "NOT_APPLICABLE": 2
       },
       "prediction_distribution": {
-        "COMPLIANT": 16,
+        "COMPLIANT": 17,
         "NON_COMPLIANT": 6,
-        "NOT_EVALUATED": 3,
+        "NOT_EVALUATED": 2,
         "NOT_APPLICABLE": 3
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 16,
+          "COMPLIANT": 17,
           "NON_COMPLIANT": 2,
-          "NOT_EVALUATED": 2,
+          "NOT_EVALUATED": 1,
           "NOT_APPLICABLE": 0
         },
         "NON_COMPLIANT": {
@@ -364,16 +364,16 @@
         "tp": 4,
         "fp": 2,
         "fn": 0,
-        "tn": 16,
+        "tn": 17,
         "precision": 0.6666666666666666,
         "recall": 1.0,
         "f1": 0.8
       },
       "abstention": {
-        "count": 3,
-        "rate": 0.10714285714285714,
-        "binary_count": 2,
-        "binary_rate": 0.08333333333333333
+        "count": 2,
+        "rate": 0.07142857142857142,
+        "binary_count": 1,
+        "binary_rate": 0.041666666666666664
       },
       "not_applicable": {
         "count": 2,
@@ -388,30 +388,30 @@
     },
     "P005": {
       "total_decisions": 28,
-      "correct_decisions": 19,
-      "accuracy": 0.6785714285714286,
+      "correct_decisions": 21,
+      "accuracy": 0.75,
       "ground_truth_distribution": {
-        "COMPLIANT": 16,
-        "NON_COMPLIANT": 7,
+        "COMPLIANT": 17,
+        "NON_COMPLIANT": 6,
         "NOT_EVALUATED": 3,
         "NOT_APPLICABLE": 2
       },
       "prediction_distribution": {
-        "COMPLIANT": 20,
-        "NON_COMPLIANT": 3,
+        "COMPLIANT": 15,
+        "NON_COMPLIANT": 8,
         "NOT_EVALUATED": 2,
         "NOT_APPLICABLE": 3
       },
       "confusion_matrix": {
         "COMPLIANT": {
-          "COMPLIANT": 14,
-          "NON_COMPLIANT": 1,
+          "COMPLIANT": 13,
+          "NON_COMPLIANT": 3,
           "NOT_EVALUATED": 1,
           "NOT_APPLICABLE": 0
         },
         "NON_COMPLIANT": {
-          "COMPLIANT": 5,
-          "NON_COMPLIANT": 2,
+          "COMPLIANT": 1,
+          "NON_COMPLIANT": 5,
           "NOT_EVALUATED": 0,
           "NOT_APPLICABLE": 0
         },
@@ -430,13 +430,13 @@
       },
       "binary_violation_detection": {
         "evaluated_decisions": 23,
-        "tp": 2,
-        "fp": 1,
-        "fn": 5,
-        "tn": 14,
-        "precision": 0.6666666666666666,
-        "recall": 0.2857142857142857,
-        "f1": 0.4
+        "tp": 5,
+        "fp": 3,
+        "fn": 1,
+        "tn": 13,
+        "precision": 0.625,
+        "recall": 0.8333333333333334,
+        "f1": 0.7142857142857143
       },
       "abstention": {
         "count": 2,
@@ -472,36 +472,9 @@
       "proposal_reference": "DE-0926-1044-1068-1102",
       "rule_id": "RULE_016",
       "ground_truth": "NON_COMPLIANT",
-      "prediction": "NOT_EVALUATED",
+      "prediction": "COMPLIANT",
       "ground_truth_reason": "La répartition temporelle du planning n'est pas cohérente avec les durées annoncées dans la méthodologie.",
-      "prediction_explanation": "Certaines durées nécessaires à la comparaison sont absentes : phases [2]."
-    },
-    {
-      "proposal_id": "P001",
-      "proposal_reference": "DE-0926-1044-1068-1102",
-      "rule_id": "RULE_017",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "La durée globale annoncée est cohérente avec les durées des phases.",
-      "prediction_explanation": "La durée totale annoncée ne correspond pas à la durée représentée dans le planning."
-    },
-    {
-      "proposal_id": "P001",
-      "proposal_reference": "DE-0926-1044-1068-1102",
-      "rule_id": "RULE_022",
-      "ground_truth": "NON_COMPLIANT",
-      "prediction": "NOT_EVALUATED",
-      "ground_truth_reason": "La gestion de projet représente 200 EUR sur 1000 EUR HT, soit 20 %, au-dessus de la fourchette de 8 à 12 %.",
-      "prediction_explanation": "Les montants nécessaires au calcul sont absents."
-    },
-    {
-      "proposal_id": "P001",
-      "proposal_reference": "DE-0926-1044-1068-1102",
-      "rule_id": "RULE_027",
-      "ground_truth": "NOT_EVALUATED",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Les informations disponibles ne permettent pas d'évaluer suffisamment les compétences des contributeurs.",
-      "prediction_explanation": "Les compétences des intervenants ne sont pas explicitement présentées."
+      "prediction_explanation": "Les durées des phases sont cohérentes entre la méthodologie et le planning."
     },
     {
       "proposal_id": "P002",
@@ -515,11 +488,11 @@
     {
       "proposal_id": "P002",
       "proposal_reference": "DE-0926-1045-1069-1103",
-      "rule_id": "RULE_006",
-      "ground_truth": "NON_COMPLIANT",
-      "prediction": "COMPLIANT",
-      "ground_truth_reason": "La section solution reste générique et indique seulement un accompagnement pour répondre à la problématique sans expliciter la solution proposée.",
-      "prediction_explanation": "La solution proposée est explicite et l'impact attendu pour le client est expliqué."
+      "rule_id": "RULE_005",
+      "ground_truth": "COMPLIANT",
+      "prediction": "NON_COMPLIANT",
+      "ground_truth_reason": "Le besoin est clairement exposé : clarification des rôles, organisation du travail, circuits de décision et transmission des savoir-faire.",
+      "prediction_explanation": "La proposition ne démontre pas une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin. Les informations sur le mode de mise en relation avec DeVinci Junior, le contexte de l'entreprise cliente et les principaux enjeux liés à la mission sont manquantes."
     },
     {
       "proposal_id": "P002",
@@ -542,15 +515,6 @@
     {
       "proposal_id": "P002",
       "proposal_reference": "DE-0926-1045-1069-1103",
-      "rule_id": "RULE_024",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NOT_APPLICABLE",
-      "ground_truth_reason": "Les frais liés à la plateforme d'appels d'offres sont explicitement budgétés à 130 EUR.",
-      "prediction_explanation": "La proposition ne répond pas explicitement à un appel d'offres ou à une procédure équivalente."
-    },
-    {
-      "proposal_id": "P002",
-      "proposal_reference": "DE-0926-1045-1069-1103",
       "rule_id": "RULE_025",
       "ground_truth": "NOT_APPLICABLE",
       "prediction": "NON_COMPLIANT",
@@ -564,7 +528,7 @@
       "ground_truth": "NON_COMPLIANT",
       "prediction": "COMPLIANT",
       "ground_truth_reason": "Les profils présentés ne démontrent pas suffisamment une adéquation avec les compétences attendues pour une mission de structuration organisationnelle.",
-      "prediction_explanation": "Les compétences présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission."
+      "prediction_explanation": "Le cursus, la formation ou la spécialisation des contributeurs est cohérent avec la nature des travaux qui leur sont confiés."
     },
     {
       "proposal_id": "P003",
@@ -578,6 +542,24 @@
     {
       "proposal_id": "P003",
       "proposal_reference": "DE-0926-1046-1070-1104",
+      "rule_id": "RULE_006",
+      "ground_truth": "COMPLIANT",
+      "prediction": "NON_COMPLIANT",
+      "ground_truth_reason": "La solution décrit concrètement une enquête terrain, la collecte et le contrôle des réponses ainsi que la remise de bases structurées et d'une synthèse.",
+      "prediction_explanation": "La solution proposée n'est pas explicite et l'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué."
+    },
+    {
+      "proposal_id": "P003",
+      "proposal_reference": "DE-0926-1046-1070-1104",
+      "rule_id": "RULE_008",
+      "ground_truth": "COMPLIANT",
+      "prediction": "NON_COMPLIANT",
+      "ground_truth_reason": "Deux références de missions sont présentées.",
+      "prediction_explanation": "La proposition ne présente pas de références permettant d'illustrer l'expérience de DeVinci Junior."
+    },
+    {
+      "proposal_id": "P003",
+      "proposal_reference": "DE-0926-1046-1070-1104",
       "rule_id": "RULE_011",
       "ground_truth": "NOT_EVALUATED",
       "prediction": "COMPLIANT",
@@ -587,11 +569,11 @@
     {
       "proposal_id": "P003",
       "proposal_reference": "DE-0926-1046-1070-1104",
-      "rule_id": "RULE_015",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NON_COMPLIANT",
-      "ground_truth_reason": "Les titres et l'ordre des phases sont cohérents entre méthodologie, planning et budget.",
-      "prediction_explanation": "Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget."
+      "rule_id": "RULE_016",
+      "ground_truth": "NOT_EVALUATED",
+      "prediction": "COMPLIANT",
+      "ground_truth_reason": "La durée de la phase 3 étant absente de la méthodologie, sa cohérence avec le planning ne peut pas être vérifiée complètement.",
+      "prediction_explanation": "Les durées des phases sont cohérentes entre la méthodologie et le planning."
     },
     {
       "proposal_id": "P003",
@@ -650,15 +632,6 @@
     {
       "proposal_id": "P004",
       "proposal_reference": "DE-0926-1047-1071-1105",
-      "rule_id": "RULE_016",
-      "ground_truth": "COMPLIANT",
-      "prediction": "NOT_EVALUATED",
-      "ground_truth_reason": "Les durées représentées pour les phases sont cohérentes avec les durées méthodologiques de 2, 3, 8 et 1 semaines.",
-      "prediction_explanation": "Certaines durées nécessaires à la comparaison sont absentes : phases [1]."
-    },
-    {
-      "proposal_id": "P004",
-      "proposal_reference": "DE-0926-1047-1071-1105",
       "rule_id": "RULE_025",
       "ground_truth": "NOT_EVALUATED",
       "prediction": "NOT_APPLICABLE",
@@ -695,6 +668,24 @@
     {
       "proposal_id": "P005",
       "proposal_reference": "DE-0926-1048-1072-1106",
+      "rule_id": "RULE_015",
+      "ground_truth": "COMPLIANT",
+      "prediction": "NON_COMPLIANT",
+      "ground_truth_reason": "Pour chacun des blocs de prestation, les intitulés et l'ordre des phases sont cohérents entre méthodologie, planning et budget.",
+      "prediction_explanation": "Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget."
+    },
+    {
+      "proposal_id": "P005",
+      "proposal_reference": "DE-0926-1048-1072-1106",
+      "rule_id": "RULE_016",
+      "ground_truth": "COMPLIANT",
+      "prediction": "NON_COMPLIANT",
+      "ground_truth_reason": "Les durées représentées dans les différents plannings correspondent aux durées annoncées pour les phases.",
+      "prediction_explanation": "Certaines durées annoncées dans la méthodologie ne sont pas cohérentes avec le planning."
+    },
+    {
+      "proposal_id": "P005",
+      "proposal_reference": "DE-0926-1048-1072-1106",
       "rule_id": "RULE_017",
       "ground_truth": "COMPLIANT",
       "prediction": "NON_COMPLIANT",
@@ -704,47 +695,11 @@
     {
       "proposal_id": "P005",
       "proposal_reference": "DE-0926-1048-1072-1106",
-      "rule_id": "RULE_020",
-      "ground_truth": "NON_COMPLIANT",
-      "prediction": "COMPLIANT",
-      "ground_truth_reason": "Le bloc Réseaux sociaux indique 3 JEH dans la méthodologie mais 5 JEH dans le budget. Le budget affiche en outre un total de 4 JEH alors que ses lignes indiquent 5 JEH de production et 1 JEH de gestion.",
-      "prediction_explanation": "Les JEH sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites."
-    },
-    {
-      "proposal_id": "P005",
-      "proposal_reference": "DE-0926-1048-1072-1106",
-      "rule_id": "RULE_021",
-      "ground_truth": "NON_COMPLIANT",
-      "prediction": "COMPLIANT",
-      "ground_truth_reason": "Le budget Réseaux sociaux contient une incohérence arithmétique : 5 JEH à 70 EUR devraient représenter 350 EUR HT et non les 420 EUR HT affichés.",
-      "prediction_explanation": "Les montants des phases sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites."
-    },
-    {
-      "proposal_id": "P005",
-      "proposal_reference": "DE-0926-1048-1072-1106",
-      "rule_id": "RULE_023",
-      "ground_truth": "NON_COMPLIANT",
-      "prediction": "COMPLIANT",
-      "ground_truth_reason": "Le budget Réseaux sociaux affiche explicitement un prix unitaire de 70 EUR HT par JEH, inférieur au minimum autorisé de 80 EUR HT.",
-      "prediction_explanation": "Le prix unitaire par JEH respecte la plage autorisée pour toutes les phases."
-    },
-    {
-      "proposal_id": "P005",
-      "proposal_reference": "DE-0926-1048-1072-1106",
       "rule_id": "RULE_025",
       "ground_truth": "NOT_EVALUATED",
       "prediction": "NOT_APPLICABLE",
       "ground_truth_reason": "Certaines prestations nécessitent des ressources ou services externes, notamment un imprimeur, un hébergement et potentiellement des plugins WordPress, sans coût externe suffisamment caractérisé dans les budgets.",
       "prediction_explanation": "Aucune ressource externe n'est explicitement identifiée dans la méthodologie et aucun coût externe n'est budgété."
-    },
-    {
-      "proposal_id": "P005",
-      "proposal_reference": "DE-0926-1048-1072-1106",
-      "rule_id": "RULE_027",
-      "ground_truth": "NON_COMPLIANT",
-      "prediction": "COMPLIANT",
-      "ground_truth_reason": "Le profil d'intervenante présenté est pertinent pour le marketing digital et les réseaux sociaux mais ne démontre pas les compétences en design graphique, packaging et développement WordPress nécessaires à l'ensemble des prestations proposées.",
-      "prediction_explanation": "Les compétences explicitement présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission."
     }
   ]
 }

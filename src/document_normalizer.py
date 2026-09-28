@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-
+import re 
 from src.aws_client import get_aws_client
 
 
@@ -57,11 +57,8 @@ def build_normalizer_prompt(proposal_text: str) -> str:
         )
     )
 
-
-def normalize_document(proposal_text: str) -> dict:
-    prompt = build_normalizer_prompt(
-        proposal_text
-    )
+def call_normalizer(proposal_text: str) -> dict:
+    prompt = build_normalizer_prompt(proposal_text)
 
     response = bedrock_client.converse(
         modelId=MODEL_ID,
@@ -81,7 +78,6 @@ def normalize_document(proposal_text: str) -> dict:
         response["output"]["message"]["content"][0]["text"]
     )
 
-    # Defensive cleanup in case the model still returns a Markdown fence.
     cleaned_output = raw_output.strip()
 
     if cleaned_output.startswith("```json"):
@@ -96,11 +92,129 @@ def normalize_document(proposal_text: str) -> dict:
     cleaned_output = cleaned_output.strip()
 
     try:
-        normalized_document = json.loads(cleaned_output)
-        return normalized_document
+        return json.loads(cleaned_output)
 
     except json.JSONDecodeError as exc:
         raise ValueError(
             "Nova returned invalid JSON.\n\n"
             f"Raw output:\n{raw_output}"
         ) from exc
+
+
+def extract_pages_from_text(
+    proposal_text: str,
+    page_numbers: set[int],
+) -> str:
+    page_pattern = re.compile(
+        r"(?ms)^--- PAGE (\d+) ---\n"
+        r"(.*?)(?=^--- PAGE \d+ ---|\Z)"
+    )
+
+    selected_pages = []
+
+    for match in page_pattern.finditer(proposal_text):
+        page_number = int(match.group(1))
+
+        if page_number in page_numbers:
+            selected_pages.append(
+                f"--- PAGE {page_number} ---\n"
+                f"{match.group(2).strip()}"
+            )
+
+    return "\n\n".join(selected_pages)
+
+
+def get_budget_page_numbers(
+    normalized_document: dict,
+) -> set[int]:
+    slides = (
+        normalized_document
+        .get("document", {})
+        .get("slides", [])
+    )
+
+    return {
+        int(slide["page"])
+        for slide in slides
+        if slide.get("detected_section") == "BUDGET"
+        and slide.get("page") is not None
+    }
+
+def enrich_tender_fees(
+    normalized_document: dict,
+) -> None:
+    """
+    Populate tender_fees_ht when an explicitly identified
+    tender-related external cost has already been extracted.
+    """
+    budget = (
+        normalized_document
+        .get("document", {})
+        .get("budget", {})
+    )
+
+    if budget.get("tender_fees_ht") is not None:
+        return
+
+    tender_costs = []
+
+    for cost in budget.get("external_costs", []):
+        name = str(cost.get("name") or "").casefold()
+        amount = cost.get("amount_ht")
+
+        if (
+            "appel" in name
+            and "offre" in name
+            and amount is not None
+        ):
+            tender_costs.append(amount)
+
+    if tender_costs:
+        budget["tender_fees_ht"] = sum(tender_costs)
+def normalize_document(proposal_text: str) -> dict:
+    # Pass 1:
+    # Normalize the complete proposal.
+    normalized_document = call_normalizer(
+        proposal_text
+    )
+
+    # Identify pages that the global pass classified as BUDGET.
+    budget_page_numbers = get_budget_page_numbers(
+        normalized_document
+    )
+
+    if not budget_page_numbers:
+        enrich_tender_fees(normalized_document)
+        return normalized_document
+
+    # Isolate the raw budget pages to avoid cross-section
+    # contamination from methodology/planning values.
+    budget_text = extract_pages_from_text(
+        proposal_text,
+        budget_page_numbers,
+    )
+
+    if not budget_text.strip():
+        enrich_tender_fees(normalized_document)
+        return normalized_document
+
+    # Pass 2:
+    # Normalize only the budget pages.
+    budget_document = call_normalizer(
+        budget_text
+    )
+
+    isolated_budget = (
+        budget_document
+        .get("document", {})
+        .get("budget")
+    )
+
+    if isolated_budget is not None:
+        normalized_document["document"]["budget"] = (
+            isolated_budget
+        )
+
+    enrich_tender_fees(normalized_document)
+
+    return normalized_document

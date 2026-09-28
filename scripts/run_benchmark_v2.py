@@ -34,6 +34,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 PROPOSALS_DIR = ROOT_DIR / "data" / "test_proposals"
 GROUND_TRUTH_DIR = ROOT_DIR / "data" / "evaluation" / "ground_truth"
 PREDICTIONS_DIR = ROOT_DIR / "data" / "evaluation" / "predictions"
+NORMALIZED_DIR = ROOT_DIR / "data" / "normalized"
 
 
 # ---------------------------------------------------------------------------
@@ -400,6 +401,19 @@ def run_proposal(
         raise ValueError(
             f"{benchmark_id}: normalizer returned empty output"
         )
+    NORMALIZED_DIR.mkdir(parents=True, exist_ok=True)
+
+    normalized_path = NORMALIZED_DIR / f"{benchmark_id}.json"
+
+    with normalized_path.open("w", encoding="utf-8") as f:
+        json.dump(
+            normalized_document,
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+    print(f"      ✓ normalized document saved -> {normalized_path}")
 
     print("      ✓ document normalized")
 

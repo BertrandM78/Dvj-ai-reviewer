@@ -265,16 +265,57 @@ Only populate this field when the overlap can be reliably established from the e
 Do not infer dependencies between phases.
 The reviewer will evaluate dependencies separately.
 
+MULTIPLE METHODOLOGY / PLANNING / BUDGET BLOCKS
+
+A proposal may contain several independent scopes or workstreams, each with its
+own methodology, planning and budget.
+
+Extract ALL phases from ALL occurrences of these sections in the document.
+
+Do not stop after the first methodology, planning or budget block.
+
+Phase numbers are NOT globally unique.
+Different scopes may each contain a "Phase 1", "Phase 2", etc.
+
+When phase numbers repeat across different blocks, preserve every occurrence
+as a separate item in the corresponding phases array.
+
+Never overwrite, merge or discard a phase solely because another phase has
+the same phase number.
+
 
 BUDGET EXTRACTION
 
 Extract each budget phase independently from the methodology.
+Scan every slide classified as BUDGET and extract every budget phase from
+every budget block.
+
+If the proposal contains several budget slides or several independent budgets,
+append all of their phases to budget.phases in document order.
+
+Repeated phase numbers are allowed and must all be preserved.
 
 For every budget phase extract:
 - number
 - title
 - jeh
+- unit_price_ht
 - price_ht
+
+UNIT PRICE
+If a unit price per JEH is explicitly stated in the budget, extract it into unit_price_ht.
+
+Example:
+"5 JEH × 70 € HT/JEH = 420 € HT"
+must be extracted as:
+- jeh: 5
+- unit_price_ht: 70
+- price_ht: 420
+
+Preserve the values exactly as stated, even if they are mathematically inconsistent.
+
+Never calculate or reconstruct unit_price_ht from price_ht and jeh.
+If no unit price per JEH is explicitly stated, return null.
 
 Preserve the number and title exactly as represented in the budget.
 
@@ -286,6 +327,43 @@ Also extract:
 - other_fees
 - tender_fees_ht
 - total_ht
+
+BUDGET EXTRACTION — STRICT TRANSCRIPTION
+
+For every budget row, extract each value exactly as explicitly written
+in that budget row.
+
+Never infer, correct, reconcile, or recompute a budget value from:
+- the methodology,
+- the planning,
+- another budget field,
+- an arithmetic calculation,
+- a total,
+- or another occurrence of the same phase.
+
+In particular:
+- jeh = the explicit quantity shown in the budget row;
+- unit_price_ht = the explicit unit price shown in the budget row;
+- price_ht = the explicit total HT shown in the budget row.
+
+Preserve contradictions exactly as written.
+
+Example:
+If a budget row explicitly says:
+Quantity = 5 JEH
+Unit price = 70 €
+Total = 420 €
+
+extract:
+jeh = 5
+unit_price_ht = 70
+price_ht = 420
+
+Do NOT change 5 to 6 because 6 × 70 = 420.
+Do NOT change 5 to a JEH value found in the methodology.
+Do NOT change 420 to 350.
+
+Detecting inconsistencies is the reviewer's job, not the normalizer's job.
 
 EXTERNAL COSTS
 

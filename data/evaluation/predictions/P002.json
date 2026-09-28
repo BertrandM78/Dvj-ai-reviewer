@@ -13,14 +13,14 @@
       "severity": "MAJOR",
       "status": "COMPLIANT",
       "reason": "Toutes les slides et sections obligatoires sont présentes.",
-      "evidence": "Éléments détectés : Page de couverture; Références; Méthodologie; Planning; Budget; Présentation de l'équipe; Solution proposée.",
+      "evidence": "Éléments détectés : Page de couverture; Méthodologie; Planning; Budget; Présentation de l'équipe; Solution proposée.",
       "recommendation": null
     },
     {
       "rule_id": "REC_001",
       "status": "NOT_SUGGESTED",
-      "reason": "Le contenu et la complexité de la mission ne justifient pas une explication complémentaire.",
-      "evidence": "Le document ne présente pas de complexité ou de contenu nécessitant des slides complémentaires.",
+      "reason": "Le contenu et la complexité de la mission ne justifient pas d'explications complémentaires.",
+      "evidence": null,
       "recommendation": null
     },
     {
@@ -49,44 +49,49 @@
     },
     {
       "rule_id": "RULE_004",
+      "title": "Identification du client",
+      "section": "BESOIN_CLIENT",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
       "status": "NON_COMPLIANT",
-      "reason": "Le nom et la fonction de l'interlocuteur ne sont pas identifiés.",
-      "evidence": "contact_name = null, contact_role = null",
-      "recommendation": "Identifier clairement le nom et la fonction de l'interlocuteur dans la proposition."
+      "reason": "L'identification du client est incomplète.",
+      "evidence": "Élément(s) manquant(s) ou insuffisant(s) : nom de l'interlocuteur, fonction de l'interlocuteur.",
+      "recommendation": "Identifier explicitement l'entreprise cliente, le nom de l'interlocuteur et sa fonction."
     },
     {
       "rule_id": "RULE_005",
-      "status": "COMPLIANT",
-      "reason": "La proposition démontre une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin.",
-      "evidence": "client_context.problem et client_context.needs sont explicites.",
-      "recommendation": null
+      "status": "NON_COMPLIANT",
+      "reason": "La proposition ne démontre pas une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin. Les informations sur le mode de mise en relation avec DeVinci Junior, le contexte de l'entreprise cliente et les principaux enjeux liés à la mission sont manquantes.",
+      "evidence": null,
+      "recommendation": "Compléter la proposition avec les informations manquantes sur le mode de mise en relation, le contexte de l'entreprise cliente et les principaux enjeux liés à la mission."
     },
     {
       "rule_id": "RULE_006",
       "status": "COMPLIANT",
-      "reason": "La solution proposée est explicite et l'impact attendu pour le client est expliqué.",
-      "evidence": "solution.summary et solution.value_proposition sont explicites.",
+      "reason": "La solution proposée est explicite et l'impact, la valeur ou le bénéfice attendu pour le client est expliqué.",
+      "evidence": "La solution proposée est décrite dans la section 'SOLUTION' et l'impact attendu est mentionné dans la 'value_proposition'.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_007",
       "status": "COMPLIANT",
       "reason": "La solution proposée répond de manière cohérente aux besoins et enjeux identifiés.",
-      "evidence": "Les besoins identifiés dans client_context.needs sont couverts par la solution décrite dans solution.summary.",
+      "evidence": "Les besoins identifiés dans 'client_context' sont couverts par la solution décrite dans 'solution'.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_008",
       "status": "COMPLIANT",
       "reason": "La proposition présente des références permettant d'illustrer l'expérience de DeVinci Junior.",
-      "evidence": "document.references contient des références clients et projets réalisés.",
+      "evidence": "Les références sont détaillées dans la section 'references'.",
       "recommendation": null
     },
     {
       "rule_id": "REC_002",
       "status": "NOT_SUGGESTED",
       "reason": "Les références présentées sont pertinentes par rapport à la mission proposée.",
-      "evidence": "Les références dans document.references sont liées à des projets similaires ou dans des secteurs proches.",
+      "evidence": "Les références mentionnées dans la section 'references' sont pertinentes et liées à des projets similaires.",
       "recommendation": null
     },
     {
@@ -117,28 +122,28 @@
       "rule_id": "RULE_011",
       "status": "COMPLIANT",
       "reason": "La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition.",
-      "evidence": "Les phases de la méthodologie dans document.methodology.phases répondent aux besoins identifiés dans client_context.needs.",
+      "evidence": "La méthodologie est détaillée dans la section 'methodology' et couvre les besoins identifiés.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_012",
       "status": "COMPLIANT",
       "reason": "Les livrables associés à chaque phase sont explicitement identifiés.",
-      "evidence": "Chaque phase dans document.methodology.phases spécifie ses livrables.",
+      "evidence": "Les livrables sont listés dans chaque phase de la section 'methodology'.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_013",
       "status": "COMPLIANT",
-      "reason": "Le format des livrables est précisé pour chaque phase.",
-      "evidence": "Chaque livrable dans document.methodology.phases spécifie son format.",
+      "reason": "Le format des livrables est précisé pour chaque phase lorsque celle-ci produit un livrable.",
+      "evidence": "Les formats des livrables sont spécifiés dans chaque phase de la section 'methodology'.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_014",
       "status": "COMPLIANT",
       "reason": "Les livrables annoncés sont cohérents avec les travaux décrits dans la méthodologie.",
-      "evidence": "Les livrables dans document.methodology.phases sont cohérents avec les étapes décrites.",
+      "evidence": "Les livrables et la méthodologie sont cohérents dans la section 'methodology'.",
       "recommendation": null
     },
     {
@@ -162,8 +167,8 @@
       "severity": "MAJOR",
       "status": "NON_COMPLIANT",
       "reason": "Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget.",
-      "evidence": "Méthodologie et planning ne contiennent pas exactement les mêmes phases dans le même ordre. Méthodologie=[(1, 'Diagnostic organisationnel et immersion terrain'), (2, 'Clarification des rôles et organisation du travail'), (3, 'Formalisation des méthodes et transmission des connaissances'), (4, 'Contrôle qualité et restitution'), (None, \"Évaluation de l'impact projet\")] ; Planning=[(1, 'Diagnostic organisationnel et immersion terrain'), (2, 'Clarification des rôles et organisation du travail'), (3, 'Formalisation des méthodes et transmission des connaissances'), (4, 'Contrôle qualité et restitution')]",
-      "recommendation": "Aligner les numéros, titres et l'ordre des phases entre les sections. Une phase explicitement gratuite peut être absente du budget."
+      "evidence": "Méthodologie et budget ne contiennent pas les mêmes phases facturées dans le même ordre. Méthodologie=[(1, 'diagnostic organisationnel et immersion terrain'), (2, 'clariﬁcation des rôles et organisation du travail'), (3, 'formalisation des méthodes et transmission des connaissances'), (4, 'contrôle qualité et restitution')] ; Budget=[(1, 'diagnostic organisationnel et immersion terrain'), (2, 'clarification des rôles et organisation du travail'), (3, 'formalisation des méthodes et transmission des connaissances'), (4, 'contrôle qualité et restitution')]",
+      "recommendation": "Aligner les intitulés et l'ordre des phases entre la méthodologie, le planning et le budget."
     },
     {
       "rule_id": "RULE_016",
@@ -193,7 +198,7 @@
       "rule_id": "RULE_018",
       "status": "COMPLIANT",
       "reason": "Le planning respecte les dépendances opérationnelles décrites dans la méthodologie.",
-      "evidence": "Les phases dans document.planning.phases sont séquencées correctement.",
+      "evidence": "Les phases sont planifiées de manière séquentielle sans chevauchement dans la section 'planning'.",
       "recommendation": null
     },
     {
@@ -205,7 +210,7 @@
       "severity": "MINOR",
       "status": "COMPLIANT",
       "reason": "La date de début du projet est un jour de semaine.",
-      "evidence": "Date de début : 2026-12-03",
+      "evidence": "Date de début : 2026-10-01",
       "recommendation": null
     },
     {
@@ -258,9 +263,9 @@
     },
     {
       "rule_id": "RULE_024",
-      "status": "NOT_APPLICABLE",
-      "reason": "La proposition ne répond pas explicitement à un appel d'offres ou à une procédure équivalente.",
-      "evidence": "Aucune mention d'appel d'offres dans le document.",
+      "status": "COMPLIANT",
+      "reason": "Les frais applicables à l'appel d'offres sont intégrés au budget.",
+      "evidence": "Les frais liés à la plateforme d'appels d'offres sont inclus dans la section 'budget'.",
       "recommendation": null
     },
     {
@@ -279,14 +284,14 @@
       "rule_id": "RULE_026",
       "status": "COMPLIANT",
       "reason": "La charge en JEH est cohérente avec l'ampleur des travaux et livrables annoncés.",
-      "evidence": "Les JEH et les livrables dans document.methodology.phases et document.budget.phases sont cohérents.",
+      "evidence": "Les JEH et les livrables sont cohérents dans la section 'methodology' et 'budget'.",
       "recommendation": null
     },
     {
       "rule_id": "RULE_027",
       "status": "COMPLIANT",
-      "reason": "Les compétences présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission.",
-      "evidence": "Les compétences des intervenants dans document.team.contributors sont pertinentes pour la mission.",
+      "reason": "Le cursus, la formation ou la spécialisation des contributeurs est cohérent avec la nature des travaux qui leur sont confiés.",
+      "evidence": "Les formations de Julie Ponce et Louis Gaston sont cohérentes avec les tâches décrites dans la section 'team'.",
       "recommendation": null
     },
     {
@@ -305,28 +310,28 @@
       "rule_id": "REC_004",
       "status": "NOT_SUGGESTED",
       "reason": "La composition de l'équipe paraît compatible avec la charge, les délais et les éventuels travaux parallèles.",
-      "evidence": "Les JEH et la durée du projet sont cohérents avec les compétences et le nombre d'intervenants.",
+      "evidence": null,
       "recommendation": null
     },
     {
       "rule_id": "REC_006",
       "status": "NOT_SUGGESTED",
-      "reason": "Le besoin, le périmètre ou les hypothèses de la mission ne présentent pas d'incertitude importante.",
-      "evidence": "Aucune incertitude majeure n'est identifiée dans le document.",
+      "reason": "Le besoin, le périmètre ou les hypothèses de la mission ne présentent pas d'incertitude importante pouvant être réduite avant la mission principale.",
+      "evidence": null,
       "recommendation": null
     },
     {
       "rule_id": "REC_007",
       "status": "NOT_SUGGESTED",
       "reason": "La mission ne comporte pas d'incertitude technique importante qui pourrait être testée à petite échelle.",
-      "evidence": "Aucune incertitude technique majeure n'est identifiée dans le document.",
+      "evidence": null,
       "recommendation": null
     },
     {
       "rule_id": "REC_008",
       "status": "NOT_SUGGESTED",
       "reason": "La mission ne possède pas de composante technique importante nécessitant une mise en avant des technologies utilisées.",
-      "evidence": "Aucune mention de technologies spécifiques dans le document.",
+      "evidence": null,
       "recommendation": null
     }
   ]

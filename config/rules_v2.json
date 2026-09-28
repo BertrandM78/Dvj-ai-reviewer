@@ -105,7 +105,7 @@
       "section": "BESOIN_CLIENT",
       "type": "OBLIGATION",
       "dimension": "FOND",
-      "engine": "LLM",
+      "engine": "DETERMINISTIC",
       "severity": "MAJOR",
       "applies_when": "ALWAYS",
       "description": "La proposition doit identifier clairement le client et l'interlocuteur.",
@@ -482,14 +482,25 @@
 
     {
       "id": "RULE_027",
-      "title": "Adéquation des compétences des intervenants",
+      "title": "Adéquation du cursus des intervenants",
       "section": "EQUIPE",
       "type": "OBLIGATION",
       "dimension": "FOND",
       "engine": "LLM",
       "severity": "MAJOR",
       "applies_when": "Une équipe ou des profils intervenants sont présentés.",
-      "description": "Les compétences explicitement présentées pour les intervenants doivent être cohérentes avec les exigences techniques et métier de la mission."
+      "description": "Le cursus, la formation ou la spécialisation explicitement présenté pour les contributeurs doit être cohérent avec la nature des travaux qui leur sont confiés.",
+      "requirements": [
+        "Évaluer l'adéquation entre le cursus, la formation ou la spécialisation du contributeur et les travaux effectivement réalisés dans la mission.",
+        "Les informations de cursus ou de spécialisation peuvent apparaître dans education, role ou dans la description du profil. Un champ education nul ne signifie pas que le cursus est inconnu si une information exploitable est présente ailleurs.",
+        "Évaluer la nature des travaux réalisés et non le secteur d'activité du client, le produit du client ou le contexte général de la mission.",
+        "Raisonner par grands domaines de compétence : par exemple, une formation en marketing ou digital peut être cohérente avec des travaux de marketing, communication, identité de marque, web, réseaux sociaux ou analyse marketing.",
+        "Une formation en marketing digital n'est pas, à elle seule, suffisante pour justifier des travaux relevant principalement du conseil en organisation, de la définition des rôles, de l'organisation du travail ou de la formalisation des processus.",
+        "Ne pas évaluer ici l'expérience, la séniorité ou la qualité générale du profil.",
+        "NON_COMPLIANT uniquement lorsqu'une incompatibilité suffisamment explicite entre le cursus présenté et la nature des travaux confiés peut être établie.",
+        "NOT_EVALUATED uniquement lorsqu'aucune information exploitable sur le cursus ou la spécialisation n'est disponible, ou lorsque la nature des travaux confiés ne peut pas être déterminée.",
+        "COMPLIANT lorsque le cursus ou la spécialisation est explicitement identifiable et globalement cohérent avec la nature des travaux confiés."
+      ]
     },
 
     {

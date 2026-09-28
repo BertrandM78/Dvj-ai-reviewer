@@ -4,11 +4,11 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 
 ## Résultats globaux
 
-- Accuracy 4 classes : **77.14%** (108/140)
-- Violation precision : **73.08%**
-- Violation recall : **63.33%**
-- Violation F1 : **67.86%**
-- Abstention rate : **10.00%** (14/140)
+- Accuracy 4 classes : **80.71%** (113/140)
+- Violation precision : **69.70%**
+- Violation recall : **82.14%**
+- Violation F1 : **75.41%**
+- Abstention rate : **7.86%** (11/140)
 - NOT_APPLICABLE accuracy : **90.00%** (9/10)
 - NOT_EVALUATED accuracy : **50.00%** (6/12)
 
@@ -16,35 +16,35 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 
 | TP | FP | FN | TN | Décisions C/NC |
 |---:|---:|---:|---:|---:|
-| 19 | 7 | 11 | 74 | 118 |
+| 23 | 10 | 5 | 75 | 118 |
 
 ## Distribution des statuts
 
 | Statut | Ground truth | Prédiction |
 |---|---:|---:|
-| COMPLIANT | 88 | 85 |
-| NON_COMPLIANT | 30 | 29 |
-| NOT_EVALUATED | 12 | 14 |
-| NOT_APPLICABLE | 10 | 12 |
+| COMPLIANT | 90 | 83 |
+| NON_COMPLIANT | 28 | 35 |
+| NOT_EVALUATED | 12 | 11 |
+| NOT_APPLICABLE | 10 | 11 |
 
 ## Matrice de confusion
 
 | GT \ Pred | COMPLIANT | NON_COMPLIANT | NOT_EVALUATED | NOT_APPLICABLE |
 |---|---:|---:|---:|---:|
-| COMPLIANT | 74 | 7 | 6 | 1 |
-| NON_COMPLIANT | 9 | 19 | 2 | 0 |
-| NOT_EVALUATED | 2 | 2 | 6 | 2 |
+| COMPLIANT | 75 | 10 | 5 | 0 |
+| NON_COMPLIANT | 5 | 23 | 0 | 0 |
+| NOT_EVALUATED | 3 | 1 | 6 | 2 |
 | NOT_APPLICABLE | 0 | 1 | 0 | 9 |
 
 ## Résultats par proposition
 
 | Proposition | Accuracy | Precision | Recall | F1 | Erreurs |
 |---|---:|---:|---:|---:|---:|
-| P001 | 82.14% | 83.33% | 71.43% | 76.92% | 5 |
-| P002 | 75.00% | 66.67% | 40.00% | 50.00% | 7 |
-| P003 | 78.57% | 75.00% | 85.71% | 80.00% | 6 |
-| P004 | 82.14% | 66.67% | 100.00% | 80.00% | 5 |
-| P005 | 67.86% | 66.67% | 28.57% | 40.00% | 9 |
+| P001 | 92.86% | 100.00% | 85.71% | 92.31% | 2 |
+| P002 | 78.57% | 50.00% | 50.00% | 50.00% | 6 |
+| P003 | 71.43% | 66.67% | 85.71% | 75.00% | 8 |
+| P004 | 85.71% | 66.67% | 100.00% | 80.00% | 4 |
+| P005 | 75.00% | 62.50% | 83.33% | 71.43% | 7 |
 
 ## Erreurs détaillées
 
@@ -58,30 +58,9 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 ### P001 — RULE_016
 
 - Ground truth : `NON_COMPLIANT`
-- Prédiction : `NOT_EVALUATED`
+- Prédiction : `COMPLIANT`
 - Raison GT : La répartition temporelle du planning n'est pas cohérente avec les durées annoncées dans la méthodologie.
-- Explication modèle : Certaines durées nécessaires à la comparaison sont absentes : phases [2].
-
-### P001 — RULE_017
-
-- Ground truth : `COMPLIANT`
-- Prédiction : `NON_COMPLIANT`
-- Raison GT : La durée globale annoncée est cohérente avec les durées des phases.
-- Explication modèle : La durée totale annoncée ne correspond pas à la durée représentée dans le planning.
-
-### P001 — RULE_022
-
-- Ground truth : `NON_COMPLIANT`
-- Prédiction : `NOT_EVALUATED`
-- Raison GT : La gestion de projet représente 200 EUR sur 1000 EUR HT, soit 20 %, au-dessus de la fourchette de 8 à 12 %.
-- Explication modèle : Les montants nécessaires au calcul sont absents.
-
-### P001 — RULE_027
-
-- Ground truth : `NOT_EVALUATED`
-- Prédiction : `NON_COMPLIANT`
-- Raison GT : Les informations disponibles ne permettent pas d'évaluer suffisamment les compétences des contributeurs.
-- Explication modèle : Les compétences des intervenants ne sont pas explicitement présentées.
+- Explication modèle : Les durées des phases sont cohérentes entre la méthodologie et le planning.
 
 ### P002 — RULE_002
 
@@ -90,12 +69,12 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : La référence DE-0926-1045-1069-1103 est présente.
 - Explication modèle : Le format de la référence est valide, mais la date de proposition n'a pas pu être extraite ; la cohérence MMYY ne peut donc pas être vérifiée.
 
-### P002 — RULE_006
+### P002 — RULE_005
 
-- Ground truth : `NON_COMPLIANT`
-- Prédiction : `COMPLIANT`
-- Raison GT : La section solution reste générique et indique seulement un accompagnement pour répondre à la problématique sans expliciter la solution proposée.
-- Explication modèle : La solution proposée est explicite et l'impact attendu pour le client est expliqué.
+- Ground truth : `COMPLIANT`
+- Prédiction : `NON_COMPLIANT`
+- Raison GT : Le besoin est clairement exposé : clarification des rôles, organisation du travail, circuits de décision et transmission des savoir-faire.
+- Explication modèle : La proposition ne démontre pas une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin. Les informations sur le mode de mise en relation avec DeVinci Junior, le contexte de l'entreprise cliente et les principaux enjeux liés à la mission sont manquantes.
 
 ### P002 — RULE_007
 
@@ -111,13 +90,6 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : Les quatre phases conservent des titres et un ordre cohérents entre méthodologie, planning et budget.
 - Explication modèle : Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget.
 
-### P002 — RULE_024
-
-- Ground truth : `COMPLIANT`
-- Prédiction : `NOT_APPLICABLE`
-- Raison GT : Les frais liés à la plateforme d'appels d'offres sont explicitement budgétés à 130 EUR.
-- Explication modèle : La proposition ne répond pas explicitement à un appel d'offres ou à une procédure équivalente.
-
 ### P002 — RULE_025
 
 - Ground truth : `NOT_APPLICABLE`
@@ -130,7 +102,7 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Ground truth : `NON_COMPLIANT`
 - Prédiction : `COMPLIANT`
 - Raison GT : Les profils présentés ne démontrent pas suffisamment une adéquation avec les compétences attendues pour une mission de structuration organisationnelle.
-- Explication modèle : Les compétences présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission.
+- Explication modèle : Le cursus, la formation ou la spécialisation des contributeurs est cohérent avec la nature des travaux qui leur sont confiés.
 
 ### P003 — RULE_002
 
@@ -139,6 +111,20 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : La référence DE-0926-1046-1070-1104 est présente.
 - Explication modèle : Le format de la référence est valide, mais la date de proposition n'a pas pu être extraite ; la cohérence MMYY ne peut donc pas être vérifiée.
 
+### P003 — RULE_006
+
+- Ground truth : `COMPLIANT`
+- Prédiction : `NON_COMPLIANT`
+- Raison GT : La solution décrit concrètement une enquête terrain, la collecte et le contrôle des réponses ainsi que la remise de bases structurées et d'une synthèse.
+- Explication modèle : La solution proposée n'est pas explicite et l'impact, la valeur ou le bénéfice attendu pour le client n'est pas expliqué.
+
+### P003 — RULE_008
+
+- Ground truth : `COMPLIANT`
+- Prédiction : `NON_COMPLIANT`
+- Raison GT : Deux références de missions sont présentées.
+- Explication modèle : La proposition ne présente pas de références permettant d'illustrer l'expérience de DeVinci Junior.
+
 ### P003 — RULE_011
 
 - Ground truth : `NOT_EVALUATED`
@@ -146,12 +132,12 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : L'absence de besoin explicite empêche d'évaluer proprement la cohérence entre le besoin et la méthodologie.
 - Explication modèle : La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition.
 
-### P003 — RULE_015
+### P003 — RULE_016
 
-- Ground truth : `COMPLIANT`
-- Prédiction : `NON_COMPLIANT`
-- Raison GT : Les titres et l'ordre des phases sont cohérents entre méthodologie, planning et budget.
-- Explication modèle : Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget.
+- Ground truth : `NOT_EVALUATED`
+- Prédiction : `COMPLIANT`
+- Raison GT : La durée de la phase 3 étant absente de la méthodologie, sa cohérence avec le planning ne peut pas être vérifiée complètement.
+- Explication modèle : Les durées des phases sont cohérentes entre la méthodologie et le planning.
 
 ### P003 — RULE_024
 
@@ -195,13 +181,6 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : Les formats sont explicités lorsque pertinents : PDF, DOCX/PDF et campagnes activées dans le Business Manager.
 - Explication modèle : Le format des livrables n'est pas précisé pour toutes les phases.
 
-### P004 — RULE_016
-
-- Ground truth : `COMPLIANT`
-- Prédiction : `NOT_EVALUATED`
-- Raison GT : Les durées représentées pour les phases sont cohérentes avec les durées méthodologiques de 2, 3, 8 et 1 semaines.
-- Explication modèle : Certaines durées nécessaires à la comparaison sont absentes : phases [1].
-
 ### P004 — RULE_025
 
 - Ground truth : `NOT_EVALUATED`
@@ -230,6 +209,20 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : Les livrables explicitement identifiés ont généralement un format, mais certaines phases n'identifient pas suffisamment leur livrable pour permettre d'en contrôler le format.
 - Explication modèle : Le format des livrables est précisé pour chaque phase lorsque celle-ci produit un livrable.
 
+### P005 — RULE_015
+
+- Ground truth : `COMPLIANT`
+- Prédiction : `NON_COMPLIANT`
+- Raison GT : Pour chacun des blocs de prestation, les intitulés et l'ordre des phases sont cohérents entre méthodologie, planning et budget.
+- Explication modèle : Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget.
+
+### P005 — RULE_016
+
+- Ground truth : `COMPLIANT`
+- Prédiction : `NON_COMPLIANT`
+- Raison GT : Les durées représentées dans les différents plannings correspondent aux durées annoncées pour les phases.
+- Explication modèle : Certaines durées annoncées dans la méthodologie ne sont pas cohérentes avec le planning.
+
 ### P005 — RULE_017
 
 - Ground truth : `COMPLIANT`
@@ -237,40 +230,12 @@ Benchmark: 5 propositions, 28 obligations par proposition, 140 décisions.
 - Raison GT : Les durées globales annoncées sont cohérentes avec les plannings et les éventuels chevauchements des phases.
 - Explication modèle : La durée totale annoncée ne correspond pas à la durée représentée dans le planning.
 
-### P005 — RULE_020
-
-- Ground truth : `NON_COMPLIANT`
-- Prédiction : `COMPLIANT`
-- Raison GT : Le bloc Réseaux sociaux indique 3 JEH dans la méthodologie mais 5 JEH dans le budget. Le budget affiche en outre un total de 4 JEH alors que ses lignes indiquent 5 JEH de production et 1 JEH de gestion.
-- Explication modèle : Les JEH sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites.
-
-### P005 — RULE_021
-
-- Ground truth : `NON_COMPLIANT`
-- Prédiction : `COMPLIANT`
-- Raison GT : Le budget Réseaux sociaux contient une incohérence arithmétique : 5 JEH à 70 EUR devraient représenter 350 EUR HT et non les 420 EUR HT affichés.
-- Explication modèle : Les montants des phases sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites.
-
-### P005 — RULE_023
-
-- Ground truth : `NON_COMPLIANT`
-- Prédiction : `COMPLIANT`
-- Raison GT : Le budget Réseaux sociaux affiche explicitement un prix unitaire de 70 EUR HT par JEH, inférieur au minimum autorisé de 80 EUR HT.
-- Explication modèle : Le prix unitaire par JEH respecte la plage autorisée pour toutes les phases.
-
 ### P005 — RULE_025
 
 - Ground truth : `NOT_EVALUATED`
 - Prédiction : `NOT_APPLICABLE`
 - Raison GT : Certaines prestations nécessitent des ressources ou services externes, notamment un imprimeur, un hébergement et potentiellement des plugins WordPress, sans coût externe suffisamment caractérisé dans les budgets.
 - Explication modèle : Aucune ressource externe n'est explicitement identifiée dans la méthodologie et aucun coût externe n'est budgété.
-
-### P005 — RULE_027
-
-- Ground truth : `NON_COMPLIANT`
-- Prédiction : `COMPLIANT`
-- Raison GT : Le profil d'intervenante présenté est pertinent pour le marketing digital et les réseaux sociaux mais ne démontre pas les compétences en design graphique, packaging et développement WordPress nécessaires à l'ensemble des prestations proposées.
-- Explication modèle : Les compétences explicitement présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission.
 
 ## Méthodologie
 
