@@ -74,7 +74,7 @@ def normalize_document(proposal_text: str) -> dict:
         ],
         inferenceConfig={
             "temperature": 0.0,
-            "maxTokens": 4000,
+            "maxTokens": 6000,
         },
     )
 

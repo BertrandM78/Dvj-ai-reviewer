@@ -4,3 +4,5 @@ __pycache__/
 .DS_Store
 .streamlit/secrets.toml
 data/normalized/
+data/test_proposals/
+data/evaluation/ground_truth/

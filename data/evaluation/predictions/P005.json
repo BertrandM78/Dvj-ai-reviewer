@@ -1,0 +1,333 @@
+{
+  "benchmark_id": "P005",
+  "proposal_id": "DE-0926-1048-1072-1106",
+  "benchmark_version": "v2",
+  "prediction_source": "reviewer_v2",
+  "results": [
+    {
+      "rule_id": "RULE_001",
+      "title": "Structure obligatoire de la proposition",
+      "section": "STRUCTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "Certaines slides ou sections obligatoires sont absentes.",
+      "evidence": "Éléments manquants : Qui sommes-nous; Notre compréhension de votre besoin; RSE; On poursuit ensemble; Boostez votre entreprise; Nos coordonnées. Éléments détectés : Page de couverture; Références; Méthodologie; Planning; Budget; Présentation de l'équipe; Solution proposée.",
+      "recommendation": "Ajouter ou renommer les éléments obligatoires manquants."
+    },
+    {
+      "rule_id": "REC_001",
+      "status": "NOT_SUGGESTED",
+      "reason": "Le contenu et la complexité de la mission ne justifient pas d'explications complémentaires.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_002",
+      "title": "Référence de la proposition",
+      "section": "COUVERTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MAJOR",
+      "status": "NOT_EVALUATED",
+      "reason": "Le format de la référence est valide, mais la date de proposition n'a pas pu être extraite ; la cohérence MMYY ne peut donc pas être vérifiée.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_003",
+      "title": "Date de validité",
+      "section": "COUVERTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MAJOR",
+      "status": "NOT_EVALUATED",
+      "reason": "La date de proposition n'a pas pu être extraite.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_004",
+      "status": "NON_COMPLIANT",
+      "reason": "Le nom et la fonction de l'interlocuteur ne sont pas identifiés.",
+      "evidence": "Le nom de l'interlocuteur est 'Bernard Miron', mais sa fonction est null.",
+      "recommendation": "Identifier clairement le nom et la fonction de l'interlocuteur."
+    },
+    {
+      "rule_id": "RULE_005",
+      "status": "COMPLIANT",
+      "reason": "La proposition démontre une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin.",
+      "evidence": "La relation avec le client est décrite comme une prospection. Le contexte de l'entreprise cliente est expliqué, la problématique du client est explicite et les principaux enjeux liés à la mission sont identifiés.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_006",
+      "status": "COMPLIANT",
+      "reason": "La proposition explique clairement ce que DeVinci Junior propose de réaliser et la valeur attendue pour le client.",
+      "evidence": "La solution proposée est un accompagnement stratégique pour la structuration du projet et la préparation du lancement du jeu de société. La valeur proposition est la mise en place des différents éléments nécessaires au développement de la marque et à sa commercialisation.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_007",
+      "status": "COMPLIANT",
+      "reason": "La solution proposée répond de manière cohérente aux besoins et enjeux identifiés.",
+      "evidence": "Les principaux besoins identifiés (structurer progressivement les différents éléments nécessaires à son lancement et à son développement, poser les bases nécessaires à la création de la marque) trouvent une réponse dans la solution proposée (accompagnement stratégique pour la structuration du projet et la préparation du lancement).",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_008",
+      "status": "COMPLIANT",
+      "reason": "La proposition présente des références permettant d'illustrer l'expérience de DeVinci Junior.",
+      "evidence": "Les références incluent la création d'un site vitrine pour Groupe VYV, la création d'un site Internet pour GoTreep, la création, illustrations & animation de cours en ligne pour Pôle Léonard de Vinci, la stratégie graphique au service de l’innovation médicale pour MAAsiRNA, et la création de l’identité visuelle complète pour deux nouvelles marques de cosmétiques pour Maison Anne Pauline.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_002",
+      "status": "NOT_SUGGESTED",
+      "reason": "Les références présentées sont pertinentes par rapport à la mission proposée.",
+      "evidence": "La référence pour la création d'un site vitrine pour Groupe VYV est pertinente car elle concerne le développement web, similaire à la mission proposée.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_009",
+      "title": "Niveau de détail de la méthodologie",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Toutes les phases contiennent au moins 3 étapes.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_010",
+      "title": "Informations obligatoires des phases",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Toutes les phases indiquent leur durée, leur nombre de JEH et leur prix HT.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_011",
+      "status": "COMPLIANT",
+      "reason": "La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition.",
+      "evidence": "La méthodologie inclut des phases pour la création d'un logo, la conception de la boîte et organisation intérieure, l'identité visuelle et conception graphique du packaging, et la sélection d'un imprimeur, ce qui couvre les besoins identifiés.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_012",
+      "status": "COMPLIANT",
+      "reason": "Les livrables associés à chaque phase sont explicitement identifiés.",
+      "evidence": "Les livrables incluent le logo, les mock-ups et le plan de découpe, les fichiers finaux de la structure et de la boîte, les éléments graphiques et icônes, les spécifications fonctionnelles, les maquettes, et le livre blanc.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_013",
+      "status": "COMPLIANT",
+      "reason": "Le format des livrables est précisé pour chaque phase lorsque celle-ci produit un livrable.",
+      "evidence": "Les formats incluent.ai,.png,.pdf,.xd.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_014",
+      "status": "COMPLIANT",
+      "reason": "Les livrables annoncés sont cohérents avec les travaux décrits dans la méthodologie.",
+      "evidence": "Les livrables tels que le logo, les mock-ups, les spécifications fonctionnelles, et le livre blanc sont cohérents avec les phases décrites dans la méthodologie.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_003",
+      "title": "Précision des allers-retours client",
+      "section": "METHODOLOGIE",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "severity": "INFO",
+      "status": "NOT_SUGGESTED",
+      "reason": "Les fréquences explicites d'allers-retours client ne dépassent pas le seuil de 1/semaine.",
+      "evidence": "Création d’un logo: 1.0/semaine; Maquetage & WebDesign: 1.0/semaine",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_015",
+      "title": "Cohérence stricte des noms de phases",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "Les phases ne sont pas cohérentes entre la méthodologie, le planning et le budget.",
+      "evidence": "Méthodologie et planning ne contiennent pas exactement les mêmes phases dans le même ordre. Méthodologie=[(1, 'Création d’un logo'), (2, 'Conception de la boîte et organisation intérieure'), (3, 'Identité visuelle et conception graphique du packaging'), (4, 'Sélection d’un imprimeur'), (None, 'Bonus : Évaluation RSE du projet'), (1, 'Analyse & Conception'), (2, 'Maquetage & WebDesign'), (3, 'Développement du site sous WordPress'), (4, 'Mise en production du site'), (1, 'Mise en place des réseaux sociaux')] ; Planning=[(1, 'Création d’un Logo'), (2, 'Conception de la boîte et organisation intérieure'), (3, 'Identité visuelle et conception graphique du packaging'), (4, 'Sélection d’un imprimeur'), (None, 'Bonus : Évaluation RSE du projet'), (1, 'Analyse & Conception'), (2, 'Maquetage & WebDesign'), (3, 'Développement du site sous WordPress'), (4, 'Mise en production du site'), (1, 'Mise en place des réseaux sociaux')]; L'ordre des phases du budget ne correspond pas à celui de la méthodologie. Budget=[1, 2, 3, 4, None, 1, 2, 3, 4, None, 1, None] ; ordre attendu=[1, 2, 3, 4, 1, 2, 3, 4, 1]",
+      "recommendation": "Aligner les numéros, titres et l'ordre des phases entre les sections. Une phase explicitement gratuite peut être absente du budget."
+    },
+    {
+      "rule_id": "RULE_016",
+      "title": "Cohérence des durées par phase",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Les durées des phases sont cohérentes entre la méthodologie et le planning.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_017",
+      "title": "Cohérence de la durée totale",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "La durée totale annoncée ne correspond pas à la durée représentée dans le planning.",
+      "evidence": "Durée annoncée : 11 semaine(s) ; planning : 13 semaine(s).",
+      "recommendation": "Aligner la durée totale annoncée avec le planning détaillé."
+    },
+    {
+      "rule_id": "RULE_018",
+      "status": "COMPLIANT",
+      "reason": "Le planning respecte les dépendances opérationnelles décrites dans la méthodologie.",
+      "evidence": "Les phases sont planifiées de manière séquentielle sans chevauchement.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_019",
+      "title": "Date de démarrage du projet",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MINOR",
+      "status": "COMPLIANT",
+      "reason": "La date de début du projet est un jour de semaine.",
+      "evidence": "Date de début : 2026-12-21",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_020",
+      "title": "Cohérence des JEH",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Les JEH sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_021",
+      "title": "Cohérence des montants",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Les montants des phases sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_022",
+      "title": "Part de la gestion de projet",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "La part de gestion de projet est en dehors de la plage attendue.",
+      "evidence": "Gestion de projet : 250.00 € HT ; total : 2000.00 € HT ; part : 12.5 %.",
+      "recommendation": "Vérifier que la gestion de projet représente entre 8 % et 12 % du total HT."
+    },
+    {
+      "rule_id": "RULE_023",
+      "title": "Prix unitaire par JEH",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Le prix unitaire par JEH respecte la plage autorisée pour toutes les phases.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_024",
+      "status": "NOT_APPLICABLE",
+      "reason": "La proposition ne répond pas explicitement à un appel d'offres ou à une procédure équivalente.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_025",
+      "title": "Cohérence des licences et coûts externes",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NOT_APPLICABLE",
+      "reason": "Aucune ressource externe n'est explicitement identifiée dans la méthodologie et aucun coût externe n'est budgété.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_026",
+      "status": "COMPLIANT",
+      "reason": "La charge en JEH est cohérente avec l'ampleur des travaux et livrables annoncés.",
+      "evidence": "La charge totale en JEH est de 30 pour un projet de 11 semaines, ce qui est cohérent avec les phases et livrables décrits.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_027",
+      "status": "COMPLIANT",
+      "reason": "Les compétences explicitement présentées pour les intervenants sont cohérentes avec les exigences techniques et métier de la mission.",
+      "evidence": "Hadija TIMERA a des compétences en Data Analytics, Performance Marketing, Stratégie Digitale, etc., ce qui est cohérent avec les besoins de la mission.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_028",
+      "title": "Expérience du chef de projet",
+      "section": "EQUIPE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NOT_APPLICABLE",
+      "reason": "Le budget total HT ne dépasse pas 10000 €.",
+      "evidence": "Budget total : 2000.00 € HT.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_004",
+      "status": "NOT_SUGGESTED",
+      "reason": "La composition de l'équipe paraît compatible avec la charge, les délais et les éventuels travaux parallèles.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_006",
+      "status": "NOT_SUGGESTED",
+      "reason": "Le besoin, le périmètre ou les hypothèses de la mission ne présentent pas d'incertitude importante pouvant être réduite avant la mission principale.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_007",
+      "status": "NOT_SUGGESTED",
+      "reason": "La mission ne comporte pas d'incertitude technique importante qui pourrait être testée à petite échelle.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_008",
+      "status": "NOT_SUGGESTED",
+      "reason": "La mission ne possède pas de composante technique importante et les technologies utilisées sont suffisamment mises en avant.",
+      "evidence": null,
+      "recommendation": null
+    }
+  ]
+}
