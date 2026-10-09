@@ -1,0 +1,152 @@
+{
+  "version": "2.0",
+
+  "document": {
+    "metadata": {
+      "proposal_reference": null,
+      "proposal_date": null,
+      "validity_date": null,
+      "filename": null
+    },
+
+    "slides": [
+      {
+        "page": null,
+        "title": null,
+        "detected_section": null,
+        "content_summary": null
+      }
+    ],
+
+    "client_context": {
+      "company": null,
+      "contact_name": null,
+      "contact_role": null,
+
+      "relationship_origin": null,
+
+      "company_context": null,
+      "problem": null,
+      "needs": [],
+      "challenges": []
+    },
+
+    "solution": {
+      "summary": null,
+      "value_proposition": null,
+      "expected_impacts": []
+    },
+
+    "references": [
+      {
+        "client": null,
+        "project_title": null,
+        "sector": null,
+        "mission_type": null,
+        "description": null
+      }
+    ],
+
+    "methodology": {
+      "phases": [
+        {
+          "number": null,
+          "title": null,
+
+          "duration_weeks": null,
+          "jeh": null,
+          "price_ht": null,
+
+          "steps": [],
+
+          "deliverables": [
+            {
+              "name": null,
+              "format": null
+            }
+          ],
+
+          "client_iterations": null,
+
+          "technologies": [],
+          "external_resources": []
+        }
+      ]
+    },
+
+    "planning": {
+      "project_start_date": null,
+      "total_duration_weeks": null,
+      "total_duration_days": null,
+
+      "phases": [
+        {
+          "number": null,
+          "title": null,
+
+          "start_week": null,
+          "end_week": null,
+          "duration_weeks": null,
+
+          "parallel_with": []
+        }
+      ]
+    },
+
+    "budget": {
+      "phases": [
+        {
+          "number": null,
+          "title": null,
+          "jeh": null,
+          "unit_price_ht": null,
+          "price_ht": null
+        }
+      ],
+
+      "project_management_ht": null,
+
+      "external_costs": [
+        {
+          "name": null,
+          "amount_ht": null
+        }
+      ],
+
+      "other_fees": [
+        {
+          "name": null,
+          "amount_ht": null
+        }
+      ],
+
+      "tender_fees_ht": null,
+      "total_ht": null
+    },
+    "team": {
+      "project_manager": {
+        "name": null,
+        "education": null,
+        "skills": [],
+        "mission_count": null,
+        "project_management_weeks": null
+      },
+
+      "contributors": [
+        {
+          "name": null,
+          "role": null,
+          "education": null,
+          "skills": [],
+          "mission_count": null,
+          "project_management_weeks": null
+        }
+      ]
+    },
+
+    "commercial_context": {
+      "sector": null,
+      "mission_type": null
+    }
+  }
+}

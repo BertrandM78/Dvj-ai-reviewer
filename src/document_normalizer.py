@@ -1,10 +1,19 @@
 import json
-
+from pathlib import Path
+import re 
 from src.aws_client import get_aws_client
+
 
 REGION = "us-east-1"
 MODEL_ID = "amazon.nova-pro-v1:0"
 
+NORMALIZER_PROMPT_PATH = Path(
+    "prompts/normalizer_prompt.txt"
+)
+
+NORMALIZED_SCHEMA_PATH = Path(
+    "config/normalized_document_schema_v2.json"
+)
 
 bedrock_client = get_aws_client(
     "bedrock-runtime",
@@ -12,151 +21,44 @@ bedrock_client = get_aws_client(
 )
 
 
-NORMALIZATION_PROMPT = """
-You are a document extraction system.
-
-Your task is to convert the commercial proposal below into structured JSON.
-
-IMPORTANT RULES:
-- Extract information only when explicitly supported by the document.
-- Never infer or invent missing values.
-- If a value cannot be reliably determined, use null.
-- Preserve phase numbers when explicitly identifiable.
-- Keep methodology information separate from budget information.
-- A value appearing in the budget must not be used to fill a missing
-  methodology value, and vice versa.
-- "Gestion et suivi de projet" is not a methodology phase unless the
-  document explicitly presents it as one.
-- Return ONLY valid JSON.
-- Do not include markdown or explanations.
-
-CRITICAL EXTRACTION RULES:
-
-- Treat each document section as an independent source of truth.
-- Never reconcile inconsistencies between sections.
-- Never correct a value because another section contains a different value.
-- Never copy a methodology value into the budget.
-- Never copy a budget value into the methodology.
-- Preserve contradictions exactly as written in the document.
-
-PLANNING EXTRACTION RULES:
-
-- Extract total_duration_weeks only when a total duration is explicitly stated
-  in the planning section.
-- Extract start_week and end_week only when the phase position or week range
-  is explicitly recoverable from the extracted document text.
-- Never reconstruct start_week or end_week from methodology duration.
-- Never infer sequential execution unless the planning explicitly shows it.
-- If a Gantt chart, graphical bar, or visual layout cannot be reliably
-  represented by the extracted text, return null for the corresponding
-  start_week and end_week.
-- Preserve inconsistencies between the stated total duration and the visible
-  planning. Never reconcile them.
-
-For methodology fields:
-- Extract values ONLY from the methodology section.
-- Ignore values found in the budget or planning sections.
-
-For budget fields:
-- Extract values ONLY from the budget section or budget table.
-- Ignore values found in the methodology or planning sections.
-
-For planning fields:
-- Extract values ONLY from the planning section.
-- Do not reconstruct planning information from methodology durations.
-
-Example:
-If methodology says Phase 3 = 4 JEH and budget says Phase 3 = 3 JEH,
-you MUST return:
-methodology Phase 3 jeh = 4
-budget Phase 3 jeh = 3
-Do NOT reconcile them.
-
-COMMERCIAL CONTEXT EXTRACTION RULES:
-
-- sector:
-  Extract the client's main business sector or industry.
-  Examples: Santé, Finance, Éducation, Industrie, Immobilier, Énergie.
-  Use a short and generic sector label.
-  Use information from the entire proposal when necessary.
-  If the client's sector cannot be reliably determined, return null.
-
-- mission_type:
-  Extract the main type of service proposed by DeVinci Junior.
-  Examples: Étude de marché, Application web, Data / IA, Stratégie,
-  Communication, UX/UI.
-  Use a short and generic service category rather than the exact title
-  of the proposal.
-  Use information from the entire proposal when necessary.
-  If the mission type cannot be reliably determined, return null.
-
-Use exactly this structure:
-
-{
-  "commercial_context": {
-    "sector": string | null,
-    "mission_type": string | null
-  },
-  "methodology": {
-    "phases": [
-      {
-        "phase_number": 1,
-        "name": null,
-        "duration_weeks": null,
-        "price_ht": null,
-        "jeh": null,
-        "validation_iterations": null,
-        "steps": [],
-        "deliverable": {
-          "name": null,
-          "format": null
-        }
-      }
-    ]
-  },
-  "planning": {
-    "start_date": null,
-    "end_date": null,
-    "total_duration_weeks": null,
-    "phases": [
-      {
-        "phase_number": 1,
-        "name": null,
-        "start_week": null,
-        "end_week": null
-      }
-    ]
-  },
-  "budget": {
-    "phases": [
-      {
-        "phase_number": 1,
-        "name": null,
-        "jeh": null,
-        "unit_price_ht": null,
-        "total_ht": null
-      }
-    ],
-    "project_management_ht": null,
-    "total_project_ht": null
-  }
-}
-
-COMMERCIAL PROPOSAL:
-
---- START OF DOCUMENT ---
-
-{proposal_text}
-
---- END OF DOCUMENT ---
-"""
-
-
-def normalize_document(proposal_text: str) -> dict:
-    prompt = NORMALIZATION_PROMPT.replace(
-        "{proposal_text}",
-        proposal_text,
+def load_normalizer_prompt() -> str:
+    return NORMALIZER_PROMPT_PATH.read_text(
+        encoding="utf-8"
     )
+
+
+def load_normalized_schema() -> dict:
+    with NORMALIZED_SCHEMA_PATH.open(
+        "r",
+        encoding="utf-8",
+    ) as file:
+        return json.load(file)
+
+
+def build_normalizer_prompt(proposal_text: str) -> str:
+    prompt_template = load_normalizer_prompt()
+    schema = load_normalized_schema()
+
+    schema_text = json.dumps(
+        schema,
+        ensure_ascii=False,
+        indent=2,
+    )
+
+    return (
+        prompt_template
+        .replace(
+            "{normalized_document_schema}",
+            schema_text,
+        )
+        .replace(
+            "{proposal_text}",
+            proposal_text,
+        )
+    )
+
+def call_normalizer(proposal_text: str) -> dict:
+    prompt = build_normalizer_prompt(proposal_text)
 
     response = bedrock_client.converse(
         modelId=MODEL_ID,
@@ -168,13 +70,14 @@ def normalize_document(proposal_text: str) -> dict:
         ],
         inferenceConfig={
             "temperature": 0.0,
-            "maxTokens": 4000,
+            "maxTokens": 6000,
         },
     )
 
-    raw_output = response["output"]["message"]["content"][0]["text"]
+    raw_output = (
+        response["output"]["message"]["content"][0]["text"]
+    )
 
-    # Defensive cleanup in case the model still returns a Markdown fence.
     cleaned_output = raw_output.strip()
 
     if cleaned_output.startswith("```json"):
@@ -196,3 +99,129 @@ def normalize_document(proposal_text: str) -> dict:
             "Nova returned invalid JSON.\n\n"
             f"Raw output:\n{raw_output}"
         ) from exc
+
+
+def extract_pages_from_text(
+    proposal_text: str,
+    page_numbers: set[int],
+) -> str:
+    page_pattern = re.compile(
+        r"(?ms)^--- PAGE (\d+) ---\n"
+        r"(.*?)(?=^--- PAGE \d+ ---|\Z)"
+    )
+
+    selected_pages = []
+
+    for match in page_pattern.finditer(proposal_text):
+        page_number = int(match.group(1))
+
+        if page_number in page_numbers:
+            selected_pages.append(
+                f"--- PAGE {page_number} ---\n"
+                f"{match.group(2).strip()}"
+            )
+
+    return "\n\n".join(selected_pages)
+
+
+def get_budget_page_numbers(
+    normalized_document: dict,
+) -> set[int]:
+    slides = (
+        normalized_document
+        .get("document", {})
+        .get("slides", [])
+    )
+
+    return {
+        int(slide["page"])
+        for slide in slides
+        if slide.get("detected_section") == "BUDGET"
+        and slide.get("page") is not None
+    }
+def enrich_tender_fees(
+    normalized_document: dict,
+) -> None:
+    """
+    Populate tender_fees_ht when an explicitly identified
+    tender-related external cost has already been extracted.
+
+    Handles minor text-extraction corruption by accepting
+    tender platform costs even when the word "offre" is malformed.
+    """
+    budget = (
+        normalized_document
+        .get("document", {})
+        .get("budget", {})
+    )
+
+    if budget.get("tender_fees_ht") is not None:
+        return
+
+    tender_costs = []
+
+    for cost in budget.get("external_costs", []):
+        name = str(cost.get("name") or "").casefold()
+        amount = cost.get("amount_ht")
+
+        is_tender_cost = (
+            "appel" in name
+            and (
+                "offre" in name
+                or "plateforme" in name
+            )
+        )
+
+        if is_tender_cost and amount is not None:
+            tender_costs.append(amount)
+
+    if tender_costs:
+        budget["tender_fees_ht"] = sum(tender_costs)
+
+def normalize_document(proposal_text: str) -> dict:
+    # Pass 1:
+    # Normalize the complete proposal.
+    normalized_document = call_normalizer(
+        proposal_text
+    )
+
+    # Identify pages that the global pass classified as BUDGET.
+    budget_page_numbers = get_budget_page_numbers(
+        normalized_document
+    )
+
+    if not budget_page_numbers:
+        enrich_tender_fees(normalized_document)
+        return normalized_document
+
+    # Isolate the raw budget pages to avoid cross-section
+    # contamination from methodology/planning values.
+    budget_text = extract_pages_from_text(
+        proposal_text,
+        budget_page_numbers,
+    )
+
+    if not budget_text.strip():
+        enrich_tender_fees(normalized_document)
+        return normalized_document
+
+    # Pass 2:
+    # Normalize only the budget pages.
+    budget_document = call_normalizer(
+        budget_text
+    )
+
+    isolated_budget = (
+        budget_document
+        .get("document", {})
+        .get("budget")
+    )
+
+    if isolated_budget is not None:
+        normalized_document["document"]["budget"] = (
+            isolated_budget
+        )
+
+    enrich_tender_fees(normalized_document)
+
+    return normalized_document

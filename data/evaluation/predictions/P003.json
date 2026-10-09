@@ -1,0 +1,338 @@
+{
+  "benchmark_id": "P003",
+  "proposal_id": "DE-0926-1046-1070-1104",
+  "benchmark_version": "v2",
+  "prediction_source": "reviewer_v2",
+  "results": [
+    {
+      "rule_id": "RULE_001",
+      "title": "Structure obligatoire de la proposition",
+      "section": "STRUCTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Toutes les slides et sections obligatoires sont présentes.",
+      "evidence": "Éléments détectés : Page de couverture; Méthodologie; Planning; Budget; Présentation de l'équipe; Solution proposée.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_001",
+      "status": "NOT_SUGGESTED",
+      "reason": "Le contenu et la complexité de la mission ne justifient pas d'explications complémentaires.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_002",
+      "title": "Référence de la proposition",
+      "section": "COUVERTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MAJOR",
+      "status": "NOT_EVALUATED",
+      "reason": "Le format de la référence est valide, mais la date de proposition n'a pas pu être extraite ; la cohérence MMYY ne peut donc pas être vérifiée.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_003",
+      "title": "Date de validité",
+      "section": "COUVERTURE",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MAJOR",
+      "status": "NOT_EVALUATED",
+      "reason": "La date de proposition n'a pas pu être extraite.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_004",
+      "title": "Identification du client",
+      "section": "BESOIN_CLIENT",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "L'identification du client est incomplète.",
+      "evidence": "Élément(s) manquant(s) ou insuffisant(s) : entreprise cliente, nom de l'interlocuteur, fonction de l'interlocuteur.",
+      "recommendation": "Identifier explicitement l'entreprise cliente, le nom de l'interlocuteur et sa fonction."
+    },
+    {
+      "rule_id": "RULE_005",
+      "status": "NON_COMPLIANT",
+      "reason": "La proposition ne démontre pas une compréhension explicite du contexte commercial, du client, de ses enjeux et de son besoin.",
+      "evidence": "Le contexte de l'entreprise cliente, la problématique ou le besoin du client, et les principaux enjeux liés à la mission ne sont pas explicités.",
+      "recommendation": "Ajouter une section détaillant le contexte commercial, le client, ses enjeux et son besoin."
+    },
+    {
+      "rule_id": "RULE_006",
+      "status": "COMPLIANT",
+      "reason": "La solution proposée est explicitement décrite et le lecteur peut comprendre concrètement ce que DeVinci Junior propose de réaliser.",
+      "evidence": "La solution proposée est décrite dans la section 'SOLUTION'.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_007",
+      "status": "COMPLIANT",
+      "reason": "La solution proposée répond de manière cohérente aux besoins et enjeux identifiés.",
+      "evidence": "La solution décrite dans la section 'SOLUTION' répond aux besoins identifiés dans la section 'CLIENT_NEED'.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_008",
+      "status": "NON_COMPLIANT",
+      "reason": "La proposition ne présente pas de références permettant d'illustrer l'expérience de DeVinci Junior.",
+      "evidence": "La section 'references' est vide.",
+      "recommendation": "Ajouter des références pertinentes pour illustrer l'expérience de DeVinci Junior."
+    },
+    {
+      "rule_id": "REC_002",
+      "status": "NOT_SUGGESTED",
+      "reason": "Aucune référence n'est présentée dans la proposition.",
+      "evidence": "La section 'references' est vide.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_009",
+      "title": "Niveau de détail de la méthodologie",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "Certaines phases ne contiennent pas au moins 3 étapes.",
+      "evidence": "Phase 1 « Cadrage et phase pilote » : 2 étape(s)",
+      "recommendation": "Détailler chaque phase avec au moins 3 étapes méthodologiques."
+    },
+    {
+      "rule_id": "RULE_010",
+      "title": "Informations obligatoires des phases",
+      "section": "METHODOLOGIE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "Certaines phases ne présentent pas toutes les informations obligatoires.",
+      "evidence": "Phase 3 « Enquête auprès des établissements » : durée manquant(s)",
+      "recommendation": "Indiquer pour chaque phase sa durée, son nombre de JEH et son prix HT."
+    },
+    {
+      "rule_id": "RULE_011",
+      "status": "COMPLIANT",
+      "reason": "La méthodologie couvre les principaux besoins et objectifs annoncés dans la proposition.",
+      "evidence": "La méthodologie décrite dans la section 'METHODOLOGY' couvre les besoins identifiés dans la section 'CLIENT_NEED'.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_012",
+      "status": "COMPLIANT",
+      "reason": "Les livrables associés à chaque phase sont explicitement identifiés.",
+      "evidence": "Les livrables sont décrits dans la section 'METHODOLOGY' pour chaque phase.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_013",
+      "status": "NON_COMPLIANT",
+      "reason": "Le format des livrables n'est pas précisé pour toutes les phases.",
+      "evidence": "Le format n'est pas spécifié pour la base numérique grand public dans la phase 2.",
+      "recommendation": "Préciser le format de tous les livrables pour chaque phase."
+    },
+    {
+      "rule_id": "RULE_014",
+      "status": "COMPLIANT",
+      "reason": "Les livrables annoncés sont cohérents avec les travaux décrits dans la méthodologie.",
+      "evidence": "Les livrables décrits dans la section 'METHODOLOGY' sont cohérents avec les travaux décrits.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_003",
+      "title": "Précision des allers-retours client",
+      "section": "METHODOLOGIE",
+      "type": "RECOMMENDATION",
+      "dimension": "FOND",
+      "severity": "INFO",
+      "status": "NOT_SUGGESTED",
+      "reason": "Les fréquences explicites d'allers-retours client ne dépassent pas le seuil de 1/semaine.",
+      "evidence": "Cadrage et phase pilote: 1.0/semaine",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_015",
+      "title": "Cohérence stricte des noms de phases",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Les phases numérotées sont cohérentes entre la méthodologie, le planning et le budget.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_016",
+      "title": "Cohérence des durées par phase",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Les durées des phases sont cohérentes entre la méthodologie et le planning.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_017",
+      "title": "Cohérence de la durée totale",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "La durée totale est cohérente avec le planning.",
+      "evidence": "Durée totale : 6 semaine(s).",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_018",
+      "status": "COMPLIANT",
+      "reason": "Le planning respecte les dépendances opérationnelles décrites dans la méthodologie.",
+      "evidence": "Les phases sont planifiées de manière cohérente avec les dépendances décrites dans la section 'METHODOLOGY'.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_019",
+      "title": "Date de démarrage du projet",
+      "section": "PLANNING",
+      "type": "OBLIGATION",
+      "dimension": "FORME",
+      "severity": "MINOR",
+      "status": "COMPLIANT",
+      "reason": "La date de début du projet est un jour de semaine.",
+      "evidence": "Date de début : 2026-11-12",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_020",
+      "title": "Cohérence des JEH",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Les JEH sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_021",
+      "title": "Cohérence des montants",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Les montants des phases sont cohérents entre la méthodologie et le budget. Les éventuelles phases absentes du budget sont explicitement gratuites.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_022",
+      "title": "Part de la gestion de projet",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "La part de gestion de projet respecte la plage attendue.",
+      "evidence": "Gestion de projet : 200.00 € HT ; total : 2280.00 € HT ; part : 8.8 %.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_023",
+      "title": "Prix unitaire par JEH",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "COMPLIANT",
+      "reason": "Le prix unitaire par JEH respecte la plage autorisée pour toutes les phases.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_024",
+      "status": "COMPLIANT",
+      "reason": "Les frais applicables à l'appel d'offres sont intégrés au budget.",
+      "evidence": "Les frais liés à la plateforme d'appels d'offres sont inclus dans la section 'budget'.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_025",
+      "title": "Cohérence des licences et coûts externes",
+      "section": "BUDGET",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NON_COMPLIANT",
+      "reason": "Le budget contient au moins un coût externe sans besoin externe identifiable dans la méthodologie.",
+      "evidence": "[{'name': \"Frais liés à la plateforme d'appels d'offres\", 'amount_ht': 130}]",
+      "recommendation": "Relier chaque coût externe budgété à un besoin explicite dans la méthodologie."
+    },
+    {
+      "rule_id": "RULE_026",
+      "status": "COMPLIANT",
+      "reason": "La charge en JEH est cohérente avec l'ampleur des travaux et livrables annoncés.",
+      "evidence": "La charge et les livrables sont décrits de manière cohérente dans les sections 'METHODOLOGY' et 'BUDGET'.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_027",
+      "status": "COMPLIANT",
+      "reason": "Le cursus des intervenants est cohérent avec la nature des travaux qui leur sont confiés.",
+      "evidence": "Les cursus de Juliette Ponce et Louis Gaston sont cohérents avec les travaux décrits dans la section 'METHODOLOGY'.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "RULE_028",
+      "title": "Expérience du chef de projet",
+      "section": "EQUIPE",
+      "type": "OBLIGATION",
+      "dimension": "FOND",
+      "severity": "MAJOR",
+      "status": "NOT_APPLICABLE",
+      "reason": "Le budget total HT ne dépasse pas 10000 €.",
+      "evidence": "Budget total : 2280.00 € HT.",
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_004",
+      "status": "NOT_SUGGESTED",
+      "reason": "La composition de l'équipe paraît compatible avec la charge, les délais et les éventuels travaux parallèles.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_006",
+      "status": "NOT_SUGGESTED",
+      "reason": "Le besoin, le périmètre ou les hypothèses de la mission ne présentent pas d'incertitude importante pouvant être réduite avant la mission principale.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_007",
+      "status": "NOT_SUGGESTED",
+      "reason": "La mission ne comporte pas d'incertitude technique importante qui pourrait être testée à petite échelle.",
+      "evidence": null,
+      "recommendation": null
+    },
+    {
+      "rule_id": "REC_008",
+      "status": "NOT_SUGGESTED",
+      "reason": "La mission ne possède pas de composante technique importante et les technologies utilisées sont suffisamment mises en avant.",
+      "evidence": null,
+      "recommendation": null
+    }
+  ]
+}
