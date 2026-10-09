@@ -6,6 +6,7 @@ from src.rules.loader import load_rules, get_rules_by_engine
 
 def review_v2(
     normalized_document: dict,
+    usage_collector: dict | None = None,
 ) -> list[dict]:
     """
     Run the complete V2 review pipeline on a normalized document.
@@ -36,6 +37,7 @@ def review_v2(
     llm_results = run_llm_rules(
         normalized_document,
         rules=llm_rules,
+        usage_collector=usage_collector,
     )
 
     return aggregate_results(

@@ -1,5 +1,6 @@
 import hmac
 import tempfile
+from time import perf_counter
 from pathlib import Path
 
 import streamlit as st
@@ -11,6 +12,8 @@ from src.rules.loader import load_rules
 from src.mission_retriever import (
     retrieve_similar_history_from_document,
 )
+from src.llm_usage import new_usage_collector, summarize_usage
+from src.request_logger import create_request_id, log_request
 
 # ============================================================
 # CONFIGURATION
@@ -354,9 +357,28 @@ def render_historical_reference(
 st.title("DVJ Proposal Reviewer")
 
 st.caption(
-    "Vérifiez votre proposition commerciale avant validation."
+    "Importez. Vérifiez. Corrigez."
 )
-
+st.markdown(
+    """
+    <div style="
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.65rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        color: #6B7280;
+        background: #FAFAFA;
+        margin-top: 0.35rem;
+        margin-bottom: 1.2rem;
+    ">
+        Powered by Amazon Bedrock
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 st.divider()
 
 
@@ -390,15 +412,19 @@ if uploaded_file is not None:
     )
 
     if analyze:
+        request_id = create_request_id()
+        usage_collector = new_usage_collector()
+        timings = {}
+        analysis_stage = "parsing"
+        analysis_started = perf_counter()
+        file_bytes = uploaded_file.getvalue()
 
         with tempfile.NamedTemporaryFile(
             delete=False,
             suffix=".pdf",
         ) as temporary_file:
 
-            temporary_file.write(
-                uploaded_file.getvalue()
-            )
+            temporary_file.write(file_bytes)
 
             temporary_path = Path(
                 temporary_file.name
@@ -409,25 +435,81 @@ if uploaded_file is not None:
             with st.spinner(
                 "Lecture et structuration de la proposition..."
             ):
+                parsing_started = perf_counter()
                 proposal_text = extract_pdf_text(
                     temporary_path
                 )
+                timings["parsing_s"] = perf_counter() - parsing_started
 
+                analysis_stage = "normalization"
+                normalization_started = perf_counter()
                 normalized_document = normalize_document(
-                    proposal_text
+                    proposal_text,
+                    usage_collector=usage_collector,
                 )
+                timings["normalization_s"] = (
+                    perf_counter() - normalization_started
+                )
+                analysis_stage = "retrieval"
+                retrieval_started = perf_counter()
                 historical_references = (
                     retrieve_similar_history_from_document(
-                        normalized_document
+                        normalized_document,
+                        usage_collector=usage_collector,
                     )
                 )
+                timings["retrieval_s"] = perf_counter() - retrieval_started
 
             with st.spinner(
                 "Vérification des règles qualité..."
             ):
+                analysis_stage = "review"
+                review_started = perf_counter()
                 results = review_v2(
-                    normalized_document
+                    normalized_document,
+                    usage_collector=usage_collector,
                 )
+                timings["review_s"] = perf_counter() - review_started
+
+            timings["total_s"] = perf_counter() - analysis_started
+            result_summary = {
+                "total_controls": len(results),
+                "compliant": sum(
+                    result.get("status") == "COMPLIANT"
+                    for result in results
+                ),
+                "non_compliant": sum(
+                    result.get("status") == "NON_COMPLIANT"
+                    for result in results
+                ),
+                "not_evaluated": sum(
+                    result.get("status") == "NOT_EVALUATED"
+                    for result in results
+                ),
+                "not_applicable": sum(
+                    result.get("status") == "NOT_APPLICABLE"
+                    for result in results
+                ),
+                "suggestions": sum(
+                    result.get("status") == "SUGGESTED"
+                    for result in results
+                ),
+                "commercial_references": len(
+                    historical_references.get("commercial_proposals", [])
+                ),
+                "signed_mission_references": len(
+                    historical_references.get("signed_missions", [])
+                ),
+            }
+            log_request(
+                request_id=request_id,
+                filename=uploaded_file.name,
+                file_size_bytes=len(file_bytes),
+                timings=timings,
+                usage=summarize_usage(usage_collector),
+                result_summary=result_summary,
+                success=True,
+            )
 
             st.session_state["review_results"] = results
             st.session_state[
@@ -441,19 +523,21 @@ if uploaded_file is not None:
                 "reviewed_filename"
             ] = uploaded_file.name
 
-        except Exception:
+        except Exception as exc:
+            timings["total_s"] = perf_counter() - analysis_started
+            log_request(
+                request_id=request_id,
+                filename=uploaded_file.name,
+                file_size_bytes=len(file_bytes),
+                timings=timings,
+                usage=summarize_usage(usage_collector),
+                result_summary={},
+                success=False,
+                error_stage=analysis_stage,
+                error_type=type(exc).__name__,
+            )
             st.error(
                 "L'analyse n'a pas pu être terminée."
-            )
-
-            # À retirer / masquer avant pilote large.
-            st.exception(
-                st.session_state.get(
-                    "_last_exception",
-                    Exception(
-                        "Consultez les logs pour plus de détails."
-                    ),
-                )
             )
 
         finally:

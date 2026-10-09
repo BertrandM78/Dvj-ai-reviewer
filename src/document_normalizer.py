@@ -2,7 +2,9 @@ import json
 from pathlib import Path
 import re 
 from src.aws_client import get_aws_client
-
+from src.llm_usage import (
+    record_converse_usage,
+)
 
 REGION = "us-east-1"
 MODEL_ID = "amazon.nova-pro-v1:0"
@@ -57,7 +59,10 @@ def build_normalizer_prompt(proposal_text: str) -> str:
         )
     )
 
-def call_normalizer(proposal_text: str) -> dict:
+def call_normalizer(
+    proposal_text: str,
+    usage_collector: dict | None = None,
+) -> dict:
     prompt = build_normalizer_prompt(proposal_text)
 
     response = bedrock_client.converse(
@@ -72,6 +77,11 @@ def call_normalizer(proposal_text: str) -> dict:
             "temperature": 0.0,
             "maxTokens": 6000,
         },
+    )
+    record_converse_usage(
+        usage_collector,
+        "normalization",
+        response,
     )
 
     raw_output = (
@@ -178,11 +188,15 @@ def enrich_tender_fees(
     if tender_costs:
         budget["tender_fees_ht"] = sum(tender_costs)
 
-def normalize_document(proposal_text: str) -> dict:
+def normalize_document(
+    proposal_text: str,
+    usage_collector: dict | None = None,
+) -> dict:
     # Pass 1:
     # Normalize the complete proposal.
     normalized_document = call_normalizer(
-        proposal_text
+        proposal_text,
+        usage_collector=usage_collector,
     )
 
     # Identify pages that the global pass classified as BUDGET.
@@ -208,7 +222,8 @@ def normalize_document(proposal_text: str) -> dict:
     # Pass 2:
     # Normalize only the budget pages.
     budget_document = call_normalizer(
-        budget_text
+        budget_text,
+        usage_collector=usage_collector,
     )
 
     isolated_budget = (
