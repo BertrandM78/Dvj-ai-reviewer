@@ -105,8 +105,7 @@ def check_password() -> bool:
     st.title("DVJ Proposal Reviewer")
 
     st.caption(
-        "Assistant de relecture des propositions commerciales "
-        "de DeVinci Junior"
+        "Importez. Vérifiez. Corrigez."
     )
 
     password = st.text_input(
