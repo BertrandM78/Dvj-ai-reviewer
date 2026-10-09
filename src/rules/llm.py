@@ -3,6 +3,9 @@ from pathlib import Path
 
 from src.aws_client import get_aws_client
 from src.rules.loader import load_rules
+from src.llm_usage import (
+    record_converse_usage,
+)
 
 
 REGION = "us-east-1"
@@ -50,7 +53,8 @@ def clean_json_output(raw_output: str) -> str:
 
 def run_llm_rules(
     normalized_document: dict,
-    rules: list[dict] | None = None,
+    rules: list[dict],
+    usage_collector: dict | None = None,
 ) -> list[dict]:
 
     if rules is None:
@@ -95,6 +99,11 @@ def run_llm_rules(
             "temperature": 0.0,
             "maxTokens": 5000,
         },
+    )
+    record_converse_usage(
+        usage_collector,
+        "review",
+        response,
     )
 
     raw_output = (

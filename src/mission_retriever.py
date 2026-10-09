@@ -8,6 +8,9 @@ from pathlib import Path
 from src.historical_parser import (
     parse_historical_record,
 )
+from src.llm_usage import (
+    record_converse_usage,
+)
 
 REGION = "us-east-1"
 KB_ID = "DJ33HADJNL"
@@ -215,7 +218,6 @@ def retrieve_raw(
             }
         },
     )
-
     return response.get(
         "retrievalResults",
         [],
@@ -330,6 +332,7 @@ def rerank_candidates(
     query: str,
     candidates: list[dict],
     top_k: int = 3,
+    usage_collector: dict | None = None,
 ) -> list[dict]:
     """
     Ask Nova Pro to select the most relevant historical candidates.
@@ -393,6 +396,11 @@ def rerank_candidates(
             "temperature": 0.0,
             "maxTokens": 700,
         },
+    )
+    record_converse_usage(
+        usage_collector,
+        "retrieval",
+        response,
     )
 
     raw_output = (
@@ -569,6 +577,7 @@ def retrieve_similar_history(
     mission_type: str,
     candidate_count: int = 8,
     top_k: int = 3,
+    usage_collector: dict | None = None,
 ) -> dict:
     """
     Retrieve and rerank historical references.
@@ -608,6 +617,7 @@ def retrieve_similar_history(
                 commercial_candidates
             ),
             top_k=top_k,
+            usage_collector=usage_collector,
         )
     )
 
@@ -618,6 +628,7 @@ def retrieve_similar_history(
                 signed_mission_candidates
             ),
             top_k=top_k,
+            usage_collector=usage_collector,
         )
     )
     commercial_proposals, signed_missions = (
@@ -701,6 +712,7 @@ def retrieve_similar_history_from_document(
     normalized_document: dict,
     candidate_count: int = 8,
     top_k: int = 3,
+    usage_collector: dict | None = None,
 ) -> dict:
     sector, mission_type = (
         build_query_from_normalized_document(
@@ -720,8 +732,8 @@ def retrieve_similar_history_from_document(
         mission_type=mission_type,
         candidate_count=candidate_count,
         top_k=top_k,
+        usage_collector=usage_collector,
     )
-
 # ---------------------------------------------------------------------------
 # Manual test
 # ---------------------------------------------------------------------------
