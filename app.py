@@ -357,7 +357,7 @@ def render_historical_reference(
 st.title("DVJ Proposal Reviewer")
 
 st.caption(
-    "Vérifiez votre proposition commerciale avant validation."
+    "Importez. Vérifiez. Corrigez."
 )
 st.markdown(
     """
