@@ -22,6 +22,42 @@ st.set_page_config(
     layout="wide",
 )
 
+st.markdown(
+    """
+    <style>
+        /* Streamlit toolbar / menu */
+        [data-testid="stToolbar"] {
+            display: none;
+        }
+
+        [data-testid="stDecoration"] {
+            display: none;
+        }
+
+        #MainMenu {
+            visibility: hidden;
+        }
+
+        footer {
+            visibility: hidden;
+        }
+
+        header {
+            visibility: hidden;
+            height: 0;
+        }
+
+        /* Slightly cleaner page spacing */
+        .block-container {
+            padding-top: 2.5rem;
+            padding-bottom: 3rem;
+            max-width: 1200px;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 # ============================================================
 # CONSTANTS
