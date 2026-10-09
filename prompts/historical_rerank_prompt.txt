@@ -1,0 +1,143 @@
+Tu classes des références historiques pour DeVinci Junior.
+
+MISSION ACTUELLE
+{query}
+
+CANDIDATS HISTORIQUES
+{candidates}
+
+OBJECTIF
+
+Sélectionne au maximum {top_k} candidats réellement pertinents,
+du plus pertinent au moins pertinent.
+
+Tu dois privilégier la proximité métier réelle,
+et non la simple proximité lexicale ou sectorielle.
+
+CRITÈRES DE SIMILARITÉ
+
+Évalue chaque candidat principalement selon :
+
+1. Similarité du besoin client
+2. Similarité de la prestation réalisée
+3. Similarité des livrables attendus
+4. Similarité de la méthode ou du type d'intervention
+5. Similarité du contexte métier ou du secteur
+
+Les critères 1 à 4 sont prioritaires.
+
+La similarité de secteur seule ne constitue jamais
+une référence suffisamment pertinente.
+
+RÈGLES DE SÉLECTION
+
+Ne sélectionne un candidat que si au moins une des conditions suivantes
+est clairement satisfaite :
+
+- la prestation principale est identique ou très proche ;
+- le besoin client est fortement similaire ;
+- les livrables sont très proches ;
+- la méthode ou le type d'intervention est très proche.
+
+Un candidat dont la seule similarité est le secteur,
+le type de client ou un contexte général ne doit pas être retenu.
+
+Exemple :
+
+Mission actuelle :
+"Bilan Carbone dans une entreprise industrielle"
+
+Candidat :
+"Étude de marché dans une entreprise industrielle"
+
+=> ne pas sélectionner.
+La similarité du secteur ne compense pas
+la différence fondamentale de prestation.
+
+SCORING DE PERTINENCE
+
+Attribue à chaque candidat sélectionné
+un relevance_score entier compris entre 0 et 100.
+
+Barème :
+
+90-100
+Référence presque directement comparable.
+Prestation, besoin ou livrables très fortement similaires.
+
+75-89
+Forte similarité métier.
+La référence est clairement utile malgré quelques différences.
+
+60-74
+Similarité suffisante pour constituer une référence utile,
+mais avec des différences notables.
+
+0-59
+Référence insuffisamment pertinente.
+Ne pas la retourner.
+
+Contraintes supplémentaires :
+
+- la similarité de secteur seule ne peut jamais dépasser 40/100 ;
+- une prestation fondamentalement différente
+  ne peut pas obtenir 60/100 uniquement grâce au secteur ;
+- si les informations disponibles ne permettent pas
+  d'établir une vraie similarité métier,
+  ne sélectionne pas le candidat.
+
+NOMBRE DE RÉSULTATS
+
+Retourne uniquement les candidats ayant un relevance_score >= 60.
+
+Il est acceptable de retourner :
+- 0 résultat ;
+- 1 résultat ;
+- 2 résultats ;
+- ou jusqu'à {top_k} résultats.
+
+Ne complète jamais artificiellement la liste
+avec des références faibles uniquement pour atteindre {top_k} résultats.
+
+FIABILITÉ
+
+- utilise uniquement les informations présentes dans les candidats fournis ;
+- n'invente aucune information ;
+- n'infère pas un besoin, une prestation ou un livrable absent ;
+- ne génère aucun montant, client, date, statut ou fait absent des candidats ;
+- ne transforme pas une similarité faible en similarité forte ;
+- n'utilise jamais une information provenant d'un autre candidat.
+
+SORTIE
+
+Pour chaque candidat retenu, retourne uniquement :
+
+- candidate_id
+- relevance_score
+- similarity_reason
+
+La raison doit :
+- expliquer concrètement pourquoi la référence est pertinente ;
+- mentionner la prestation, le besoin, les livrables ou la méthode similaires ;
+- faire au maximum deux phrases ;
+- ne pas mentionner de critère négatif inutile si le candidat est retenu.
+
+Réponds uniquement avec du JSON valide.
+
+Format exact :
+
+{
+  "results": [
+    {
+      "candidate_id": "PROP_01",
+      "relevance_score": 84,
+      "similarity_reason": "La prestation et le besoin client sont fortement similaires à la mission actuelle."
+    }
+  ]
+}
+
+Si aucun candidat n'atteint 60/100, retourne exactement :
+
+{
+  "results": []
+}

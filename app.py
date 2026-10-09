@@ -8,7 +8,9 @@ from src.document_normalizer import normalize_document
 from src.document_parser import extract_pdf_text
 from src.reviewer_v2 import review_v2
 from src.rules.loader import load_rules
-
+from src.mission_retriever import (
+    retrieve_similar_history_from_document,
+)
 
 # ============================================================
 # CONFIGURATION
@@ -211,7 +213,103 @@ def render_result(
         st.caption(
             f"{rule_id} · {dimension}"
         )
+def render_historical_reference(
+    reference: dict,
+) -> None:
+    record = reference.get(
+        "record",
+        {},
+    )
 
+    corpus_type = reference.get(
+        "corpus_type",
+        "",
+    )
+
+    title = (
+        record.get("title")
+        or "Référence historique"
+    )
+
+    company = record.get("company")
+    services = record.get("services") or []
+    status = record.get("status")
+
+    relevance_score = reference.get(
+        "relevance_score"
+    )
+
+    similarity_reason = reference.get(
+        "similarity_reason"
+    )
+
+    with st.container(border=True):
+
+        st.markdown(
+            f"**{title}**"
+        )
+
+        if company:
+            st.caption(company)
+
+        if services:
+            st.write(
+                " · ".join(services)
+            )
+
+        if similarity_reason:
+            st.write(similarity_reason)
+
+        metadata = []
+
+        if status:
+            metadata.append(status)
+
+        if corpus_type == "SIGNED_MISSION":
+
+            year = record.get("year")
+            amount = record.get("amount_ht")
+            jeh_count = record.get("jeh_count")
+            duration = record.get(
+                "duration_weeks"
+            )
+
+            if year:
+                metadata.append(year)
+
+            if amount:
+                metadata.append(
+                    f"{amount} HT"
+                )
+
+            if jeh_count:
+                metadata.append(
+                    f"{jeh_count} JEH"
+                )
+
+            if duration:
+                metadata.append(
+                    f"{duration} sem."
+                )
+
+        else:
+
+            budget = record.get("budget")
+
+            if budget:
+                metadata.append(
+                    f"Budget {budget} €"
+                )
+
+        if relevance_score is not None:
+            metadata.append(
+                f"Pertinence {relevance_score}/100"
+            )
+
+        if metadata:
+            st.caption(
+                " · ".join(metadata)
+            )
 
 # ============================================================
 # HEADER
@@ -282,6 +380,11 @@ if uploaded_file is not None:
                 normalized_document = normalize_document(
                     proposal_text
                 )
+                historical_references = (
+                    retrieve_similar_history_from_document(
+                        normalized_document
+                    )
+                )
 
             with st.spinner(
                 "Vérification des règles qualité..."
@@ -291,6 +394,9 @@ if uploaded_file is not None:
                 )
 
             st.session_state["review_results"] = results
+            st.session_state[
+                "historical_references"
+            ] = historical_references
             st.session_state[
                 "normalized_document"
             ] = normalized_document
@@ -535,6 +641,88 @@ if results:
 
         for result in suggestions:
             render_result(result)
+
+    # ========================================================
+    # HISTORICAL REFERENCES
+    # ========================================================
+
+    historical_references = (
+        st.session_state.get(
+            "historical_references",
+            {},
+        )
+    )
+
+    commercial_proposals = (
+        historical_references.get(
+            "commercial_proposals",
+            [],
+        )
+    )
+
+    signed_missions = (
+        historical_references.get(
+            "signed_missions",
+            [],
+        )
+    )
+
+    if (
+        commercial_proposals
+        or signed_missions
+    ):
+
+        st.divider()
+
+        st.subheader(
+            "Missions similaires"
+        )
+
+        st.caption(
+            "Références historiques proches de "
+            "la proposition analysée."
+        )
+
+        proposal_tab, mission_tab = st.tabs(
+            [
+                (
+                    "Propositions commerciales "
+                    f"({len(commercial_proposals)})"
+                ),
+                (
+                    "Missions signées "
+                    f"({len(signed_missions)})"
+                ),
+            ]
+        )
+
+        with proposal_tab:
+
+            if not commercial_proposals:
+                st.info(
+                    "Aucune proposition commerciale "
+                    "suffisamment similaire trouvée."
+                )
+
+            else:
+                for reference in commercial_proposals:
+                    render_historical_reference(
+                        reference
+                    )
+
+        with mission_tab:
+
+            if not signed_missions:
+                st.info(
+                    "Aucune mission signée "
+                    "suffisamment similaire trouvée."
+                )
+
+            else:
+                for reference in signed_missions:
+                    render_historical_reference(
+                        reference
+                    )
 
     # ========================================================
     # FULL AUDIT
