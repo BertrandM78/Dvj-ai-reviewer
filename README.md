@@ -1,5 +1,7 @@
 # DVJ Proposal Reviewer
 
+[![CI](https://github.com/BertrandM78/Dvj-ai-reviewer/actions/workflows/ci.yml/badge.svg)](https://github.com/BertrandM78/Dvj-ai-reviewer/actions/workflows/ci.yml)
+
 > AI-assisted quality review for commercial proposals, built with Amazon Bedrock.
 
 DVJ Proposal Reviewer is an internal tool designed to automate the first quality review of commercial proposals at DeVinci Junior.
