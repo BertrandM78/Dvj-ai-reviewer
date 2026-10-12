@@ -1,6 +1,9 @@
 # DVJ Proposal Reviewer
 
 [![CI](https://github.com/BertrandM78/Dvj-ai-reviewer/actions/workflows/ci.yml/badge.svg)](https://github.com/BertrandM78/Dvj-ai-reviewer/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![AWS](https://img.shields.io/badge/AWS-Amazon%20Bedrock-orange)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.64-red)
 
 > AI-assisted quality review for commercial proposals, built with Amazon Bedrock.
 
