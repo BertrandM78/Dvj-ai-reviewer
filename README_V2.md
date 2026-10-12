@@ -1,10 +1,12 @@
 # DVJ Proposal Reviewer
 
-AI-assisted quality review for commercial proposals, built with Amazon Bedrock.
+> AI-assisted quality review for commercial proposals, built with Amazon Bedrock.
 
 DVJ Proposal Reviewer is an internal tool designed to automate the first quality review of commercial proposals at DeVinci Junior.
 
-It combines deterministic checks, LLM-based reasoning and historical retrieval to identify issues, explain them and suggest actionable corrections before human validation.
+It combines **deterministic checks**, **LLM-based reasoning** and **historical retrieval** to detect issues, explain them and suggest actionable corrections before human validation.
+
+![DVJ Proposal Reviewer](images/hero.png)
 
 ## Impact
 
@@ -52,6 +54,14 @@ For each proposal, the application returns:
 - recommended corrections,
 - relevant historical commercial proposals,
 - relevant signed missions.
+
+### Review results
+
+![Detailed proposal review](images/review.png)
+
+### Suggestions and historical retrieval
+
+![Suggestions and historical retrieval](images/retrieval.png)
 
 ---
 
@@ -155,9 +165,7 @@ This separation became one of the main architectural decisions of the project.
 
 Not every quality control benefits from an LLM.
 
-Rules that can be evaluated reliably with explicit logic are implemented as deterministic Python checks.
-
-More contextual controls are evaluated with Amazon Nova Pro.
+Rules that can be evaluated reliably with explicit logic are implemented as deterministic Python checks. More contextual controls are evaluated with Amazon Nova Pro.
 
 ```text
 Rule
@@ -229,40 +237,35 @@ Each analysis produces a lightweight technical log stored in Amazon S3.
 
 The system records operational metadata such as:
 
-```text
-request ID
-success / failure
-processing time
-latency by pipeline stage
-Nova Pro token usage
-estimated model inference cost
-number of detected issues
-number of historical references
-```
+- request ID,
+- success / failure,
+- processing time,
+- latency by pipeline stage,
+- Nova Pro token usage,
+- estimated model inference cost,
+- number of detected issues,
+- number of historical references.
 
 The logs intentionally exclude:
 
-```text
-raw PDFs
-extracted proposal text
-prompts
-detailed commercial content
-```
+- raw PDFs,
+- extracted proposal text,
+- prompts,
+- detailed commercial content.
 
 A small offline analytics script aggregates request volume, success rate, latency, token consumption and model cost.
+
+```bash
+python scripts/analyze_logs.py
+```
 
 ---
 
 ## Evaluation
 
-The current development/regression benchmark contains:
+The current development/regression benchmark contains **5 real proposals** and **140 rule decisions**.
 
-```text
-5 real proposals
-140 rule decisions
-```
-
-Current results:
+### Current results
 
 | Metric | Result |
 |---|---:|
@@ -272,7 +275,7 @@ Current results:
 | Violation F1 | **75.86%** |
 | Errors | **26 / 140** |
 
-Compared with the original V2 baseline:
+### Improvement vs. original V2 baseline
 
 | Metric | Baseline | Current |
 |---|---:|---:|
@@ -281,31 +284,27 @@ Compared with the original V2 baseline:
 | Recall | 63.33% | **78.57%** |
 | F1 | 59.38% | **75.86%** |
 
-These results are used as a development/regression benchmark rather than as a claim of held-out generalization.
+These results are used as a **development/regression benchmark**, not as a claim of held-out generalization performance.
 
 ---
 
 ## Tech stack
 
-### Application
-
+**Application**
 - Python
 - Streamlit
 - PyMuPDF
 
-### AI
-
+**AI**
 - Amazon Bedrock
 - Amazon Nova Pro
 - Amazon Bedrock Knowledge Bases
 
-### AWS
-
+**AWS**
 - Amazon S3
 - boto3
 
-### Engineering
-
+**Engineering**
 - Git / GitHub
 - JSON-based rule configuration
 - deterministic validation
@@ -324,6 +323,10 @@ These results are used as a development/regression benchmark rather than as a cl
 │   ├── rules_v2.json
 │   ├── glossary.json
 │   └── normalized_document_schema_v2.json
+├── images/
+│   ├── hero.png
+│   ├── review.png
+│   └── retrieval.png
 ├── prompts/
 │   ├── normalizer_prompt.txt
 │   ├── reviewer_prompt_v2.txt
@@ -413,13 +416,7 @@ Request logs are stored under:
 s3://<log-bucket>/logs/requests/YYYY-MM-DD/<request-id>.json
 ```
 
-To aggregate the logs locally:
-
-```bash
-python scripts/analyze_logs.py
-```
-
-The script reports:
+The analytics script reports:
 
 - total requests,
 - success rate,
@@ -445,7 +442,7 @@ For that reason:
 - application secrets are stored outside the repository,
 - request logs contain operational metadata rather than proposal content,
 - production historical datasets are not included in this public repository,
-- raw client PDFs, internal CSV exports and normalized private documents must remain outside version control.
+- raw client PDFs, internal CSV exports and normalized private documents remain outside version control.
 
 The public repository therefore contains the application architecture and code, but not DeVinci Junior's private commercial data.
 
@@ -459,7 +456,7 @@ Some controls intentionally return a human-review status when the available evid
 
 LLM outputs may vary between executions, which is why deterministic checks are preferred whenever the underlying business rule can be expressed reliably in code.
 
-Historical similarity should be interpreted as supporting context rather than a recommendation to reproduce a previous proposal.
+Historical similarity should be interpreted as supporting context rather than as a recommendation to reproduce a previous proposal.
 
 The current quantitative benchmark is a **development/regression benchmark**. It should not be interpreted as a held-out estimate of generalization performance.
 
@@ -484,4 +481,4 @@ product usability
 
 This repository showcases the engineering architecture behind the project while intentionally excluding private commercial data and production datasets.
 
-The main goal of the project is not to replace human validation, but to make the first review faster, more consistent and easier to act on.
+The goal is not to replace human validation, but to make the first review **faster, more consistent and easier to act on**.
