@@ -30,12 +30,12 @@ It combines **deterministic checks**, **LLM-based reasoning** and **historical r
 The workflow is intentionally simple:
 
 ```text
-Upload proposal PDF
-        ↓
-PDF extraction
-        ↓
-Structured normalization
-        ↓
+      Upload proposal PDF
+               ↓
+        PDF extraction
+               ↓
+    Structured normalization
+               ↓
 ┌─────────────────────────────┐
 │       Quality review        │
 │                             │
@@ -89,7 +89,7 @@ For each proposal, the application returns:
                          │   Amazon Nova Pro   │
                          └──────────┬──────────┘
                                     │
-                         Structured document
+                           Structured document
                                     │
                     ┌───────────────┴───────────────┐
                     │                               │
@@ -97,7 +97,7 @@ For each proposal, the application returns:
          ┌─────────────────────┐        ┌─────────────────────┐
          │ Deterministic rules │        │   LLM-based rules   │
          │       Python        │        │   Amazon Nova Pro   │
-         └──────────┬──────────┘        └──────────┬──────────┘
+         └──────────┬──────────┘        └───────────┬─────────┘
                     │                               │
                     └───────────────┬───────────────┘
                                     │
@@ -110,9 +110,9 @@ For each proposal, the application returns:
                          Quality review results
 
 
-Structured document
-        │
-        ▼
+      Structured document
+               │
+               ▼
 ┌──────────────────────────────┐
 │ Amazon Bedrock Knowledge Base│
 │                              │
@@ -324,12 +324,23 @@ These results are used as a **development/regression benchmark**, not as a claim
 ```text
 .
 ├── app.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── config/
 │   ├── rules.json
 │   └── normalized_document_schema.json
 ├── data/
 │   └── evaluation/
-│       └── archive/    historical benchmark reports
+│       ├── archive/
+│       │   ├── benchmark_v1.md
+│       │   ├── benchmark_v2.md
+│       │   ├── benchmark_v3.md
+│       │   └── benchmark_v4.md
+│       ├── benchmark.json
+│       ├── benchmark.md
+│       └── predictions/
+│           └── P001.json ... P008.json
 ├── images/
 │   ├── hero.png
 │   ├── review.png
@@ -341,6 +352,9 @@ These results are used as a **development/regression benchmark**, not as a claim
 ├── scripts/
 │   ├── analyze_logs.py
 │   ├── evaluate_benchmark.py
+│   ├── inspect_deterministic_real.py
+│   ├── inspect_llm.py
+│   ├── inspect_reviewer.py
 │   └── run_benchmark.py
 ├── src/
 │   ├── rules/
@@ -357,7 +371,15 @@ These results are used as a **development/regression benchmark**, not as a claim
 │   ├── llm_usage.py
 │   └── request_logger.py
 └── tests/
+    ├── test_aggregator.py
+    ├── test_deterministic.py
+    └── test_reviewer.py
 ```
+
+Local-only files and private evaluation inputs are intentionally excluded from
+the repository, including `.venv/`, `.streamlit/secrets.toml`,
+`data/test_proposals/`, `data/normalized/` and
+`data/evaluation/ground_truth/`.
 
 ---
 
