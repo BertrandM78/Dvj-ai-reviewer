@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from src.reviewer_v2 import review_v2
+from src.reviewer import review
 
 
 FAKE_RULES = [
@@ -19,10 +19,10 @@ FAKE_RULES = [
 ]
 
 
-@patch("src.reviewer_v2.load_rules")
-@patch("src.reviewer_v2.run_deterministic_rules")
-@patch("src.reviewer_v2.run_llm_rules")
-def test_review_v2_runs_each_active_engine_once(
+@patch("src.reviewer.load_rules")
+@patch("src.reviewer.run_deterministic_rules")
+@patch("src.reviewer.run_llm_rules")
+def test_review_runs_each_active_engine_once(
     mock_llm,
     mock_deterministic,
     mock_load_rules,
@@ -43,7 +43,7 @@ def test_review_v2_runs_each_active_engine_once(
         }
     ]
 
-    results = review_v2(
+    results = review(
         {
             "metadata": {},
         }

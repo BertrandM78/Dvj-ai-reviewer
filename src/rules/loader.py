@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 
-RULES_PATH = Path("config/rules_v2.json")
+RULES_PATH = Path("config/rules.json")
 
 
 def load_rules(path: Path = RULES_PATH) -> list[dict]:
@@ -14,7 +14,7 @@ def load_rules(path: Path = RULES_PATH) -> list[dict]:
     rules = data.get("rules")
 
     if not isinstance(rules, list):
-        raise ValueError("rules_v2.json must contain a 'rules' list.")
+        raise ValueError("rules.json must contain a 'rules' list.")
 
     validate_rules(rules)
 

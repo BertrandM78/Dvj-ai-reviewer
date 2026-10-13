@@ -5,7 +5,7 @@ Pipeline:
     PDF
     -> extract_pdf_text()
     -> normalize_document()
-    -> review_v2()
+    -> review()
     -> data/evaluation/predictions/P00X.json
 
 Important:
@@ -22,7 +22,7 @@ from typing import Any
 
 from src.document_parser import extract_pdf_text
 from src.document_normalizer import normalize_document
-from src.reviewer_v2 import review_v2
+from src.reviewer import review
 
 
 # ---------------------------------------------------------------------------
@@ -245,7 +245,7 @@ def validate_benchmark() -> None:
 
 def normalize_prediction_results(results: Any) -> list:
     """
-    Convert review_v2 output into a JSON-serializable list.
+    Convert review output into a JSON-serializable list.
 
     Expected reviewer output is normally a list of dictionaries.
     This helper also tolerates simple object-like results.
@@ -255,7 +255,7 @@ def normalize_prediction_results(results: Any) -> list:
         return []
 
     if isinstance(results, dict):
-        # In case review_v2 returns {"results": [...]}
+        # In case review returns {"results": [...]}
         if "results" in results and isinstance(results["results"], list):
             results = results["results"]
         else:
@@ -263,7 +263,7 @@ def normalize_prediction_results(results: Any) -> list:
 
     if not isinstance(results, list):
         raise TypeError(
-            "review_v2() must return a list or a dict containing 'results'. "
+            "review() must return a list or a dict containing 'results'. "
             f"Received: {type(results).__name__}"
         )
 
@@ -426,7 +426,7 @@ def run_proposal(
 
     print("[3/3] Running V2 reviewer...")
 
-    reviewer_output = review_v2(normalized_document)
+    reviewer_output = review(normalized_document)
 
     results = normalize_prediction_results(
         reviewer_output
@@ -450,7 +450,7 @@ def run_proposal(
         "benchmark_id": benchmark_id,
         "proposal_id": pdf_path.stem,
         "benchmark_version": "v2",
-        "prediction_source": "reviewer_v2",
+        "prediction_source": "reviewer",
         "results": results,
     }
 

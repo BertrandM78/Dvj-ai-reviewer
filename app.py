@@ -7,7 +7,7 @@ import streamlit as st
 
 from src.document_normalizer import normalize_document
 from src.document_parser import extract_pdf_text
-from src.reviewer_v2 import review_v2
+from src.reviewer import review
 from src.rules.loader import load_rules
 from src.mission_retriever import (
     retrieve_similar_history_from_document,
@@ -464,7 +464,7 @@ if uploaded_file is not None:
             ):
                 analysis_stage = "review"
                 review_started = perf_counter()
-                results = review_v2(
+                results = review(
                     normalized_document,
                     usage_collector=usage_collector,
                 )

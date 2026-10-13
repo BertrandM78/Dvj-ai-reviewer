@@ -2,7 +2,7 @@
   "benchmark_id": "P002",
   "proposal_id": "DE-0926-1045-1069-1103",
   "benchmark_version": "v2",
-  "prediction_source": "reviewer_v2",
+  "prediction_source": "reviewer",
   "results": [
     {
       "rule_id": "RULE_001",

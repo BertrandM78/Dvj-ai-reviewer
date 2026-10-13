@@ -21,7 +21,7 @@ def aggregate_results(
     - each result comes from the engine that owns its rule
     - every active rule has exactly one result
     - no unexpected rule is returned
-    - output follows rules_v2.json order
+    - output follows rules.json order
 
     RAW_TEXT_LLM rules are intentionally excluded until that engine exists.
     """

@@ -1,6 +1,9 @@
 # DVJ Proposal Reviewer
 
 [![CI](https://github.com/BertrandM78/Dvj-ai-reviewer/actions/workflows/ci.yml/badge.svg)](https://github.com/BertrandM78/Dvj-ai-reviewer/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![AWS](https://img.shields.io/badge/AWS-Amazon%20Bedrock-orange)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.64-red)
 
 > AI-assisted quality review for commercial proposals, built with Amazon Bedrock.
 
@@ -27,12 +30,12 @@ It combines **deterministic checks**, **LLM-based reasoning** and **historical r
 The workflow is intentionally simple:
 
 ```text
-Upload proposal PDF
-        ↓
-PDF extraction
-        ↓
-Structured normalization
-        ↓
+      Upload proposal PDF
+               ↓
+        PDF extraction
+               ↓
+    Structured normalization
+               ↓
 ┌─────────────────────────────┐
 │       Quality review        │
 │                             │
@@ -86,7 +89,7 @@ For each proposal, the application returns:
                          │   Amazon Nova Pro   │
                          └──────────┬──────────┘
                                     │
-                         Structured document
+                           Structured document
                                     │
                     ┌───────────────┴───────────────┐
                     │                               │
@@ -94,7 +97,7 @@ For each proposal, the application returns:
          ┌─────────────────────┐        ┌─────────────────────┐
          │ Deterministic rules │        │   LLM-based rules   │
          │       Python        │        │   Amazon Nova Pro   │
-         └──────────┬──────────┘        └──────────┬──────────┘
+         └──────────┬──────────┘        └───────────┬─────────┘
                     │                               │
                     └───────────────┬───────────────┘
                                     │
@@ -107,9 +110,9 @@ For each proposal, the application returns:
                          Quality review results
 
 
-Structured document
-        │
-        ▼
+      Structured document
+               │
+               ▼
 ┌──────────────────────────────┐
 │ Amazon Bedrock Knowledge Base│
 │                              │
@@ -184,10 +187,10 @@ Rule
 The business definition of each rule is stored separately from its execution logic:
 
 ```text
-config/rules_v2.json    → what must be checked
+config/rules.json       → what must be checked
 prompts/                → how the LLM reasons
 src/rules/              → execution
-app.py                  → presentation only
+app.py                  → application interface
 ```
 
 This keeps the business policy auditable and avoids embedding domain knowledge directly inside the UI.
@@ -321,20 +324,38 @@ These results are used as a **development/regression benchmark**, not as a claim
 ```text
 .
 ├── app.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── config/
-│   ├── rules_v2.json
-│   ├── glossary.json
-│   └── normalized_document_schema_v2.json
+│   ├── rules.json
+│   └── normalized_document_schema.json
+├── data/
+│   └── evaluation/
+│       ├── archive/
+│       │   ├── benchmark_v1.md
+│       │   ├── benchmark_v2.md
+│       │   ├── benchmark_v3.md
+│       │   └── benchmark_v4.md
+│       ├── benchmark.json
+│       ├── benchmark.md
+│       └── predictions/
+│           └── P001.json ... P008.json
 ├── images/
 │   ├── hero.png
 │   ├── review.png
 │   └── retrieval.png
 ├── prompts/
 │   ├── normalizer_prompt.txt
-│   ├── reviewer_prompt_v2.txt
+│   ├── reviewer_prompt.txt
 │   └── historical_rerank_prompt.txt
 ├── scripts/
-│   └── analyze_logs.py
+│   ├── analyze_logs.py
+│   ├── evaluate_benchmark.py
+│   ├── inspect_deterministic_real.py
+│   ├── inspect_llm.py
+│   ├── inspect_reviewer.py
+│   └── run_benchmark.py
 ├── src/
 │   ├── rules/
 │   │   ├── deterministic.py
@@ -346,11 +367,19 @@ These results are used as a **development/regression benchmark**, not as a claim
 │   ├── document_normalizer.py
 │   ├── historical_parser.py
 │   ├── mission_retriever.py
-│   ├── reviewer_v2.py
+│   ├── reviewer.py
 │   ├── llm_usage.py
 │   └── request_logger.py
 └── tests/
+    ├── test_aggregator.py
+    ├── test_deterministic.py
+    └── test_reviewer.py
 ```
+
+Local-only files and private evaluation inputs are intentionally excluded from
+the repository, including `.venv/`, `.streamlit/secrets.toml`,
+`data/test_proposals/`, `data/normalized/` and
+`data/evaluation/ground_truth/`.
 
 ---
 
