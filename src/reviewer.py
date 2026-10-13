@@ -4,12 +4,12 @@ from src.rules.llm import run_llm_rules
 from src.rules.loader import load_rules, get_rules_by_engine
 
 
-def review_v2(
+def review(
     normalized_document: dict,
     usage_collector: dict | None = None,
 ) -> list[dict]:
     """
-    Run the complete V2 review pipeline on a normalized document.
+    Run the complete review pipeline on a normalized document.
 
     Current active engines:
     - DETERMINISTIC

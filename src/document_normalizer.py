@@ -14,7 +14,7 @@ NORMALIZER_PROMPT_PATH = Path(
 )
 
 NORMALIZED_SCHEMA_PATH = Path(
-    "config/normalized_document_schema_v2.json"
+    "config/normalized_document_schema.json"
 )
 
 bedrock_client = get_aws_client(

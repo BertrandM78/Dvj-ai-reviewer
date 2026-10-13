@@ -12,7 +12,7 @@ REGION = "us-east-1"
 MODEL_ID = "amazon.nova-pro-v1:0"
 
 PROMPT_PATH = Path(
-    "prompts/reviewer_prompt_v2.txt"
+    "prompts/reviewer_prompt.txt"
 )
 
 bedrock_client = get_aws_client(

@@ -187,10 +187,10 @@ Rule
 The business definition of each rule is stored separately from its execution logic:
 
 ```text
-config/rules_v2.json    → what must be checked
+config/rules.json       → what must be checked
 prompts/                → how the LLM reasons
 src/rules/              → execution
-app.py                  → presentation only
+app.py                  → application interface
 ```
 
 This keeps the business policy auditable and avoids embedding domain knowledge directly inside the UI.
@@ -325,19 +325,23 @@ These results are used as a **development/regression benchmark**, not as a claim
 .
 ├── app.py
 ├── config/
-│   ├── rules_v2.json
-│   ├── glossary.json
-│   └── normalized_document_schema_v2.json
+│   ├── rules.json
+│   └── normalized_document_schema.json
+├── data/
+│   └── evaluation/
+│       └── archive/    historical benchmark reports
 ├── images/
 │   ├── hero.png
 │   ├── review.png
 │   └── retrieval.png
 ├── prompts/
 │   ├── normalizer_prompt.txt
-│   ├── reviewer_prompt_v2.txt
+│   ├── reviewer_prompt.txt
 │   └── historical_rerank_prompt.txt
 ├── scripts/
-│   └── analyze_logs.py
+│   ├── analyze_logs.py
+│   ├── evaluate_benchmark.py
+│   └── run_benchmark.py
 ├── src/
 │   ├── rules/
 │   │   ├── deterministic.py
@@ -349,7 +353,7 @@ These results are used as a **development/regression benchmark**, not as a claim
 │   ├── document_normalizer.py
 │   ├── historical_parser.py
 │   ├── mission_retriever.py
-│   ├── reviewer_v2.py
+│   ├── reviewer.py
 │   ├── llm_usage.py
 │   └── request_logger.py
 └── tests/

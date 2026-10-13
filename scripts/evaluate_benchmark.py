@@ -6,8 +6,8 @@ Inputs:
     data/evaluation/predictions/P001.json ... P005.json
 
 Outputs:
-    data/evaluation/benchmark_v2_5_proposals.json
-    data/evaluation/benchmark_v2_5_proposals.md
+    data/evaluation/benchmark.json
+    data/evaluation/benchmark.md
 
 No AWS / Bedrock calls are made.
 
@@ -44,8 +44,8 @@ EVALUATION_DIR = ROOT_DIR / "data" / "evaluation"
 GROUND_TRUTH_DIR = EVALUATION_DIR / "ground_truth"
 PREDICTIONS_DIR = EVALUATION_DIR / "predictions"
 
-DEFAULT_JSON_REPORT = EVALUATION_DIR / "benchmark_v2_5_proposals.json"
-DEFAULT_MD_REPORT = EVALUATION_DIR / "benchmark_v2_5_proposals.md"
+DEFAULT_JSON_REPORT = EVALUATION_DIR / "benchmark.json"
+DEFAULT_MD_REPORT = EVALUATION_DIR / "benchmark.md"
 
 PROPOSAL_IDS = [
     "P001",
@@ -100,13 +100,13 @@ def extract_prediction_results(prediction: dict) -> list[dict]:
     """
     Extract the reviewer results list from a saved prediction.
 
-    Expected format from run_benchmark_v2.py:
+    Expected format from run_benchmark.py:
 
     {
         "benchmark_id": "P001",
         "proposal_id": "...",
         "benchmark_version": "v2",
-        "prediction_source": "reviewer_v2",
+        "prediction_source": "reviewer",
         "results": [...]
     }
     """

@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from collections import Counter
 
-from src.reviewer_v2 import review_v2
+from src.reviewer import review
 from src.rules.loader import load_rules
 
 
@@ -29,7 +29,7 @@ def main():
     print("# REVIEWER V2 — REAL PROPOSAL")
     print("=" * 70)
 
-    results = review_v2(
+    results = review(
         normalized_document
     )
 

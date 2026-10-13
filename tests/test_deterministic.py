@@ -1,5 +1,3 @@
-from unittest import result
-
 from src.rules.loader import load_rules
 
 from src.rules.deterministic import (
