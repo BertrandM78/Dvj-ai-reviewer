@@ -11,7 +11,7 @@ DVJ Proposal Reviewer is an internal tool designed to automate the first quality
 
 It combines **deterministic checks**, **LLM-based reasoning** and **historical retrieval** to detect issues, explain them and suggest actionable corrections before human validation.
 
-![DVJ Proposal Reviewer](images/hero.png)
+![DVJ Proposal Reviewer demo](images/demo.gif)
 
 ## Impact
 
@@ -31,11 +31,11 @@ The workflow is intentionally simple:
 
 ```text
       Upload proposal PDF
-               ↓
+              ↓
         PDF extraction
-               ↓
+              ↓
     Structured normalization
-               ↓
+              ↓
 ┌─────────────────────────────┐
 │       Quality review        │
 │                             │
@@ -43,11 +43,11 @@ The workflow is intentionally simple:
 │             +               │
 │      LLM-based checks       │
 └──────────────┬──────────────┘
-               ↓
+              ↓
         Actionable issues
-               ↓
+              ↓
       Historical retrieval
-               ↓
+              ↓
  Similar proposals / missions
 ```
 
@@ -76,21 +76,21 @@ For each proposal, the application returns:
                          ┌─────────────────────┐
                          │    Streamlit UI     │
                          └──────────┬──────────┘
-                                    │
-                                    ▼
+                                   │
+                                   ▼
                          ┌─────────────────────┐
                          │    PDF extraction   │
                          │      PyMuPDF        │
                          └──────────┬──────────┘
-                                    │
-                                    ▼
+                                   │
+                                   ▼
                          ┌─────────────────────┐
                          │ Document normalizer │
                          │   Amazon Nova Pro   │
                          └──────────┬──────────┘
-                                    │
+                                   │
                            Structured document
-                                    │
+                                   │
                     ┌───────────────┴───────────────┐
                     │                               │
                     ▼                               ▼
@@ -111,22 +111,22 @@ For each proposal, the application returns:
 
 
       Structured document
-               │
-               ▼
+              │
+              ▼
 ┌──────────────────────────────┐
 │ Amazon Bedrock Knowledge Base│
 │                              │
 │ Commercial proposals         │
 │ Signed missions              │
 └──────────────┬───────────────┘
-               │
-               ▼
+              │
+              ▼
      Semantic candidates
-               │
-               ▼
+              │
+              ▼
        Nova Pro reranking
-               │
-               ▼
+              │
+              ▼
       Historical references
 ```
 
@@ -148,15 +148,15 @@ The architecture was therefore redesigned:
 
 ```text
 Mandatory quality policy
-        ↓
+       ↓
 Loaded exhaustively
-        ↓
+       ↓
 Deterministic + LLM checks
 
 Historical knowledge
-        ↓
+       ↓
 Semantic retrieval
-        ↓
+       ↓
 Relevant past proposals / missions
 ```
 
@@ -180,7 +180,7 @@ Rule
  │   Python logic
  │
  └── LLM
-         ↓
+        ↓
      Nova Pro
 ```
 
@@ -194,6 +194,33 @@ app.py                  → application interface
 ```
 
 This keeps the business policy auditable and avoids embedding domain knowledge directly inside the UI.
+
+---
+
+## Evaluation
+
+The current development/regression benchmark contains **5 real proposals** and **140 rule decisions**.
+
+### Current results
+
+| Metric | Result |
+|---|---:|
+| 4-class accuracy | **81.43%** |
+| Violation precision | **73.33%** |
+| Violation recall | **78.57%** |
+| Violation F1 | **75.86%** |
+| Errors | **26 / 140** |
+
+### Improvement vs. original V2 baseline
+
+| Metric | Baseline | Current |
+|---|---:|---:|
+| Accuracy | 72.14% | **81.43%** |
+| Precision | 55.88% | **73.33%** |
+| Recall | 63.33% | **78.57%** |
+| F1 | 59.38% | **75.86%** |
+
+These results are used as a **development/regression benchmark**, not as a claim of held-out generalization performance.
 
 ---
 
@@ -266,33 +293,6 @@ python scripts/analyze_logs.py
 
 ---
 
-## Evaluation
-
-The current development/regression benchmark contains **5 real proposals** and **140 rule decisions**.
-
-### Current results
-
-| Metric | Result |
-|---|---:|
-| 4-class accuracy | **81.43%** |
-| Violation precision | **73.33%** |
-| Violation recall | **78.57%** |
-| Violation F1 | **75.86%** |
-| Errors | **26 / 140** |
-
-### Improvement vs. original V2 baseline
-
-| Metric | Baseline | Current |
-|---|---:|---:|
-| Accuracy | 72.14% | **81.43%** |
-| Precision | 55.88% | **73.33%** |
-| Recall | 63.33% | **78.57%** |
-| F1 | 59.38% | **75.86%** |
-
-These results are used as a **development/regression benchmark**, not as a claim of held-out generalization performance.
-
----
-
 ## Tech stack
 
 **Application**
@@ -316,149 +316,6 @@ These results are used as a **development/regression benchmark**, not as a claim
 - structured LLM outputs
 - automated evaluation
 - request-level observability
-
----
-
-## Repository structure
-
-```text
-.
-├── app.py
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── config/
-│   ├── rules.json
-│   └── normalized_document_schema.json
-├── data/
-│   └── evaluation/
-│       ├── archive/
-│       │   ├── benchmark_v1.md
-│       │   ├── benchmark_v2.md
-│       │   ├── benchmark_v3.md
-│       │   └── benchmark_v4.md
-│       ├── benchmark.json
-│       ├── benchmark.md
-│       └── predictions/
-│           └── P001.json ... P008.json
-├── images/
-│   ├── hero.png
-│   ├── review.png
-│   └── retrieval.png
-├── prompts/
-│   ├── normalizer_prompt.txt
-│   ├── reviewer_prompt.txt
-│   └── historical_rerank_prompt.txt
-├── scripts/
-│   ├── analyze_logs.py
-│   ├── evaluate_benchmark.py
-│   ├── inspect_deterministic_real.py
-│   ├── inspect_llm.py
-│   ├── inspect_reviewer.py
-│   └── run_benchmark.py
-├── src/
-│   ├── rules/
-│   │   ├── deterministic.py
-│   │   ├── llm.py
-│   │   ├── aggregator.py
-│   │   └── loader.py
-│   ├── aws_client.py
-│   ├── document_parser.py
-│   ├── document_normalizer.py
-│   ├── historical_parser.py
-│   ├── mission_retriever.py
-│   ├── reviewer.py
-│   ├── llm_usage.py
-│   └── request_logger.py
-└── tests/
-    ├── test_aggregator.py
-    ├── test_deterministic.py
-    └── test_reviewer.py
-```
-
-Local-only files and private evaluation inputs are intentionally excluded from
-the repository, including `.venv/`, `.streamlit/secrets.toml`,
-`data/test_proposals/`, `data/normalized/` and
-`data/evaluation/ground_truth/`.
-
----
-
-## Run locally
-
-### 1. Clone the repository
-
-```bash
-git clone <your-repository-url>
-cd dvj-ai-reviewer
-```
-
-### 2. Create a virtual environment
-
-```bash
-python -m venv .venv
-```
-
-With `fish`:
-
-```fish
-source .venv/bin/activate.fish
-```
-
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Configure Streamlit secrets
-
-Create:
-
-```text
-.streamlit/secrets.toml
-```
-
-Example:
-
-```toml
-AWS_ACCESS_KEY_ID = "..."
-AWS_SECRET_ACCESS_KEY = "..."
-APP_PASSWORD = "..."
-LOG_BUCKET = "..."
-```
-
-Never commit this file.
-
-The AWS identity used by the application needs permissions for the Bedrock models, the configured Knowledge Base and the S3 logging prefix.
-
-### 5. Run the application
-
-```bash
-streamlit run app.py
-```
-
----
-
-## Log analytics
-
-Request logs are stored under:
-
-```text
-s3://<log-bucket>/logs/requests/YYYY-MM-DD/<request-id>.json
-```
-
-The analytics script reports:
-
-- total requests,
-- success rate,
-- average / median / P95 latency,
-- Nova Pro token consumption,
-- estimated model inference cost,
-- average latency by pipeline stage,
-- review result aggregates,
-- failure stage and error type.
-
-The cost estimate covers **Nova Pro inference only** and does not represent the full AWS infrastructure cost.
 
 ---
 
@@ -505,6 +362,138 @@ evaluation
 cost and latency monitoring
 product usability
 ```
+
+---
+
+<details>
+<summary><strong>Run locally</strong></summary>
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/BertrandM78/Dvj-ai-reviewer.git
+cd Dvj-ai-reviewer
+```
+
+### 2. Create a virtual environment and install dependencies
+
+```bash
+python -m venv .venv
+pip install -r requirements.txt
+```
+
+With `fish`:
+
+```fish
+source .venv/bin/activate.fish
+```
+
+### 3. Configure Streamlit secrets
+
+Create:
+
+```text
+.streamlit/secrets.toml
+```
+
+with the required AWS credentials, application password and S3 log bucket.
+
+The AWS identity used by the application needs permissions for the Bedrock models, the configured Knowledge Base and the S3 logging prefix.
+
+Never commit this file.
+
+### 4. Run the application
+
+```bash
+streamlit run app.py
+```
+
+</details>
+
+---
+
+## Repository structure
+
+```text
+.
+├── app.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── config/
+│   ├── rules.json
+│   └── normalized_document_schema.json
+├── data/
+│   └── evaluation/
+│       ├── archive/
+│       │   ├── benchmark_v1.md
+│       │   ├── benchmark_v2.md
+│       │   ├── benchmark_v3.md
+│       │   └── benchmark_v4.md
+│       ├── benchmark.json
+│       ├── benchmark.md
+│       └── predictions/
+│           └── P001.json ... P008.json
+├── images/
+│   ├── demo.gif
+│   ├── hero.png
+│   ├── review.png
+│   └── retrieval.png
+├── prompts/
+│   ├── normalizer_prompt.txt
+│   ├── reviewer_prompt.txt
+│   └── historical_rerank_prompt.txt
+├── scripts/
+│   ├── analyze_logs.py
+│   ├── evaluate_benchmark.py
+│   ├── inspect_deterministic_real.py
+│   ├── inspect_llm.py
+│   ├── inspect_reviewer.py
+│   └── run_benchmark.py
+├── src/
+│   ├── rules/
+│   │   ├── deterministic.py
+│   │   ├── llm.py
+│   │   ├── aggregator.py
+│   │   └── loader.py
+│   ├── aws_client.py
+│   ├── document_parser.py
+│   ├── document_normalizer.py
+│   ├── historical_parser.py
+│   ├── mission_retriever.py
+│   ├── reviewer.py
+│   ├── llm_usage.py
+│   └── request_logger.py
+└── tests/
+    ├── test_aggregator.py
+    ├── test_deterministic.py
+    └── test_reviewer.py
+```
+
+Local-only files and private evaluation inputs are intentionally excluded from the repository, including `.venv/`, `.streamlit/secrets.toml`, `data/test_proposals/`, `data/normalized/` and `data/evaluation/ground_truth/`.
+
+---
+
+## Log analytics
+
+Request logs are stored under:
+
+```text
+s3://<log-bucket>/logs/requests/YYYY-MM-DD/<request-id>.json
+```
+
+The analytics script reports:
+
+- total requests,
+- success rate,
+- average / median / P95 latency,
+- Nova Pro token consumption,
+- estimated model inference cost,
+- average latency by pipeline stage,
+- review result aggregates,
+- failure stage and error type.
+
+The cost estimate covers **Nova Pro inference only** and does not represent the full AWS infrastructure cost.
 
 ---
 
